@@ -77,6 +77,17 @@ type
   T63BITS    = 0 .. $7FFFFFFFFFFFFFFF;
   T64BITS    = 0 .. UInt64($FFFFFFFFFFFFFFFF);
 
+  TByteData = bitpacked record
+    case byte of
+      1 : (
+            Bits        : bitpacked array[0..7] of T1BITS;
+          );
+      2 : (
+            Raw        : byte;
+          );
+  end;
+
+
   TWordData = bitpacked record
     case byte of
       1 : (
@@ -90,6 +101,9 @@ type
           );
       3 : (
             Bytes      : bitpacked array[0..1] of Byte;
+          );
+      4 : (
+           Bits        : bitpacked array[0..15] of T1BITS;
           );
   end;
 

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  TAGraph, TASeries, bits, dsLeds, libusb, libusboop;
+  TAGraph, TASeries, bits, dsLeds, libusb, libusboop,usbcpd;
 
 type
   TMsgHeader = bitpacked record
@@ -72,10 +72,41 @@ type
     V_dm_extra:word;
   end;
 
+  TCommand =
+  (
+    CMD_NONE,
+    CMD_SYNC,
+    CMD_CONNECT,
+    CMD_DISCONNECT,
+    CMD_RESET,
+    CMD_ACCEPT,
+    CMD_REJECT,
+    CMD_FINISHED,
+    CMD_JUMP_APROM,
+    CMD_JUMP_DFU,
+    CMD_GET_STATUS,
+    CMD_ERROR,
+    CMD_GET_DATA,
+    CMD_GET_FILE
+  );
+
+const
+  ATT_ADC             = $001;
+  ATT_ADC_QUEUE       = $002;
+  ATT_ADC_QUEUE_10K   = $004;
+  ATT_SETTINGS        = $008;
+  ATT_PD_PACKET       = $010;
+  ATT_PD_STATUS       = $020;
+  ATT_QC_PACKET       = $040;
+
+type
+
   { TForm1 }
 
   TForm1 = class(TForm)
     Button1: TButton;
+    btnGetPDPacket: TButton;
+    Button2: TButton;
     Chart1: TChart;
     Chart1LineSeries1: TLineSeries;
     Chart1LineSeries2: TLineSeries;
@@ -94,8 +125,11 @@ type
     Edit9: TEdit;
     grpVAData: TGroupBox;
     Memo1: TMemo;
+    selectSampleRate: TRadioGroup;
     Timer1: TTimer;
+    procedure btnGetPDPacketClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure grpVADataResize(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -210,38 +244,9 @@ begin
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
-type
-  TCommand =
-  (
-    CMD_NONE,
-    CMD_SYNC,
-    CMD_CONNECT,
-    CMD_DISCONNECT,
-    CMD_RESET,
-    CMD_ACCEPT,
-    CMD_REJECT,
-    CMD_FINISHED,
-    CMD_JUMP_APROM,
-    CMD_JUMP_DFU,
-    CMD_GET_STATUS,
-    CMD_ERROR,
-    CMD_GET_DATA,
-    CMD_GET_FILE
-  );
-
-const
-  ATT_ADC             = $001;
-  ATT_ADC_QUEUE       = $002;
-  ATT_ADC_QUEUE_10K   = $004;
-  ATT_SETTINGS        = $008;
-  ATT_PD_PACKET       = $010;
-  ATT_PD_STATUS       = $020;
-  ATT_QC_PACKET       = $040;
-
 var
   result_code : LongInt;
   newdata:packed array[0..63] of byte;
-  command : array[0..3] of Byte;
   sensordata:TPowerzSensorData;
 
   avalue:double;
@@ -351,7 +356,187 @@ begin
   OutEndPoint := TLibUsbBulkOutEndpoint.Create(DeviceInterface , DeviceInterface.FindEndpoint(OutEndpoint_address));
   InEndPoint := TLibUsbBulkInEndpoint.Create(DeviceInterface , DeviceInterface.FindEndpoint(InEndpoint_address));
 
-  Timer1.Enabled:=True;
+  //Timer1.Enabled:=True;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+var
+  header:TMsgHeader;
+  i,j:integer;
+  WordData:TWordData;
+begin
+  header.Bytes[0]:=$01;
+  header.Bytes[1]:=$00;
+  header.Bytes[2]:=$00;
+  header.Bytes[3]:=$0A;
+  i:=header.Header.size;
+
+
+  header.Bytes[0]:=$41;
+  header.Bytes[1]:=$4F;
+  header.Bytes[2]:=$02;
+  header.Bytes[3]:=$05;
+  i:=header.Header.size;
+
+  header.Bytes[0]:=$10;
+  header.Bytes[1]:=$00;
+  header.Bytes[2]:=$00;
+  header.Bytes[3]:=$16;
+  i:=header.Header.size;
+
+
+  WordData.Bytes[0]:=$9f;
+  WordData.Bytes[1]:=$96 AND $03;
+
+  WordData.Bytes[0]:=$87;
+  WordData.Bytes[1]:=$96 AND $03;
+
+  WordData.Bytes[0]:=$8b;
+  WordData.Bytes[1]:=$98 AND $03;
+
+  WordData.Bytes[0]:=$87;
+  WordData.Bytes[1]:=$99 AND $03;
+
+  WordData.Bytes[0]:=$87;
+  WordData.Bytes[1]:=$9b AND $03;
+
+
+  header.Bytes[0]:=$87;
+  header.Bytes[1]:=$96;
+  header.Bytes[2]:=$3d;
+  header.Bytes[3]:=$1d;
+  i:=header.Header.size;
+
+
+  header.Bytes[0]:=$8b;
+  header.Bytes[1]:=$98;
+  header.Bytes[2]:=$3d;
+  header.Bytes[3]:=$1d;
+  i:=header.Header.size;
+
+end;
+
+procedure TForm1.btnGetPDPacketClick(Sender: TObject);
+var
+  header:TMsgHeader;
+  header_ext:TMsgHeader;
+  newdata:packed array[0..250] of byte;
+  i,j,k:integer;
+
+  SRCPDO:USBC_SOURCE_PD_POWER_DATA_OBJECT;
+
+  WordData:TWordData;
+  aSOPDHEADER:PDHEADER;
+  aSOPExtendedHeader:PDHEADEREXTENDED;
+  packedsize:byte;
+
+  datasize:integer;
+
+  ByteData:TByteData;
+
+  MSGCTRL:TUSBPD_CONTROLMSG;
+  MSGDATA:TUSBPD_DATAMSG;
+  MSGEXT:TUSBPD_EXTENDEDMSG;
+
+begin
+  // "up" is from device to host ... ;-)
+  while true do
+  begin
+    header.Raw:=0;
+    header.Ctrl.typ:=Ord(TCommand.CMD_GET_DATA);
+    header.Ctrl.att:=ATT_PD_PACKET;
+
+    result_code := OutEndPoint.Send(header.Bytes , 4 ,10);
+
+    header.Raw:=0;
+    FillChar(newdata,64,0);
+
+    result_code := InEndPoint.Recv(newdata ,250 , 1000);
+
+    if (result_code>0) then
+    begin
+
+      for i:=0 to 3 do header.Bytes[i]:=newdata[i];
+      for i:=0 to 3 do header_ext.Bytes[i]:=newdata[i+4];
+      datasize:=header_ext.Header.size;
+
+      // now follows 12 bytes of unknown data as answer to our request
+      // real data starts at byte 20
+
+      Dec(datasize,12);
+      i:=20;
+      while (datasize>0) do
+      begin
+        // Now a header of 6 bytes
+        // first byte = size - 2 byte SOP header
+        ByteData.Raw:=newdata[i];
+        if ByteData.Bits[7]=1 then
+        begin
+          // High bit seems to indicate SOP data
+          ByteData.Bits[7]:=0;
+          ByteData.Raw:=ByteData.Raw-7;
+          // ByteData.Raw is now SOP packet in bytes minus header (2 bytes)
+
+          Inc(i,6);
+          Dec(datasize,6);
+          // Now a 2 byte SOP
+          for j:=0 to 1 do aSOPDHEADER.Bytes[j]:=newdata[i+j];
+          Inc(i,2);
+          Dec(datasize,2);
+          Memo1.Lines.Append('SOP: '+GetSOPInfo(aSOPDHEADER));
+
+          MSGCTRL:=USBPD_CONTROLMSG_RESERVED0;
+          MSGDATA:=USBPD_DATAMSG_RESERVED0;
+          MSGEXT:=USBPD_EXTMSG_RESERVED0;
+          if ((aSOPDHEADER.Data.Number_of_Data_Objects=0) AND (aSOPDHEADER.Data.Extended=0)) then
+          begin
+            MSGCTRL:=TUSBPD_CONTROLMSG(aSOPDHEADER.Data.Message_Type);
+            // Now a 2 byte extended SOP header
+            for j:=0 to 1 do aSOPExtendedHeader.Bytes[j]:=newdata[i+j];
+            Inc(i,2);
+            Dec(datasize,2);
+          end
+          else
+          begin
+            if (aSOPDHEADER.Data.Extended=0) then MSGDATA:=TUSBPD_DATAMSG(aSOPDHEADER.Data.Message_Type);
+            if (aSOPDHEADER.Data.Extended=1) then MSGEXT:=TUSBPD_EXTENDEDMSG(aSOPDHEADER.Data.Message_Type);
+          end;
+
+          if MSGDATA<>USBPD_DATAMSG_RESERVED0 then
+          begin
+            case MSGDATA of
+              USBPD_DATAMSG_SRC_CAPABILITIES:
+                begin
+                  for k:=1 to aSOPDHEADER.Data.Number_of_Data_Objects do
+                  begin
+                    for j:=0 to 3 do SRCPDO.Bytes[j]:=newdata[i+j+(k-1)*4];
+                    Memo1.Lines.Append(SRCPDOInfo(SRCPDO));
+                  end;
+                end;
+            end;
+          end;
+
+          // Skip SOP data
+          Inc(i,aSOPDHEADER.Data.Number_of_Data_Objects*4);
+          Dec(datasize,aSOPDHEADER.Data.Number_of_Data_Objects*4);
+
+
+        end
+        else
+        begin
+          // No SOP : quit
+          break;
+        end;
+      end;
+    end;
+    Sleep(1);
+    Application.ProcessMessages;
+  end;
+
+  for i:=0 to 3 do header.Bytes[i]:=newdata[i];
+
+  i:=0;
+
 end;
 
 end.
