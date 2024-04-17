@@ -1,0 +1,54 @@
+object MainForm: TMainForm
+  Left = 1301
+  Height = 785
+  Top = 24
+  Width = 430
+  Caption = 'GUITest1Library'
+  ClientHeight = 785
+  ClientWidth = 430
+  LCLVersion = '2.0.10.0'
+  object InfoMemo: TMemo
+    Left = 0
+    Height = 714
+    Top = 0
+    Width = 430
+    Align = alClient
+    Font.Name = 'Courier New'
+    ParentFont = False
+    ScrollBars = ssAutoVertical
+    TabOrder = 0
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 71
+    Top = 714
+    Width = 430
+    Align = alBottom
+    ClientHeight = 71
+    ClientWidth = 430
+    Color = clWindow
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 1
+    object ButtonSearch: TButton
+      Left = 13
+      Height = 25
+      Top = 6
+      Width = 405
+      Caption = 'Search USB Devices'
+      OnClick = ButtonSearchClick
+      ParentFont = False
+      TabOrder = 0
+    end
+    object ButtonClose: TButton
+      Left = 13
+      Height = 25
+      Top = 38
+      Width = 405
+      Caption = 'Close'
+      OnClick = ButtonCloseClick
+      ParentFont = False
+      TabOrder = 1
+    end
+  end
+end
