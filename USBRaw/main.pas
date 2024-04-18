@@ -48,6 +48,21 @@ type
               );
   end;
 
+  TPacketHeader = bitpacked record
+      case integer of
+          1 : (
+               Data : packed record
+                 Size      : TByteData;
+                 Time      : TDWordData;
+                 SOP       : byte;
+               end;
+          );
+          2 : (
+               Bytes           : packed array[0..5] of byte;
+          );
+  end;
+
+
   TPowerzSensorData = packed record
     header:TMsgHeader;
     header_ext:TMsgHeader;
@@ -106,7 +121,6 @@ type
   TForm1 = class(TForm)
     Button1: TButton;
     btnGetPDPacket: TButton;
-    Button2: TButton;
     Chart1: TChart;
     Chart1LineSeries1: TLineSeries;
     Chart1LineSeries2: TLineSeries;
@@ -129,7 +143,6 @@ type
     Timer1: TTimer;
     procedure btnGetPDPacketClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure grpVADataResize(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -359,85 +372,31 @@ begin
   //Timer1.Enabled:=True;
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
-var
-  header:TMsgHeader;
-  i,j:integer;
-  WordData:TWordData;
-begin
-  header.Bytes[0]:=$01;
-  header.Bytes[1]:=$00;
-  header.Bytes[2]:=$00;
-  header.Bytes[3]:=$0A;
-  i:=header.Header.size;
-
-
-  header.Bytes[0]:=$41;
-  header.Bytes[1]:=$4F;
-  header.Bytes[2]:=$02;
-  header.Bytes[3]:=$05;
-  i:=header.Header.size;
-
-  header.Bytes[0]:=$10;
-  header.Bytes[1]:=$00;
-  header.Bytes[2]:=$00;
-  header.Bytes[3]:=$16;
-  i:=header.Header.size;
-
-
-  WordData.Bytes[0]:=$9f;
-  WordData.Bytes[1]:=$96 AND $03;
-
-  WordData.Bytes[0]:=$87;
-  WordData.Bytes[1]:=$96 AND $03;
-
-  WordData.Bytes[0]:=$8b;
-  WordData.Bytes[1]:=$98 AND $03;
-
-  WordData.Bytes[0]:=$87;
-  WordData.Bytes[1]:=$99 AND $03;
-
-  WordData.Bytes[0]:=$87;
-  WordData.Bytes[1]:=$9b AND $03;
-
-
-  header.Bytes[0]:=$87;
-  header.Bytes[1]:=$96;
-  header.Bytes[2]:=$3d;
-  header.Bytes[3]:=$1d;
-  i:=header.Header.size;
-
-
-  header.Bytes[0]:=$8b;
-  header.Bytes[1]:=$98;
-  header.Bytes[2]:=$3d;
-  header.Bytes[3]:=$1d;
-  i:=header.Header.size;
-
-end;
 
 procedure TForm1.btnGetPDPacketClick(Sender: TObject);
 var
   header:TMsgHeader;
   header_ext:TMsgHeader;
-  newdata:packed array[0..250] of byte;
-  i,j,k:integer;
 
-  SRCPDO:USBC_SOURCE_PD_POWER_DATA_OBJECT;
+  PacketHeader:TPacketHeader;
+  newdata:packed array[0..4095] of byte;
+  dataindexer:word;
+  j,k:integer;
 
+  ByteData:TByteData;
   WordData:TWordData;
-  aSOPDHEADER:PDHEADER;
-  aSOPExtendedHeader:PDHEADEREXTENDED;
   packedsize:byte;
 
   datasize:integer;
 
-  ByteData:TByteData;
+  aSOPDHEADER:PDHEADER;
+  aSOPExtendedHeader:PDHEADEREXTENDED;
 
   MSGCTRL:TUSBPD_CONTROLMSG;
   MSGDATA:TUSBPD_DATAMSG;
   MSGEXT:TUSBPD_EXTENDEDMSG;
 
+  SRCPDO:USBC_SOURCE_PD_POWER_DATA_OBJECT;
 begin
   // "up" is from device to host ... ;-)
   while true do
@@ -449,39 +408,44 @@ begin
     result_code := OutEndPoint.Send(header.Bytes , 4 ,10);
 
     header.Raw:=0;
-    FillChar(newdata,64,0);
+    FillChar({%H-}newdata,4096,0);
 
-    result_code := InEndPoint.Recv(newdata ,250 , 1000);
+    result_code := InEndPoint.Recv(newdata ,4096 , 1000);
 
+    dataindexer:=0;
     if (result_code>0) then
     begin
 
-      for i:=0 to 3 do header.Bytes[i]:=newdata[i];
-      for i:=0 to 3 do header_ext.Bytes[i]:=newdata[i+4];
+      for j:=0 to 3 do header.Bytes[j]:=newdata[dataindexer+j];
+      Inc(dataindexer,4);
+      for j:=0 to 3 do header_ext.Bytes[j]:=newdata[dataindexer+j];
+      Inc(dataindexer,4);
       datasize:=header_ext.Header.size;
 
       // now follows 12 bytes of unknown data as answer to our request
       // real data starts at byte 20
 
+      Inc(dataindexer,12);
       Dec(datasize,12);
-      i:=20;
       while (datasize>0) do
       begin
-        // Now a header of 6 bytes
-        // first byte = size - 2 byte SOP header
-        ByteData.Raw:=newdata[i];
-        if ByteData.Bits[7]=1 then
-        begin
-          // High bit seems to indicate SOP data
-          ByteData.Bits[7]:=0;
-          ByteData.Raw:=ByteData.Raw-7;
-          // ByteData.Raw is now SOP packet in bytes minus header (2 bytes)
+        // Now a packet header of 6 bytes
+        for j:=0 to 5 do PacketHeader.Bytes[j]:=newdata[dataindexer+j];
+        Inc(dataindexer,6);
+        Dec(datasize,6);
 
-          Inc(i,6);
-          Dec(datasize,6);
+        if PacketHeader.Data.Size.Bits[7]=1 then
+        begin
+          PacketHeader.Data.Size.Bits[7]:=0;
+          // now first byte = size (4 byte unknown, 1 bye SOP 2 byte SOP header, rest SOP data)
+          PacketHeader.Data.Size.Raw:=PacketHeader.Data.Size.Raw-5;
+          // PacketHeader.Data.Size.Raw is now SOP packet in bytes
+
+          Memo1.Lines.Append('Data size: '+InttoStr(PacketHeader.Data.Size.Raw)+'. SOP: '+InttoStr(PacketHeader.Data.SOP)+'. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(PacketHeader.Data.Time.Raw))));
+
           // Now a 2 byte SOP
-          for j:=0 to 1 do aSOPDHEADER.Bytes[j]:=newdata[i+j];
-          Inc(i,2);
+          for j:=0 to 1 do aSOPDHEADER.Bytes[j]:=newdata[dataindexer+j];
+          Inc(dataindexer,2);
           Dec(datasize,2);
           Memo1.Lines.Append('SOP: '+GetSOPInfo(aSOPDHEADER));
 
@@ -491,15 +455,18 @@ begin
           if ((aSOPDHEADER.Data.Number_of_Data_Objects=0) AND (aSOPDHEADER.Data.Extended=0)) then
           begin
             MSGCTRL:=TUSBPD_CONTROLMSG(aSOPDHEADER.Data.Message_Type);
-            // Now a 2 byte extended SOP header
-            for j:=0 to 1 do aSOPExtendedHeader.Bytes[j]:=newdata[i+j];
-            Inc(i,2);
-            Dec(datasize,2);
           end
           else
           begin
             if (aSOPDHEADER.Data.Extended=0) then MSGDATA:=TUSBPD_DATAMSG(aSOPDHEADER.Data.Message_Type);
-            if (aSOPDHEADER.Data.Extended=1) then MSGEXT:=TUSBPD_EXTENDEDMSG(aSOPDHEADER.Data.Message_Type);
+            if (aSOPDHEADER.Data.Extended=1) then
+            begin
+              MSGEXT:=TUSBPD_EXTENDEDMSG(aSOPDHEADER.Data.Message_Type);
+              // Now a 2 byte extended SOP header
+              for j:=0 to 1 do aSOPExtendedHeader.Bytes[j]:=newdata[dataindexer+j];
+              Inc(dataindexer,2);
+              Dec(datasize,2);
+            end;
           end;
 
           if MSGDATA<>USBPD_DATAMSG_RESERVED0 then
@@ -509,7 +476,7 @@ begin
                 begin
                   for k:=1 to aSOPDHEADER.Data.Number_of_Data_Objects do
                   begin
-                    for j:=0 to 3 do SRCPDO.Bytes[j]:=newdata[i+j+(k-1)*4];
+                    for j:=0 to 3 do SRCPDO.Bytes[j]:=newdata[dataindexer+j+(k-1)*4];
                     Memo1.Lines.Append(SRCPDOInfo(SRCPDO));
                   end;
                 end;
@@ -517,7 +484,7 @@ begin
           end;
 
           // Skip SOP data
-          Inc(i,aSOPDHEADER.Data.Number_of_Data_Objects*4);
+          Inc(dataindexer,aSOPDHEADER.Data.Number_of_Data_Objects*4);
           Dec(datasize,aSOPDHEADER.Data.Number_of_Data_Objects*4);
 
 
@@ -533,9 +500,9 @@ begin
     Application.ProcessMessages;
   end;
 
-  for i:=0 to 3 do header.Bytes[i]:=newdata[i];
+  for dataindexer:=0 to 3 do header.Bytes[dataindexer]:=newdata[dataindexer];
 
-  i:=0;
+  dataindexer:=0;
 
 end;
 

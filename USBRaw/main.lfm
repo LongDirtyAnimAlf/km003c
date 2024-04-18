@@ -213,15 +213,6 @@ object Form1: TForm1
     ScrollBars = ssAutoVertical
     TabOrder = 1
   end
-  object Button2: TButton
-    Left = 162
-    Height = 33
-    Top = 730
-    Width = 98
-    Caption = 'Button2'
-    TabOrder = 18
-    OnClick = Button2Click
-  end
   object Timer1: TTimer
     Enabled = False
     Interval = 200

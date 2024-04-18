@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="km003cusb.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="31"/>
+        <UsageCount Value="36"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -17,157 +17,128 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="492"/>
-        <CursorPos X="40" Y="513"/>
-        <UsageCount Value="31"/>
+        <TopLine Value="444"/>
+        <CursorPos Y="469"/>
+        <UsageCount Value="36"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\Common\usbcpd.pas"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="760"/>
-        <CursorPos Y="770"/>
-        <UsageCount Value="14"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="673"/>
+        <CursorPos X="13" Y="689"/>
+        <UsageCount Value="16"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\Common\bits.pas"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="76"/>
-        <CursorPos X="12" Y="80"/>
-        <UsageCount Value="14"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="67"/>
+        <CursorPos X="11" Y="80"/>
+        <UsageCount Value="16"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\Common\libusb\src\libusboop.pas"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="788"/>
         <CursorPos Y="803"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\fpcupsystems\stable324\fpcsrc\packages\rtl-objpas\src\inc\dateutils.pp"/>
+        <UnitName Value="DateUtils"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="10"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="C:\fpcupsystems\stable324\fpcsrc\packages\rtl-objpas\src\inc\dateutil.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2092"/>
+        <CursorPos X="27" Y="2092"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\fpcupsystems\stable324\fpcsrc\rtl\objpas\sysutils\datih.inc"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="124"/>
+        <CursorPos X="65" Y="139"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\fpcupsystems\stable324\fpcsrc\rtl\objpas\sysutils\sysinth.inc"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="24"/>
+        <CursorPos X="49" Y="43"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="14">
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="50" TopLine="29"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="370" Column="31" TopLine="364"/>
+        <Caret Line="172" TopLine="148"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="390" TopLine="368"/>
+        <Caret Line="505" Column="139" TopLine="491"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\fpcupsystems\stable324\fpcsrc\rtl\objpas\sysutils\datih.inc"/>
+        <Caret Line="139" Column="65" TopLine="124"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="370" Column="31" TopLine="350"/>
+        <Caret Line="510" Column="53" TopLine="491"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="390" TopLine="376"/>
+        <Caret Line="46" TopLine="46"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="389" Column="16" TopLine="376"/>
+        <Caret Line="420" TopLine="414"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="390" TopLine="376"/>
+        <Caret Line="51" Column="16" TopLine="36"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="393" Column="9" TopLine="376"/>
+        <Caret Line="48" Column="21" TopLine="36"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="480" TopLine="457"/>
+        <Caret Line="375" TopLine="362"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="374" TopLine="354"/>
+        <Caret Line="374" TopLine="361"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="468" Column="18" TopLine="454"/>
+        <Caret Line="149" Column="24" TopLine="133"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="466" Column="34" TopLine="448"/>
+        <Caret Line="431" Column="29" TopLine="415"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="492" TopLine="468"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\libusb\src\libusboop.pas"/>
-        <Caret Line="803" TopLine="788"/>
+        <Caret Line="381" Column="15" TopLine="366"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="482" Column="42" TopLine="460"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\usbcpd.pas"/>
-        <Caret Line="767" Column="17" TopLine="753"/>
+        <Caret Line="399" TopLine="372"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="497" Column="19" TopLine="481"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="486" Column="51" TopLine="475"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="415" TopLine="415"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="486" Column="50" TopLine="469"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="501" Column="53" TopLine="475"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="497" Column="28" TopLine="492"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="493" Column="32" TopLine="481"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="430" Column="8" TopLine="416"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\usbcpd.pas"/>
-        <Caret Line="588" Column="25" TopLine="580"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="486" Column="43" TopLine="477"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\usbcpd.pas"/>
-        <Caret Line="768" Column="18" TopLine="742"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\usbcpd.pas"/>
-        <Caret Line="848" TopLine="830"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\usbcpd.pas"/>
-        <Caret Line="843" TopLine="828"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="518" TopLine="492"/>
+        <Caret Line="383" Column="14" TopLine="368"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -175,29 +146,4 @@
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="408"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="388"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="397"/>
-      </Item>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>
