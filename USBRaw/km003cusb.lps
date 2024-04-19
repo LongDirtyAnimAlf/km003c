@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="km003cusb.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="49"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -17,15 +17,15 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="530"/>
-        <CursorPos X="65" Y="545"/>
-        <UsageCount Value="47"/>
+        <TopLine Value="511"/>
+        <CursorPos X="25" Y="429"/>
+        <UsageCount Value="49"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\Common\usbcpd.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="643"/>
         <CursorPos X="27" Y="651"/>
         <UsageCount Value="23"/>
@@ -33,7 +33,7 @@
       </Unit>
       <Unit>
         <Filename Value="..\Common\bits.pas"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="67"/>
         <CursorPos X="11" Y="80"/>
         <UsageCount Value="23"/>
@@ -42,8 +42,8 @@
       <Unit>
         <Filename Value="..\Common\libusb\src\libusboop.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1525"/>
-        <CursorPos Y="1540"/>
+        <TopLine Value="1180"/>
+        <CursorPos Y="1195"/>
         <UsageCount Value="19"/>
       </Unit>
       <Unit>
@@ -76,9 +76,9 @@
       </Unit>
       <Unit>
         <Filename Value="..\Common\tools.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="255"/>
-        <CursorPos X="23" Y="185"/>
+        <CursorPos X="26" Y="261"/>
         <UsageCount Value="15"/>
         <Loaded Value="True"/>
       </Unit>
@@ -106,142 +106,154 @@
       <Unit>
         <Filename Value="..\Common\serial\lazserial.pas"/>
         <UnitName Value="LazSerial"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="398"/>
-        <CursorPos X="26" Y="409"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="383"/>
+        <CursorPos Y="395"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\Common\serial\lazsynaser.pas"/>
         <UnitName Value="LazSynaSer"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1274"/>
         <CursorPos X="3" Y="1316"/>
         <UsageCount Value="11"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Common\fptimernew.pp"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="129"/>
+        <CursorPos X="19" Y="144"/>
+        <UsageCount Value="10"/>
         <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\fpcupsystems\stable324\fpcsrc\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1943"/>
+        <CursorPos X="17" Y="1957"/>
+        <UsageCount Value="10"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
       <Position>
-        <Filename Value="..\Common\serial\lazserial.pas"/>
-        <Caret Line="445" Column="31" TopLine="422"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\serial\lazserial.pas"/>
-        <Caret Line="168" Column="20" TopLine="147"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\serial\lazserial.pas"/>
-        <Caret Line="187" Column="52" TopLine="185"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\serial\lazserial.pas"/>
-        <Caret Line="160" Column="20" TopLine="146"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\serial\lazserial.pas"/>
-        <Caret Line="399" Column="23" TopLine="382"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\serial\lazserial.pas"/>
-        <Caret Line="377" Column="27" TopLine="367"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\serial\lazserial.pas"/>
-        <Caret Line="173" Column="19" TopLine="158"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\serial\lazserial.pas"/>
-        <Caret Line="382" TopLine="362"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\serial\lazserial.pas"/>
-        <Caret Line="405" Column="7" TopLine="393"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\serial\lazserial.pas"/>
-        <Caret Line="409" Column="26" TopLine="387"/>
-      </Position>
-      <Position>
-        <Filename Value="..\Common\serial\lazsynaser.pas"/>
-        <Caret Line="491" Column="21" TopLine="465"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="429" Column="3" TopLine="426"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="551" TopLine="528"/>
+        <Caret Line="510" Column="39" TopLine="495"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="566" TopLine="563"/>
+        <Caret Line="385" Column="4" TopLine="371"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="519" Column="3" TopLine="516"/>
+        <Caret Line="245" Column="36" TopLine="227"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="521" Column="3" TopLine="518"/>
+        <Caret Line="391" Column="13" TopLine="377"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="536" TopLine="518"/>
+        <Caret Line="632" Column="7" TopLine="626"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="576" TopLine="573"/>
+        <Caret Line="429" Column="29" TopLine="423"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="543" Column="7" TopLine="531"/>
+        <Caret Line="395" Column="27" TopLine="380"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="31" TopLine="31"/>
+        <Caret Line="234" Column="15" TopLine="220"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="539" TopLine="531"/>
+        <Caret Line="395" Column="24" TopLine="381"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="543" TopLine="528"/>
+        <Caret Line="630" Column="10" TopLine="607"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="512" Column="7" TopLine="507"/>
+        <Caret Line="245" Column="10" TopLine="231"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="543" Column="14" TopLine="531"/>
+        <Caret Line="382" Column="18" TopLine="352"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="586" Column="28" TopLine="584"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="545" Column="6" TopLine="531"/>
+        <Caret Line="683" TopLine="643"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="55" Column="16" TopLine="34"/>
+        <Caret Line="394" Column="25" TopLine="374"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="545" Column="22" TopLine="528"/>
+        <Caret Line="460" TopLine="445"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="14" Column="17"/>
+        <Caret Line="461" Column="16" TopLine="433"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="545" Column="20" TopLine="530"/>
+        <Caret Line="391" Column="26" TopLine="379"/>
+      </Position>
+      <Position>
+        <Filename Value="..\Common\fptimernew.pp"/>
+        <Caret Line="86" Column="21" TopLine="73"/>
+      </Position>
+      <Position>
+        <Filename Value="..\Common\fptimernew.pp"/>
+        <Caret Line="144" Column="20" TopLine="141"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="55" Column="3" TopLine="40"/>
+        <Caret Line="402" TopLine="378"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="401" TopLine="377"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="394" Column="39" TopLine="372"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="427" Column="33" TopLine="403"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="426" Column="33" TopLine="402"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="420" Column="31" TopLine="402"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="264" Column="8" TopLine="243"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="263" Column="9" TopLine="243"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="264" Column="5" TopLine="243"/>
       </Position>
     </JumpHistory>
     <RunParams>

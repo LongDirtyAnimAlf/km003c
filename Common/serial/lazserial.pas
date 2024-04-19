@@ -392,7 +392,6 @@ begin
   begin
     FSynSer.SendString(data);
   end;
-
 end;
 
 function TLazSerial.ReadString(Timeout: Integer): AnsiString;
