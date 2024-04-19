@@ -11,6 +11,17 @@ uses
   {$endif}
   ;
 
+type
+  {$ifdef MSWindows}
+  PDEVPROPKEY = ^TDEVPROPKEY;
+  DEVPROPKEY = record
+    fmtid : TGUID ;
+    pid : Pointer;
+  end;
+  TDEVPROPKEY = DEVPROPKEY;
+  DEVPROPTYPE = Pointer;
+  {$endif}
+
 function  GetEnumNameSimple(aTypeInfo:PTypeInfo;const aEnum:integer):string;
 function  GetEnumNameUnCamel(aTypeInfo:PTypeInfo;const aEnum:integer):string;
 function  GetEnumValueSimple(aTypeInfo:PTypeInfo;const aEnum:string):integer;
@@ -25,6 +36,10 @@ implementation
 {$ifdef Linux}
 uses
   Unix, BaseUnix;
+{$endif}
+
+{$ifdef MSWindows}
+function SetupDiGetDeviceProperty(DeviceInfoSet: HDEVINFO; const DeviceInfoData: TSPDevInfoData; const PropertyKey: PDEVPROPKEY; var PropertyType:DEVPROPTYPE; PropertyBuffer:PBYTE;PropertyBufferSize:DWORD; var RequiredSize: DWORD; Flags:DWORD): BOOL; stdcall; external 'Setupapi.DLL' name 'SetupDiGetDevicePropertyW';
 {$endif}
 
 function UnCamelString(value:string):string;
@@ -104,8 +119,23 @@ end;
 
 {$ifdef MSWindows}
 procedure EnumerateCOMPorts(ComList: TStrings);
+type
+  PDEVPROPKEY = ^TDEVPROPKEY;
+  DEVPROPKEY = record
+    fmtid : TGUID ;
+    pid : Pointer;
+  end;
+  TDEVPROPKEY = DEVPROPKEY;
 const
   GUID_DEVINTERFACE_COMPORT:TGUID='{86E0D1E0-8089-11D0-9CE4-08003E301F73}';
+
+  DEVPKEY_Device_BusReportedDeviceDesc : TDEVPROPKEY =
+  (
+    fmtid:(Data1:$540B947E;Data2:$8B40;Data3:$45BC;Data4:($A8,$A2,$6A,$0B,$89,$4C,$BD,$A2));
+    pid : Pointer(4)
+  );
+
+
 var
   cbRequired          : DWORD;
   hdev                : HDEVINFO;
@@ -114,12 +144,14 @@ var
   pdidd               : PSPDeviceInterfaceDetailData;
   s                   : string;
   PropertyBuffer      : array[0..255] of Char;
+  PropertyBufferW     : array[0..255] of WideChar;
   DeviceInfoData      : TSPDevInfoData;
   PropertyRegDataType : DWORD;
   RequiredSize        : DWORD;
   Key                 : HKEY;
   PortName            : string;
   RegType,Count       : DWORD;
+  PropertyType        : DEVPROPTYPE = Pointer(0);
 begin
   // enumerate the com ports
   LoadSetupApi;
@@ -179,6 +211,12 @@ begin
                    end;
                  finally
                    Windows.RegCloseKey(Key);
+                 end;
+                 s:=s+DefaultFormatSettings.ListSeparator;
+
+                 if SetupDiGetDeviceProperty(hdev, DeviceInfoData, @DEVPKEY_Device_BusReportedDeviceDesc, PropertyType, PBYTE(@PropertyBufferW[0]), SizeOf(PropertyBufferW), RequiredSize, 0) then
+                 begin
+                   s:=s+PropertyBufferW;
                  end;
                  s:=s+DefaultFormatSettings.ListSeparator;
 

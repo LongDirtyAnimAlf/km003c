@@ -6,10 +6,89 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  TAGraph, TASeries, bits, dsLeds, libusb, libusboop,usbcpd;
+  TAGraph, TASeries,
+  lazserial,
+  bits, dsLeds, libusb, libusboop,usbcpd;
 
 type
-  TMsgHeader = bitpacked record
+  TKC003CCOMMAND =
+  (
+    PDMOPEN,
+    PDMCLOSE,
+    PDMSETTYPE,
+    ENTRYPD,
+    ENTRYUFCS,
+    ENTRYQC,
+    ENTRYFCP,
+    ENTRYSCP,
+    ENTRYAFC,
+    ENTRYVFCP,
+    ENTRYSFCP,
+    RESET,
+    QC,
+    QC3VOLT,
+    QC3INC,
+    QC3DEC,
+    FCP,
+    SCPVOLT,
+    AFC,
+    SFCP,
+    VFCPVOLT,
+    UFCSREQ,
+    UFCSPDO,
+    UFCSCMD,
+    UFCSDATA,
+    PDPDO,
+    PDREQSIMPLE,
+    PDREQNORMAL,
+    PDREQEXT,
+    PDCMD,
+    PDDATA
+  );
+
+  TKC003CCOMMANDDATA = record
+    Command:string;
+    Help:string;
+  end;
+
+const
+  KC003CCommand: array[TKC003CCOMMAND] of TKC003CCOMMANDDATA =
+  (
+    (Command: 'pdm open' ; Help: 'Start protocol trigger module.'),
+    (Command: 'pdm close' ; Help: 'Exit protocol trigger module.'),
+    (Command: 'pdm set type=%d,em=%d' ; Help: 'Customized PD protocol trigger. [type]: PD protocol trigger type, 0: automatic, 1: PD3.0, 2: PD3.1, 3: Proprietary PPS (two types for now). [em]: Emarker/Cable simulation, 0: off, 1: 20V5A, 2: 50V5A (EPR), LA135 6.75A'),
+    (Command: 'entry pd' ; Help: 'Enter the PD protocol trigger and some of the proprietary protocols (type=2).'),
+    (Command: 'entry ufcs' ; Help: 'UFCS (Universal Fast Charging Specification).'),
+    (Command: 'entry qc' ; Help: 'Qualcomm QC, including QC2.0/3.0, it’ll automatically judge when triggered.'),
+    (Command: 'entry fcp' ; Help: 'FCP proprietary protocol.'),
+    (Command: 'entry scp' ; Help: 'SCP proprietary protocol.'),
+    (Command: 'entry afc' ; Help: 'AFC proprietary protocol.'),
+    (Command: 'entry vfcp' ; Help: 'VFCP proprietary protocol.'),
+    (Command: 'entry sfcp' ; Help: 'SFCP proprietary protocol.'),
+    (Command: 'reset' ; Help: 'Reset protocol trigger, restore to initial state: pdm open after sending.'),
+    (Command: 'qc %dV' ; Help: 'Request fixed voltage of QC2.0 protocol. Example: qc 5V, qc 9V, qc 12V, qc 20V'),
+    (Command: 'qc3 volt=%d' ; Help: 'Request any voltage of QC3.0, the minimum step is 200mV. Example: qc3 volt=3800, qc3 volt=19800, qc3 volt=5000'),
+    (Command: 'qc3 inc=%d' ; Help: 'QC3.0 increases voltage.'),
+    (Command: 'qc3 dec=%d' ; Help: 'QC3.0 reduces voltage.'),
+    (Command: 'fcp %dV' ; Help: 'Request fixed voltage of FCP protocol. Example: fcp 5V, fcp 9V, fcp 12V'),
+    (Command: 'scp volt=%d,cur=%d' ; Help: 'Request any voltage of SCP protocol, the minimum step is determined by the charger, the unit is mV.'),
+    (Command: 'afc %dV' ; Help: 'Request fixed voltage of AFC protocol.'),
+    (Command: 'sfcp %dV' ; Help: 'Request fixed voltage of SFCP protocol.'),
+    (Command: 'vfcp volt=%d,cur=%d' ; Help: 'Request VFCP protocol.'),
+    (Command: 'ufcs req=%d,volt=%d,cur=%d' ; Help: 'Request any voltage of UFCS protocol, the range is determined by the charger.'),
+    (Command: 'ufcs pdo' ; Help: 'Get Output_Capabilities value of UFCS charger.'),
+    (Command: 'ufcs cmd=%d' ; Help: 'Send control commands, please refer to the number in Table 14 of the UFCS protocol manual.'),
+    (Command: 'ufcs data=%d' ; Help: 'not yet implemented.'),
+    (Command: 'pd pdo' ; Help: 'Get the SourceCapabilities in the PD protocol.'),
+    (Command: 'pd req=%d' ; Help: 'Request a fixed voltage without volt, take the Max current of PDO. [req] means ObjectPosition'),
+    (Command: 'pd req=%d,cur=%d' ; Help: 'Request a fixed voltage without volt, if the cur value is not used, take the Max current of PDO.'),
+    (Command: 'pd req=%d,volt=%d,cur=%d' ; Help: 'If you need to request PPS or AVS, request the fixed voltage with volt. If it is a fixed voltage, ignore the volt value.'),
+    (Command: 'pd cmd=%d' ; Help: 'Send control command.'),
+    (Command: 'pd data=%s' ; Help: 'Send data command. The first byte represents SOP, the second/third represents the header, and does not contain CRC')
+  );
+
+type
+  TKM003CMsgHeader = bitpacked record
       case integer of
           1 : (
                Ctrl : record
@@ -48,7 +127,7 @@ type
               );
   end;
 
-  TPacketHeader = bitpacked record
+  TKM003CPacketHeader = bitpacked record
       case integer of
           1 : (
                Data : packed record
@@ -63,10 +142,9 @@ type
   end;
 
 
-  TPowerzSensorData = packed record
-    header:TMsgHeader;
-    header_ext:TMsgHeader;
-    //P1_bus:word;
+  TKM003CSensorData = packed record
+    header:TKM003CMsgHeader;
+    header_ext:TKM003CMsgHeader;
     unknown_1: packed array [0..1] of byte;
     V_bus:dword;
     I_bus:dword;
@@ -74,7 +152,6 @@ type
     I_bus_avg:dword;
     Vbus_ori_avg:dword;
     Ibus_ori_avg:dword;
-    //unknown_2: packed array [0..7] of byte;
     temp: packed array [0..0] of byte;
     V_cc1:word;
     V_cc2:word;
@@ -87,7 +164,7 @@ type
     V_dm_extra:word;
   end;
 
-  TCommand =
+  TKM003CHeaderCommand =
   (
     CMD_NONE,
     CMD_SYNC,
@@ -106,25 +183,29 @@ type
   );
 
 const
-  ATT_ADC             = $001;
-  ATT_ADC_QUEUE       = $002;
-  ATT_ADC_QUEUE_10K   = $004;
-  ATT_SETTINGS        = $008;
-  ATT_PD_PACKET       = $010;
-  ATT_PD_STATUS       = $020;
-  ATT_QC_PACKET       = $040;
+  TKM003C_ATT_ADC             = $001;
+  TKM003C_ATT_ADC_QUEUE       = $002;
+  TKM003C_ATT_ADC_QUEUE_10K   = $004;
+  TKM003C_ATT_SETTINGS        = $008;
+  TKM003C_ATT_PD_PACKET       = $010;
+  TKM003C_ATT_PD_STATUS       = $020;
+  TKM003C_ATT_QC_PACKET       = $040;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    Button1: TButton;
+    btnConnect: TButton;
     btnGetPDPacket: TButton;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
     Chart1: TChart;
     Chart1LineSeries1: TLineSeries;
     Chart1LineSeries2: TLineSeries;
     Chart1LineSeries3: TLineSeries;
+    cmboSerialPorts: TComboBox;
     Edit1: TEdit;
     Edit10: TEdit;
     Edit11: TEdit;
@@ -142,17 +223,33 @@ type
     selectSampleRate: TRadioGroup;
     Timer1: TTimer;
     procedure btnGetPDPacketClick(Sender: TObject);
+    procedure btnConnectClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure grpVADataResize(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
-
     PDOVoltageDisplay   : TdsSevenSegmentMultiDisplay;
     PDOCurrentDisplay   : TdsSevenSegmentMultiDisplay;
     RealVoltageDisplay  : TdsSevenSegmentMultiDisplay;
     RealCurrentDisplay  : TdsSevenSegmentMultiDisplay;
 
+    ser                 : TLazSerial;
+    KM003CComport       : string;
+
+    Context             : TLibUsbContext;
+    Device              : TLibUsbDevice;
+    DeviceInterface     : TLibUsbInterface;
+    OutEndPoint         : TLibUsbBulkOutEndpoint;
+    InEndPoint          : TLibUsbBulkInEndpoint;
+
+    procedure Connect;
+    procedure DisConnect;
+
+    procedure OnRXUSBCData(Sender: TObject);
   public
 
   end;
@@ -168,20 +265,12 @@ Const
   EP_IN    =  1 or LIBUSB_ENDPOINT_IN;
   EP_OUT   =  1 or LIBUSB_ENDPOINT_OUT;
 
-Var
-    Context                : TLibUsbContext;
-    Device                 : TLibUsbDevice;
-    DeviceInterface        : TLibUsbInterface;
-    OutEndPoint            : TLibUsbBulkOutEndpoint;
-    InEndPoint             : TLibUsbBulkInEndpoint;
-    result_code            : Integer;
-    send_data              : String;
-    data                   : String;
-    send_command           : String;
-
 implementation
 
 {$R *.lfm}
+
+uses
+  Tools;
 
 function ChangeBrightness(lIn: tColor; factor:double): TColor;
 var
@@ -196,6 +285,11 @@ end;
 { TForm1 }
 
 procedure TForm1.FormCreate(Sender: TObject);
+var
+  CLIst:TStringList;
+  CListDeatails:TStringList;
+  i:integer;
+  s:string;
 begin
   PDOVoltageDisplay:=TdsSevenSegmentMultiDisplay.Create(grpVAData);
   with PDOVoltageDisplay do
@@ -230,6 +324,72 @@ begin
     SignDigit:=True;
     DisplayCount:=5;
   end;
+
+  KM003CComport:='';
+
+  //if ((Length(KM003CComport)=0) OR (Length(HPComport)=0)) then
+  begin
+    CLIst:=TStringList.Create;
+    try
+      EnumerateCOMPorts(CLIst);
+      CListDeatails:=TStringList.Create;
+      try
+        for i:=0 to Pred(CLIst.Count) do
+        begin
+          CListDeatails.Delimiter:=DefaultFormatSettings.ListSeparator;
+          CListDeatails.StrictDelimiter:=True;
+          CListDeatails.DelimitedText:=CLIst[i];
+          if (CListDeatails.Count>=4) then
+          begin
+            s:=CListDeatails[3];
+            {$ifdef MSWINDOWS}
+            s:=StringReplace(s,'COM','',[rfReplaceAll]);
+            {$else}
+            s:=StringReplace(s,'ttyUSB','',[rfReplaceAll]);
+            {$endif MSWINDOWS}
+            cmboSerialPorts.Items.Append(s);
+
+            if (CListDeatails.Count>=5) then
+            begin
+              s:=CListDeatails[4];
+              if (Pos('POWER-Z',s)=1) then
+              begin
+                KM003CComport:=CListDeatails[3];
+                //break;
+              end;
+            end;
+
+            s:=CListDeatails[2];
+            if s='STMicroelectronics' then
+            begin
+              KM003CComport:=CListDeatails[3];
+              //break;
+            end;
+            if s='FTDI' then
+            begin
+              //HPComport:=CListDeatails[3];
+              cmboSerialPorts.ItemIndex:=Pred(cmboSerialPorts.Items.Count);
+              //break;
+            end;
+            s:=CListDeatails[2];
+
+          end;
+        end;
+      finally
+        CListDeatails.Free
+      end;
+    finally
+      CLIst.Free;
+    end;
+  end;
+
+  ser:=TLazSerial.Create(Self);
+  ser.Async:=false;
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  DisConnect;
 end;
 
 procedure TForm1.grpVADataResize(Sender: TObject);
@@ -260,20 +420,20 @@ procedure TForm1.Timer1Timer(Sender: TObject);
 var
   result_code : LongInt;
   newdata:packed array[0..63] of byte;
-  sensordata:TPowerzSensorData;
+  sensordata:TKM003CSensorData;
 
   avalue:double;
 
   signed:pinteger;
   normal:integer;
-  header:TMsgHeader;
+  header:TKM003CMsgHeader;
   i:integer;
 
 begin
   // "up" is from device to host ... ;-)
   header.Raw:=0;
-  header.Ctrl.typ:=Ord(TCommand.CMD_GET_DATA);
-  header.Ctrl.att:=ATT_ADC;
+  header.Ctrl.typ:=Ord(TKM003CHeaderCommand.CMD_GET_DATA);
+  header.Ctrl.att:=TKM003C_ATT_ADC;
 
   result_code := OutEndPoint.Send(header.Bytes , 4 ,10);
   FillChar(newdata,64,0);
@@ -344,41 +504,98 @@ begin
 
 end;
 
-procedure TForm1.Button1Click(Sender: TObject);
-Var
-  ID:Plibusb_interface_descriptor;
+procedure TForm1.btnConnectClick(Sender: TObject);
 begin
+  TButton(Sender).Enabled:=false;
+  try
+    Connect;
+    //Timer1.Enabled:=True;
+  finally
+    TButton(Sender).Enabled:=true;
+  end;
+end;
 
-  Memo1.Lines.Append(InttoStr(SizeOf(TPowerzSensorData)));
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  ser.WriteString('pdm open');
+  ser.WriteString('entry pd');
+  ser.WriteString('pd pdo');
+  //ser.WriteString('pd req=2, cur=20000, req=3');
+  //ser.WriteString('pd req=6, volt=12000');
+  //ser.WriteString('pd req=4, volt=15000');
+  //ser.WriteString('pd data=008F5141A000FF992E0018181500000000000040400800');
+  //ser.WriteString('pd cmd=25');
+  //ser.WriteString('pdm close');
+end;
 
-  Memo1.Lines.Append(InttoStr(SizeOf(TMsgHeader)));
+procedure TForm1.Button2Click(Sender: TObject);
+var
+  s:string;
+begin
+  ser.WriteString('pdm open');
+  Memo1.Lines.Append(ser.ReadString(2000));
+  Application.ProcessMessages;
+  ser.WriteString('entry pd');
+  Memo1.Lines.Append(ser.ReadString(2000));
+  Application.ProcessMessages;
+  ser.WriteString('pd pdo');
+  Memo1.Lines.Append(ser.ReadString(2000));
+  Application.ProcessMessages;
+  sleep(5000);
+  s:=Format(KC003CCommand[TKC003CCOMMAND.PDREQSIMPLE].Command,[4]);
+  ser.WriteString(s);
+  Memo1.Lines.Append(ser.ReadString(2000));
+  Application.ProcessMessages;
+  sleep(5000);
+  ser.WriteString('pdm close');
+  Memo1.Lines.Append(ser.ReadString(2000));
+end;
+
+procedure TForm1.DisConnect;
+begin
+  OutEndPoint.Free;
+  InEndPoint.Free;
+  DeviceInterface.Free;
+  Device.Free;
+  Context.Free;
+
+  //ser.Free;
+end;
+
+procedure TForm1.Connect;
+begin
+  if (Length(KM003CComport)>0) then
+  begin
+    ser.Active:=False;
+    ser.Device:=KM003CComport;
+    ser.BaudRate:=br921600;
+    ser.FlowControl:=fcNone;
+    ser.Parity:=pNone;
+    ser.DataBits:=db8bits;
+    ser.StopBits:=sbOne;
+    //ser.OnRxData:=@OnRXUSBCData;
+    ser.Active:=True;
+  end;
 
   Context := TLibUsbContext.Create;
   Device := TLibUsbDevice.Create(Context,DevVID,DevPID);
-
-
-
-  //ID:=Device.FindInterface;
-
   Device.SetConfiguration(1);
-  ID:=Device.FindInterface(0,0);
-
-  DeviceInterface := TLibUsbInterface.Create(Device,ID);
-
-
+  DeviceInterface := TLibUsbInterface.Create(Device,Device.FindInterface(0,0));
   OutEndPoint := TLibUsbBulkOutEndpoint.Create(DeviceInterface , DeviceInterface.FindEndpoint(OutEndpoint_address));
   InEndPoint := TLibUsbBulkInEndpoint.Create(DeviceInterface , DeviceInterface.FindEndpoint(InEndpoint_address));
-
-  //Timer1.Enabled:=True;
 end;
 
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+  ser.WriteString('pd req=3');
+end;
 
 procedure TForm1.btnGetPDPacketClick(Sender: TObject);
 var
-  header:TMsgHeader;
-  header_ext:TMsgHeader;
+  header:TKM003CMsgHeader;
+  header_ext:TKM003CMsgHeader;
 
-  PacketHeader:TPacketHeader;
+  PacketHeader:TKM003CPacketHeader;
   newdata:packed array[0..4095] of byte;
   dataindexer:word;
   j,k:integer;
@@ -397,13 +614,15 @@ var
   MSGEXT:TUSBPD_EXTENDEDMSG;
 
   SRCPDO:USBC_SOURCE_PD_POWER_DATA_OBJECT;
+
+  result_code:integer;
 begin
   // "up" is from device to host ... ;-)
   while true do
   begin
     header.Raw:=0;
-    header.Ctrl.typ:=Ord(TCommand.CMD_GET_DATA);
-    header.Ctrl.att:=ATT_PD_PACKET;
+    header.Ctrl.typ:=Ord(TKM003CHeaderCommand.CMD_GET_DATA);
+    header.Ctrl.att:=TKM003C_ATT_PD_PACKET;
 
     result_code := OutEndPoint.Send(header.Bytes , 4 ,10);
 
@@ -412,89 +631,96 @@ begin
 
     result_code := InEndPoint.Recv(newdata ,4096 , 1000);
 
-    dataindexer:=0;
     if (result_code>0) then
     begin
+      dataindexer:=0;
 
       for j:=0 to 3 do header.Bytes[j]:=newdata[dataindexer+j];
       Inc(dataindexer,4);
       for j:=0 to 3 do header_ext.Bytes[j]:=newdata[dataindexer+j];
       Inc(dataindexer,4);
-      datasize:=header_ext.Header.size;
 
-      // now follows 12 bytes of unknown data as answer to our request
-      // real data starts at byte 20
-
-      Inc(dataindexer,12);
-      Dec(datasize,12);
-      while (datasize>0) do
+      // Did we receive a packet from our command ?
+      if (header_ext.Header.att=TKM003C_ATT_PD_PACKET) then
       begin
-        // Now a packet header of 6 bytes
-        for j:=0 to 5 do PacketHeader.Bytes[j]:=newdata[dataindexer+j];
-        Inc(dataindexer,6);
-        Dec(datasize,6);
+        datasize:=header_ext.Header.size;
 
-        if PacketHeader.Data.Size.Bits[7]=1 then
+        // now follows 12 bytes of unknown data as answer to our request
+        // real data starts after these 12 bytes, at byte 20
+
+        Inc(dataindexer,12);
+        Dec(datasize,12);
+
+        while (datasize>0) do
         begin
-          PacketHeader.Data.Size.Bits[7]:=0;
-          // now first byte = size (4 byte unknown, 1 bye SOP 2 byte SOP header, rest SOP data)
-          PacketHeader.Data.Size.Raw:=PacketHeader.Data.Size.Raw-5;
-          // PacketHeader.Data.Size.Raw is now SOP packet in bytes
+          // Now a packet header of 6 bytes
+          for j:=0 to 5 do PacketHeader.Bytes[j]:=newdata[dataindexer+j];
+          Inc(dataindexer,6);
+          Dec(datasize,6);
 
-          Memo1.Lines.Append('Data size: '+InttoStr(PacketHeader.Data.Size.Raw)+'. SOP: '+InttoStr(PacketHeader.Data.SOP)+'. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(PacketHeader.Data.Time.Raw))));
-
-          // Now a 2 byte SOP
-          for j:=0 to 1 do aSOPDHEADER.Bytes[j]:=newdata[dataindexer+j];
-          Inc(dataindexer,2);
-          Dec(datasize,2);
-          Memo1.Lines.Append('SOP: '+GetSOPInfo(aSOPDHEADER));
-
-          MSGCTRL:=USBPD_CONTROLMSG_RESERVED0;
-          MSGDATA:=USBPD_DATAMSG_RESERVED0;
-          MSGEXT:=USBPD_EXTMSG_RESERVED0;
-          if ((aSOPDHEADER.Data.Number_of_Data_Objects=0) AND (aSOPDHEADER.Data.Extended=0)) then
+          // If bit8 is set, we seem to have a valid SOP packet.
+          if PacketHeader.Data.Size.Bits[7]=1 then
           begin
-            MSGCTRL:=TUSBPD_CONTROLMSG(aSOPDHEADER.Data.Message_Type);
+            PacketHeader.Data.Size.Bits[7]:=0;
+            PacketHeader.Data.Size.Raw:=PacketHeader.Data.Size.Raw-5;
+            // PacketHeader.Data.Size.Raw is now SOP packet in bytes
+
+            Memo1.Lines.Append('Data size: '+InttoStr(PacketHeader.Data.Size.Raw)+'. SOP: '+InttoStr(PacketHeader.Data.SOP)+'. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(PacketHeader.Data.Time.Raw))));
+
+            // Now a 2 byte SOP header
+            for j:=0 to 1 do aSOPDHEADER.Bytes[j]:=newdata[dataindexer+j];
+            Inc(dataindexer,2);
+            Dec(datasize,2);
+            Memo1.Lines.Append('SOP: '+GetSOPInfo(aSOPDHEADER));
+
+            MSGCTRL:=USBPD_CONTROLMSG_RESERVED0;
+            MSGDATA:=USBPD_DATAMSG_RESERVED0;
+            MSGEXT:=USBPD_EXTMSG_RESERVED0;
+            if ((aSOPDHEADER.Data.Number_of_Data_Objects=0) AND (aSOPDHEADER.Data.Extended=0)) then
+            begin
+              MSGCTRL:=TUSBPD_CONTROLMSG(aSOPDHEADER.Data.Message_Type);
+            end
+            else
+            begin
+              if (aSOPDHEADER.Data.Extended=0) then MSGDATA:=TUSBPD_DATAMSG(aSOPDHEADER.Data.Message_Type);
+              if (aSOPDHEADER.Data.Extended=1) then
+              begin
+                MSGEXT:=TUSBPD_EXTENDEDMSG(aSOPDHEADER.Data.Message_Type);
+                // Now a 2 byte extended SOP header
+                for j:=0 to 1 do aSOPExtendedHeader.Bytes[j]:=newdata[dataindexer+j];
+                Inc(dataindexer,2);
+                Dec(datasize,2);
+              end;
+            end;
+
+            if MSGDATA<>USBPD_DATAMSG_RESERVED0 then
+            begin
+              case MSGDATA of
+                USBPD_DATAMSG_SRC_CAPABILITIES:
+                  begin
+                    for k:=1 to aSOPDHEADER.Data.Number_of_Data_Objects do
+                    begin
+                      for j:=0 to 3 do SRCPDO.Bytes[j]:=newdata[dataindexer+j+(k-1)*4];
+                      Memo1.Lines.Append(SRCPDOInfo(SRCPDO));
+                    end;
+                  end;
+              end;
+            end;
+
+            // Skip SOP data
+            Inc(dataindexer,aSOPDHEADER.Data.Number_of_Data_Objects*4);
+            Dec(datasize,aSOPDHEADER.Data.Number_of_Data_Objects*4);
+
+
           end
           else
           begin
-            if (aSOPDHEADER.Data.Extended=0) then MSGDATA:=TUSBPD_DATAMSG(aSOPDHEADER.Data.Message_Type);
-            if (aSOPDHEADER.Data.Extended=1) then
-            begin
-              MSGEXT:=TUSBPD_EXTENDEDMSG(aSOPDHEADER.Data.Message_Type);
-              // Now a 2 byte extended SOP header
-              for j:=0 to 1 do aSOPExtendedHeader.Bytes[j]:=newdata[dataindexer+j];
-              Inc(dataindexer,2);
-              Dec(datasize,2);
-            end;
+            // No SOP : quit
+            break;
           end;
-
-          if MSGDATA<>USBPD_DATAMSG_RESERVED0 then
-          begin
-            case MSGDATA of
-              USBPD_DATAMSG_SRC_CAPABILITIES:
-                begin
-                  for k:=1 to aSOPDHEADER.Data.Number_of_Data_Objects do
-                  begin
-                    for j:=0 to 3 do SRCPDO.Bytes[j]:=newdata[dataindexer+j+(k-1)*4];
-                    Memo1.Lines.Append(SRCPDOInfo(SRCPDO));
-                  end;
-                end;
-            end;
-          end;
-
-          // Skip SOP data
-          Inc(dataindexer,aSOPDHEADER.Data.Number_of_Data_Objects*4);
-          Dec(datasize,aSOPDHEADER.Data.Number_of_Data_Objects*4);
-
-
-        end
-        else
-        begin
-          // No SOP : quit
-          break;
         end;
       end;
+
     end;
     Sleep(1);
     Application.ProcessMessages;
@@ -504,6 +730,25 @@ begin
 
   dataindexer:=0;
 
+end;
+
+procedure TForm1.OnRXUSBCData(Sender: TObject);
+var
+  s:string;
+  j:integer;
+begin
+  Memo1.Lines.Append('Length: '+InttoStr(Length(ser.Data)));
+  s:='';
+  for j:=0 to Pred(Length(ser.Data)) do
+  begin
+    if ser.Data[j] in [' '..'~'] then s:=s+(ser.Data[j]);
+    if (ser.Data[j]=#$0A) then
+    begin
+      Memo1.Lines.Append(s);
+      s:='';
+    end;
+  end;
+  Memo1.Lines.Append(s);
 end;
 
 end.

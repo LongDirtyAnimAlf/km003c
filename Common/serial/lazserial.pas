@@ -149,6 +149,8 @@ type
     FCriticalSection: TRTLCriticalSection;
     FCommandList:TStringList;
 
+    FAsync:boolean;
+
     procedure DeviceOpen;
     procedure DeviceClose;
 
@@ -156,6 +158,7 @@ type
 
   protected
     procedure SetActive(state: boolean);
+    procedure SetAsync(state: boolean);
     procedure SetBaudRate(br: TBaudRate);
     procedure SetDataBits(db: TDataBits);
     procedure SetParity(pr: TParity);
@@ -167,6 +170,7 @@ type
     destructor Destroy; override;
 
     procedure WriteString(data: AnsiString);
+    function ReadString(Timeout: Integer): AnsiString;
 
     // read pin states
     function ModemSignals: TModemSignals;
@@ -183,6 +187,8 @@ type
 
   published
     property Active: boolean read FActive write SetActive;
+
+    property Async: boolean read FAsync write SetAsync;
 
     property BaudRate: TBaudRate read FBaudRate write SetBaudRate; // default br115200;
     property DataBits: TDataBits read FDataBits write SetDataBits;
@@ -207,19 +213,21 @@ implementation
 
 procedure TLazSerial.DeviceClose;
 begin
-  // stop capture thread
-  if (ReadThread<>nil) then
+  if FAsync then
   begin
-    ReadThread.FreeOnTerminate:=false;
-    ReadThread.Terminate;
-    while (NOT ReadThread.Terminated) do
+    // stop capture thread
+    if (ReadThread<>nil) then
     begin
-      sleep(10);
+      ReadThread.FreeOnTerminate:=false;
+      ReadThread.Terminate;
+      while (NOT ReadThread.Terminated) do
+      begin
+        sleep(10);
+      end;
+      ReadThread.Free;
+      ReadThread:=nil;
     end;
-    ReadThread.Free;
-    ReadThread:=nil;
   end;
-
   SynSer.OnStatus := nil;
 
   // flush device
@@ -240,6 +248,7 @@ end;
 constructor TLazSerial.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FAsync:=false;
   InitCriticalSection(FCriticalSection);
   FCommandList:=TStringList.Create;
   //FHandle:=-1;
@@ -283,11 +292,14 @@ begin
 
   if Assigned(OnStatus) then SynSer.OnStatus := OnStatus;
 
-  if (ReadThread=nil) then
+  if FAsync then
   begin
-    ReadThread := TComPortReadThread.Create(true);
-    ReadThread.Owner := Self;
-    ReadThread.Start;
+    if (ReadThread=nil) then
+    begin
+      ReadThread := TComPortReadThread.Create(true);
+      ReadThread.Owner := Self;
+      ReadThread.Start;
+    end;
   end;
 end;
 
@@ -301,6 +313,14 @@ begin
       DeviceClose;
     FActive:=state;
   except
+  end;
+end;
+
+procedure TLazSerial.SetAsync(state: boolean);
+begin
+  if (state<>FAsync) then
+  begin
+    FAsync:=state;
   end;
 end;
 
@@ -362,10 +382,34 @@ end;
 
 procedure TLazSerial.WriteString(data: AnsiString);
 begin
-  EnterCriticalSection(FCriticalSection);
-  FCommandList.Append(data);
-  LeaveCriticalSection(FCriticalSection);
+  if FAsync then
+  begin
+    EnterCriticalSection(FCriticalSection);
+    FCommandList.Append(data);
+    LeaveCriticalSection(FCriticalSection);
+  end
+  else
+  begin
+    FSynSer.SendString(data);
+  end;
+
 end;
+
+function TLazSerial.ReadString(Timeout: Integer): AnsiString;
+begin
+  if FAsync then
+  begin
+    if (NOT Assigned(FOnRxData)) then
+      result:=FData
+    else
+      result:='';
+  end
+  else
+  begin
+    result:=FSynSer.RecvPacket(Timeout);
+  end;
+end;
+
 
 function TLazSerial.ModemSignals: TModemSignals;
 begin
@@ -401,12 +445,10 @@ begin
   FSynSer.DTR := OnOff;
 end;
 
-
 procedure TLazSerial.SetRTS(OnOff: boolean);
 begin
   FSynSer.RTS := OnOff;
 end;
-
 
 procedure TLazSerial.ComException(str: string);
 begin
@@ -423,13 +465,9 @@ begin
 end;
 
 procedure TComPortReadThread.Execute;
-const
-  TLV_SOF:byte = $FD;
-  TLV_EOF:byte = $A5;
 var
   FBuffer:ansistring;
   DataString:ansistring;
-  PreAmbleCounterPos,PostAmbleCounterPos:word;
   x,y:word;
 begin
   DataString:='';
@@ -469,20 +507,12 @@ begin
       begin
         if ((x>0) AND (NOT Terminated)) then
         begin
-          PreAmbleCounterPos:=Pos(#$FD#$FD#$FD#$FD,DataString);
-          if (PreAmbleCounterPos>0) then
-          begin
-            PostAmbleCounterPos:=Pos(#$A5#$A5#$A5#$A5,DataString);
-            if (PostAmbleCounterPos>0) then
-            begin
-              Owner.FData:=copy (DataString,PreAmbleCounterPos+4,PostAmbleCounterPos-PreAmbleCounterPos-4);
-              Delete(DataString,1,PostAmbleCounterPos+3);
-              x:=Length(DataString);
-              Synchronize(@CallEvent);
-              continue;
-            end;
-          end;
+          Owner.FData:=DataString;
+          UniqueString(Owner.FData);
+          DataString:='';
+          Synchronize(@CallEvent);
         end;
+        if ((x=0) AND (NOT Terminated)) then sleep(1);
         break;
       end;
 
