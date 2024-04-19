@@ -222,30 +222,30 @@ object Form1: TForm1
     TabOrder = 18
     OnClick = Button1Click
   end
-  object Button3: TButton
+  object btnReset: TButton
     Left = 27
     Height = 35
     Top = 720
     Width = 73
-    Caption = 'Button3'
+    Caption = 'Reset'
     TabOrder = 19
-    OnClick = Button3Click
-  end
-  object Button2: TButton
-    Left = 27
-    Height = 41
-    Top = 674
-    Width = 109
-    Caption = 'Button2'
-    TabOrder = 20
-    OnClick = Button2Click
+    OnClick = btnResetClick
   end
   object Edit13: TEdit
     Left = 33
     Height = 23
     Top = 197
     Width = 225
-    TabOrder = 21
+    TabOrder = 20
     Text = 'Edit13'
+  end
+  object Button2: TButton
+    Left = 124
+    Height = 32
+    Top = 678
+    Width = 58
+    Caption = 'Button2'
+    TabOrder = 21
+    OnClick = Button2Click
   end
 end
