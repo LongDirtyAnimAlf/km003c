@@ -146,13 +146,14 @@ type
   TKM003CSensorData = packed record
     header:TKM003CMsgHeader;
     header_ext:TKM003CMsgHeader;
-    unknown_1: packed array [0..1] of byte;
+    //unknown_1: packed array [0..1] of byte;
+    unknown_1: word;
     V_bus:dword;
     I_bus:dword;
     V_bus_avg:dword;
     I_bus_avg:dword;
-    Vbus_ori_avg:dword;
-    Ibus_ori_avg:dword;
+    V_bus_ori_avg:dword;
+    I_bus_ori_avg:dword;
     temp: packed array [0..0] of byte;
     V_cc1:word;
     V_cc2:word;
@@ -184,6 +185,9 @@ type
   );
 
 const
+  TKM003C_CMD_HEAD            = 64;
+  TKM003C_CMD_PUT_DATA        = 65;
+
   TKM003C_ATT_ADC             = $001;
   TKM003C_ATT_ADC_QUEUE       = $002;
   TKM003C_ATT_ADC_QUEUE_10K   = $004;
@@ -210,6 +214,7 @@ type
     Edit10: TEdit;
     Edit11: TEdit;
     Edit12: TEdit;
+    Edit13: TEdit;
     Edit2: TEdit;
     Edit3: TEdit;
     Edit4: TEdit;
@@ -229,6 +234,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure grpVADataResize(Sender: TObject);
     procedure CheckTimerTimer(Sender: TObject);
+    procedure DataTimerTimer(Sender: TObject);
   private
     PDOVoltageDisplay   : TdsSevenSegmentMultiDisplay;
     PDOCurrentDisplay   : TdsSevenSegmentMultiDisplay;
@@ -238,7 +244,8 @@ type
     ser                 : TLazSerial;
     KM003CComport       : string;
 
-    CheckTimer          : TFPTimer;
+    PDTimer             : TFPTimer;
+    DataTimer           : TFPTimer;
 
     Context             : TLibUsbContext;
     Device              : TLibUsbDevice;
@@ -369,16 +376,26 @@ begin
   ser:=TLazSerial.Create(Self);
   ser.Async:=false;
 
-  CheckTimer:=TFPTimer.Create(Self);
-  CheckTimer.Enabled:=false;
-  CheckTimer.UseTimerThread:=false;
-  CheckTimer.Interval:=50;
-  CheckTimer.OnTimer:=@CheckTimerTimer;
+  PDTimer:=TFPTimer.Create(Self);
+  PDTimer.Enabled:=false;
+  PDTimer.UseTimerThread:=false;
+  PDTimer.Interval:=50;
+  PDTimer.OnTimer:=@CheckTimerTimer;
+
+  DataTimer:=TFPTimer.Create(Self);
+  DataTimer.Enabled:=false;
+  DataTimer.UseTimerThread:=false;
+  DataTimer.Interval:=500;
+  DataTimer.OnTimer:=@DataTimerTimer;
+
+
 end;
+
+
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
-  CheckTimer.Enabled:=false;
+  PDTimer.Enabled:=false;
   DisConnect;
 end;
 
@@ -406,6 +423,98 @@ begin
   RealCurrentDisplay.Top:=PDOCurrentDisplay.Top;
 end;
 
+procedure TForm1.DataTimerTimer(Sender: TObject);
+var
+  sensordata            : TKM003CSensorData;
+  header                : TKM003CMsgHeader;
+  result_code           : LongInt;
+  newdata               : packed array[0..4095] of byte;
+  avalue                : double;
+  signed                : pinteger;
+  normal                : integer;
+begin
+  // Send command to get ADC data
+  header.Raw:=0;
+  header.Ctrl.typ:=Ord(TKM003CHeaderCommand.CMD_GET_DATA);
+  header.Ctrl.att:=TKM003C_ATT_ADC;
+  result_code := OutEndPoint.Send(header.Bytes , 4 ,10);
+
+  // Receive ADC data
+  FillChar(newdata,4096,0);
+  result_code := InEndPoint.Recv(newdata ,4096 , 10);
+  if (result_code>sizeof(TKM003CSensorData)) then result_code:=sizeof(TKM003CSensorData);
+  move(newdata,sensordata,result_code);
+
+  // Did we receive a packet from our command ?
+  if ((sensordata.header.Data.typ=TKM003C_CMD_PUT_DATA) AND (sensordata.header_ext.Header.att=TKM003C_ATT_ADC)) then
+  begin
+    avalue:=swap(sensordata.V_bus_ori_avg)/1000000;
+    PDOVoltageDisplay.Value:=avalue;
+    Chart1LineSeries1.AddY(avalue);
+
+    normal:=swap(sensordata.I_bus_ori_avg);
+    signed:=@normal;
+    avalue:=signed^/1000000;
+    PDOCurrentDisplay.Value:=avalue;
+
+    avalue:=swap(sensordata.V_bus_avg)/1000000;
+    RealVoltageDisplay.Value:=avalue;
+    Chart1LineSeries2.AddY(avalue);
+
+    normal:=swap(sensordata.I_bus_avg);
+    signed:=@normal;
+    avalue:=signed^/1000000;
+    RealCurrentDisplay.Value:=avalue;
+
+    avalue:=swap(sensordata.V_bus)/1000000;
+    Edit6.Text:=FloattoStr(avalue);
+    Chart1LineSeries3.AddY(avalue);
+
+    normal:=swap(sensordata.I_bus);
+    signed:=@normal;
+    avalue:=signed^/1000000;
+    Edit7.Text:=FloattoStr(avalue);
+
+    avalue:=swap(sensordata.V_cc1)/10000;
+    Edit1.Text:=FloattoStr(avalue);
+    avalue:=swap(sensordata.V_cc2)/10000;
+    Edit2.Text:=FloattoStr(avalue);
+    avalue:=swap(sensordata.V_dp)/10000;
+    Edit3.Text:=FloattoStr(avalue);
+    avalue:=swap(sensordata.V_dm)/10000;
+    Edit4.Text:=FloattoStr(avalue);
+    avalue:=swap(sensordata.V_dd)/10000;
+    Edit5.Text:=FloattoStr(avalue);
+
+
+    //with sensordata do Edit8.Text:=InttoHex(unknown_3[0])+' '+InttoHex(unknown_3[1])+' '+InttoHex(unknown_3[2])+' '+InttoHex(unknown_3[3])+' '+InttoHex(unknown_3[4])+' '+InttoHex(unknown_3[5])+' '+InttoHex(unknown_3[6])+' '+InttoHex(unknown_3[7])+' '+InttoHex(unknown_3[8]);
+    //with sensordata do Edit8.Text:=InttoHex(unknown_3[0])+' '+InttoHex(unknown_3[1])+' '+InttoHex(unknown_3[2])+' '+InttoHex(unknown_3[3])+' '+InttoHex(unknown_3[4])+' '+InttoHex(unknown_3[5]);
+
+    avalue:={swap}(sensordata.unknown_1)/1000;
+    Edit8.Text:=FloattoStr(avalue);
+    //with sensordata do Edit8.Text:=InttoHex(unknown_1[0])+' '+InttoHex(unknown_1[1]);
+
+
+    (*
+    normal:=(sensordata.temp[1]*2000 + sensordata.temp[0]*1000);
+    signed:=@normal;
+    avalue:=signed^/128;
+    edit13.Text := FloattoStr(avalue);
+    *)
+
+    avalue:={swap}(sensordata.P0_extra)/1000;
+    Edit11.Text:=FloattoStr(avalue);
+    //avalue:={swap}(sensordata.P1_bus)/1000;
+    //Edit12.Text:='P1_bus: '+FloattoStr(avalue);
+
+    avalue:={swap}(sensordata.V_dp_extra)/1000;
+    Edit9.Text:=FloattoStr(avalue);
+    avalue:={swap}(sensordata.V_dm_extra)/1000;
+    Edit10.Text:=FloattoStr(avalue);
+  end;
+
+end;
+
 procedure TForm1.CheckTimerTimer(Sender: TObject);
 var
   sensordata            : TKM003CSensorData;
@@ -421,6 +530,8 @@ var
   avalue                : double;
   signed                : pinteger;
   normal                : integer;
+  SOPPacket             : boolean;
+  s                     : string;
 
   aSOPDHEADER           : PDHEADER;
   aSOPExtendedHeader    : PDHEADEREXTENDED;
@@ -429,74 +540,6 @@ var
   MSGEXT                : TUSBPD_EXTENDEDMSG;
   SRCPDO                : USBC_SOURCE_PD_POWER_DATA_OBJECT;
 begin
-  // Send command to get ADC data
-  header.Raw:=0;
-  header.Ctrl.typ:=Ord(TKM003CHeaderCommand.CMD_GET_DATA);
-  header.Ctrl.att:=TKM003C_ATT_ADC;
-  result_code := OutEndPoint.Send(header.Bytes , 4 ,10);
-
-  // Receive ADC data
-  FillChar(newdata,4096,0);
-  result_code := InEndPoint.Recv(newdata ,4096 , 10);
-  if (result_code>sizeof(TKM003CSensorData)) then result_code:=sizeof(TKM003CSensorData);
-  move(newdata,sensordata,result_code);
-
-  avalue:=swap(sensordata.V_bus)/1000000;
-  PDOVoltageDisplay.Value:=avalue;
-  Chart1LineSeries1.AddY(avalue);
-
-  normal:=swap(sensordata.I_bus);
-  signed:=@normal;
-  avalue:=signed^/1000000;
-  PDOCurrentDisplay.Value:=avalue;
-
-  avalue:=swap(sensordata.V_bus_avg)/1000000;
-  RealVoltageDisplay.Value:=avalue;
-  Chart1LineSeries2.AddY(avalue);
-
-  normal:=swap(sensordata.I_bus_avg);
-  signed:=@normal;
-  avalue:=signed^/1000000;
-  RealCurrentDisplay.Value:=avalue;
-
-  avalue:=swap(sensordata.Vbus_ori_avg)/1000000;
-  Edit6.Text:=FloattoStr(avalue);
-  Chart1LineSeries3.AddY(avalue);
-
-  normal:=swap(sensordata.Ibus_ori_avg);
-  signed:=@normal;
-  avalue:=signed^/1000000;
-  Edit7.Text:=FloattoStr(avalue);
-
-  avalue:=swap(sensordata.V_cc1)/10000;
-  Edit1.Text:=FloattoStr(avalue);
-  avalue:=swap(sensordata.V_cc2)/10000;
-  Edit2.Text:=FloattoStr(avalue);
-  avalue:=swap(sensordata.V_dp)/10000;
-  Edit3.Text:=FloattoStr(avalue);
-  avalue:=swap(sensordata.V_dm)/10000;
-  Edit4.Text:=FloattoStr(avalue);
-  avalue:=swap(sensordata.V_dd)/10000;
-  Edit5.Text:=FloattoStr(avalue);
-
-
-  //with sensordata do Edit8.Text:=InttoHex(unknown_3[0])+' '+InttoHex(unknown_3[1])+' '+InttoHex(unknown_3[2])+' '+InttoHex(unknown_3[3])+' '+InttoHex(unknown_3[4])+' '+InttoHex(unknown_3[5])+' '+InttoHex(unknown_3[6])+' '+InttoHex(unknown_3[7])+' '+InttoHex(unknown_3[8]);
-  //with sensordata do Edit8.Text:=InttoHex(unknown_3[0])+' '+InttoHex(unknown_3[1])+' '+InttoHex(unknown_3[2])+' '+InttoHex(unknown_3[3])+' '+InttoHex(unknown_3[4])+' '+InttoHex(unknown_3[5]);
-
-  with sensordata do Edit8.Text:=InttoHex(unknown_1[0])+' '+InttoHex(unknown_1[1]);
-
-  //*val = data->temp[1] * 2000 + data->temp[0] * 1000 / 128;
-
-  avalue:={swap}(sensordata.P0_extra)/1000;
-  Edit11.Text:=FloattoStr(avalue);
-  //avalue:={swap}(sensordata.P1_bus)/1000;
-  //Edit12.Text:='P1_bus: '+FloattoStr(avalue);
-
-  avalue:={swap}(sensordata.V_dp_extra)/1000;
-  Edit9.Text:=FloattoStr(avalue);
-  avalue:={swap}(sensordata.V_dm_extra)/1000;
-  Edit10.Text:=FloattoStr(avalue);
-
   // Send command to get PD data
   header.Raw:=0;
   header.Ctrl.typ:=Ord(TKM003CHeaderCommand.CMD_GET_DATA);
@@ -504,7 +547,6 @@ begin
   result_code := OutEndPoint.Send(header.Bytes , 4 ,10);
 
   // Receive PD data
-  header.Raw:=0;
   FillChar({%H-}newdata,4096,0);
   result_code := InEndPoint.Recv(newdata ,4096 , 10);
 
@@ -518,17 +560,17 @@ begin
     Inc(dataindexer,4);
 
     // Did we receive a packet from our command ?
-    if (header_ext.Header.att=TKM003C_ATT_PD_PACKET) then
+    if ((header.Data.typ=TKM003C_CMD_PUT_DATA) AND (header_ext.Header.att=TKM003C_ATT_PD_PACKET)) then
     begin
       datasize:=header_ext.Header.size;
 
       // now follows 12 bytes of unknown data as answer to our request
-      // real data starts after these 12 bytes, at byte 20
+      // real packet data starts after these 12 bytes, at byte 20
 
       Inc(dataindexer,12);
       Dec(datasize,12);
 
-      while (datasize>0) do
+      while (datasize>5) do
       begin
         // Now a packet header of 6 bytes
         for j:=0 to 5 do PacketHeader.Bytes[j]:=newdata[dataindexer+j];
@@ -536,9 +578,33 @@ begin
         Dec(datasize,6);
 
         // If bit8 is set, we seem to have a valid SOP packet.
-        if PacketHeader.Data.Size.Bits[7]=1 then
+        SOPPacket:=(PacketHeader.Data.Size.Bits[7]=1);
+
+        // Get/set packet size by resetting SOP-bit
+        PacketHeader.Data.Size.Bits[7]:=0;
+        PacketHeader.Data.Size.Bits[6]:=0;
+
+        if (datasize=0) then
         begin
-          PacketHeader.Data.Size.Bits[7]:=0;
+          Memo1.Lines.Append('Empty data. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(PacketHeader.Data.Time.Raw))));
+          break;
+        end;
+
+        if (NOT SOPPacket) then
+        begin
+          Memo1.Lines.Append('Non SOP data ['+InttoStr(datasize)+']. Data size: '+InttoStr(PacketHeader.Data.Size.Raw)+'. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(PacketHeader.Data.Time.Raw))));
+          s:='';
+          for j:=0 to Pred(PacketHeader.Data.Size.Raw) do
+          begin
+            s:=s+InttoHex(newdata[j+dataindexer])+' ';
+            Inc(dataindexer,1);
+            Dec(datasize,1);
+          end;
+          Memo1.Lines.Append(s);
+        end;
+
+        if SOPPacket then
+        begin
           PacketHeader.Data.Size.Raw:=PacketHeader.Data.Size.Raw-5;
           // PacketHeader.Data.Size.Raw is now SOP packet in bytes
 
@@ -589,12 +655,12 @@ begin
           Dec(datasize,aSOPDHEADER.Data.Number_of_Data_Objects*4);
 
 
-        end
-        else
-        begin
-          // No SOP : quit
-          break;
         end;
+        //else
+        //begin
+          // No SOP : quit
+        //  break;
+        //end;
       end;
     end;
 
@@ -606,7 +672,8 @@ begin
   TButton(Sender).Enabled:=false;
   try
     Connect;
-    CheckTimer.Enabled:=True;
+    PDTimer.Enabled:=True;
+    DataTimer.Enabled:=True;
   finally
     TButton(Sender).Enabled:=true;
   end;
@@ -617,12 +684,11 @@ begin
   ser.WriteString('pdm open');
   ser.WriteString('entry pd');
   ser.WriteString('pd pdo');
-  //ser.WriteString('pd req=2, cur=20000, req=3');
-  //ser.WriteString('pd req=6, volt=12000');
-  //ser.WriteString('pd req=4, volt=15000');
-  //ser.WriteString('pd data=008F5141A000FF992E0018181500000000000040400800');
-  //ser.WriteString('pd cmd=25');
-  //ser.WriteString('pdm close');
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+  ser.WriteString('pd req=3');
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
@@ -688,11 +754,6 @@ begin
   DeviceInterface := TLibUsbInterface.Create(Device,Device.FindInterface(0,0));
   OutEndPoint := TLibUsbBulkOutEndpoint.Create(DeviceInterface , DeviceInterface.FindEndpoint(EP_OUT));
   InEndPoint := TLibUsbBulkInEndpoint.Create(DeviceInterface , DeviceInterface.FindEndpoint(EP_IN));
-end;
-
-procedure TForm1.Button3Click(Sender: TObject);
-begin
-  ser.WriteString('pd req=3');
 end;
 
 end.
