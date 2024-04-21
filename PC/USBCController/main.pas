@@ -25,6 +25,8 @@ type
     btnBatteryStatus: TButton;
     btnConnectSTM32: TButton;
     btnConnectKC003C: TButton;
+    btnGetPPSStatus: TButton;
+    btnGetStatus: TButton;
     btnKC003CRcvRemoteSink: TButton;
     btnKC003CRcvRemoteSource: TButton;
     btnKC003CReset: TButton;
@@ -45,6 +47,8 @@ type
     cmboSerialPorts: TComboBox;
     gridRemoteSinkPDO: TStringGrid;
     GroupBattery: TGroupBox;
+    GroupPPS: TGroupBox;
+    GroupStatus: TGroupBox;
     grpLineVoltages: TGroupBox;
     grpAdditionalInfo: TGroupBox;
     GroupExtendedSink: TGroupBox;
@@ -66,13 +70,16 @@ type
     USBDebugLog: TMemo;
     USBDetailsLog: TMemo;
     vleBatteryData: TValueListEditor;
+    vlePPS: TValueListEditor;
     vleSinkExtended: TValueListEditor;
     vleSourceExtended: TValueListEditor;
+    vleStatus: TValueListEditor;
     procedure btnBatteryCapabilitiesClick(Sender: TObject);
     procedure btnBatteryStatusClick(Sender: TObject);
     procedure btnCleanLogsClick(Sender: TObject);
     procedure btnConnectKC003CClick(Sender: TObject);
     procedure btnConnectSTM32Click(Sender: TObject);
+    procedure btnGetStatusClick(Sender: TObject);
     procedure btnKC003CRcvRemoteSinkClick(Sender: TObject);
     procedure btnKC003CRcvRemoteSourceClick(Sender: TObject);
     procedure btnKC003CResetClick(Sender: TObject);
@@ -88,12 +95,14 @@ type
     procedure btnVDMDiscoIndentClick(Sender: TObject);
     procedure btnVDMDiscoSVIDClick(Sender: TObject);
     procedure btnGetSourceInfoClick(Sender: TObject);
+    procedure btnGetPPSStatusClick(Sender: TObject);
     procedure DataEditKeyPress(Sender: TObject; var Key: char);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormDestroy(Sender: TObject);
     procedure gridPDOResize(Sender: TObject);
     procedure grpVADataResize(Sender: TObject);
+
     procedure FormCreate({%H-}Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormDestroy(Sender: TObject);
   private
     FMessageConfirmed   : boolean;
     TimersBusy          : integer;
@@ -154,8 +163,6 @@ type
     procedure SetGridSRCPDO(PDONumber:integer);
     procedure SetGridSNKPDO(PDONumber:integer);
     procedure SetBatteryData;
-    procedure SetSourceExtended;
-    procedure SetSinkExtended;
 
     function ProcessControlMessageGUI(MSGCTRL:TUSBPD_CONTROLMSG):boolean;
     function ProcessDataMessageGUI(aMSG:TUSBPD_DATAMSG):boolean;
@@ -246,6 +253,7 @@ begin
     Parent:=grpVAData;
     OnColor:=clAqua;
     OffColor:=ChangeBrightness(OnColor,0.1);
+    DisplayCount:=6;
   end;
   PDOCurrentDisplay:=TdsSevenSegmentMultiDisplay.Create(grpVAData);
   with PDOCurrentDisplay do
@@ -254,7 +262,7 @@ begin
     OnColor:=clRed;
     OffColor:=ChangeBrightness(OnColor,0.1);
     SignDigit:=True;
-    DisplayCount:=5;
+    DisplayCount:=6;
   end;
 
   RealVoltageDisplay:=TdsSevenSegmentMultiDisplay.Create(grpVAData);
@@ -263,6 +271,7 @@ begin
     Parent:=grpVAData;
     OnColor:=clAqua;
     OffColor:=ChangeBrightness(OnColor,0.1);
+    DisplayCount:=6;
   end;
   RealCurrentDisplay:=TdsSevenSegmentMultiDisplay.Create(grpVAData);
   with RealCurrentDisplay do
@@ -271,7 +280,7 @@ begin
     OnColor:=clRed;
     OffColor:=ChangeBrightness(OnColor,0.1);
     SignDigit:=True;
-    DisplayCount:=5;
+    DisplayCount:=6;
   end;
 
   Vcc1VoltageDisplay:=TdsSevenSegmentMultiDisplay.Create(grpLineVoltages);
@@ -333,7 +342,6 @@ begin
     bt.Name        := 'bt'+IntToStr(ACol);
     bt.Tag         := 0;
     bt.Enabled     := false;
-    //bt.BorderWidth := 0;
     index          := gridRemoteSourcePDO.ComponentCount-1;
     bt             :=(gridRemoteSourcePDO.Components[index] as TButton);
     gridRemoteSourcePDO.Objects[ACol,ARow] := gridRemoteSourcePDO.Components[index];
@@ -342,7 +350,6 @@ begin
     bt.Visible     := true;
     bt.OnClick     := @GridButtonClick;
   end;
-
 
   chkgrpPDOFLags.ControlStyle := chkgrpPDOFLags.ControlStyle - [csClickEvents];
   chkgrpPDOFLags.Items.Append('DRS');
@@ -505,6 +512,11 @@ begin
   end;
 end;
 
+procedure TPowerbankMainForm.btnGetStatusClick(Sender: TObject);
+begin
+  KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDCMD].Command,[USBPD_CONTROLMSG_GET_STATUS]));
+end;
+
 procedure TPowerbankMainForm.btnKC003CRcvRemoteSinkClick(Sender: TObject);
 begin
   KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDCMD].Command,[USBPD_CONTROLMSG_GET_SNK_CAP]));
@@ -527,8 +539,8 @@ const
   BATTNUMBER = 0;
 var
   Buffer:array[0..255] of byte;
-  SOPHeader:PDHEADER;
-  SOPHeaderExtended:PDHEADEREXTENDED;
+  SOPHeader:TPDHEADER;
+  SOPHeaderExtended:TPDHEADEREXTENDED;
   GBDB:TGBDB;
   DWordData:TDWordData;
   Data:string;
@@ -545,31 +557,6 @@ begin
   Buffer[5]:=1;
   Buffer[6]:=BATTNUMBER;
   SendCommand(1,Ord(DPM_MESSAGE_REQ),Buffer,7);
-
-  (*
-
-  // Create Header
-  SOPHeader.Raw:=0;
-  SOPHeader.Data.Message_Type:=Ord(USBPD_DATAMSG_BATTERY_STATUS);
-  SOPHeader.Data.Specification_Revision:=2;
-  SOPHeader.Data.Port_Power_Role_or_Plug:=1;
-  SOPHeader.Data.Number_of_Data_Objects:=1;
-
-  // Create DataObject
-  DWordData.Raw:=0;
-  GBDB.Raw:=0;
-  DWordData.Bytes[0]:=GBDB.Raw;
-
-  // Add SOP
-  Data:=InttoHex(USBPD_SOPTYPE_SOP,2);
-  // Add Header
-  for j:=0 to 1 do Data:=Data+InttoHex(SOPHeader.Bytes[j],2);
-  // Add DataObject
-  for j:=0 to 3 do Data:=Data+InttoHex(DWordData.Bytes[j],2);
-
-  KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDDATA].Command,[Data]));
-
-  *)
 
 
   // Create Header
@@ -600,12 +587,6 @@ begin
   for j:=0 to 3 do Data:=Data+InttoHex(DWordData.Bytes[j],2);
 
   KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDDATA].Command,[Data]));
-
-
-
-
-
-
 end;
 
 procedure TPowerbankMainForm.btnBatteryCapabilitiesClick(Sender: TObject);
@@ -613,8 +594,8 @@ const
   BATTNUMBER = 0;
 var
   Buffer:array[0..255] of byte;
-  SOPHeader:PDHEADER;
-  SOPHeaderExtended:PDHEADEREXTENDED;
+  SOPHeader:TPDHEADER;
+  SOPHeaderExtended:TPDHEADEREXTENDED;
   GBDB:TGBDB;
   DWordData:TDWordData;
   Data:string;
@@ -672,8 +653,8 @@ end;
 procedure TPowerbankMainForm.btnRcvRemoteSourceExtClick(Sender: TObject);
 var
   Buffer:array[0..255] of byte;
-  SOPHeader:PDHEADER;
-  SOPHeaderExtended:PDHEADEREXTENDED;
+  SOPHeader:TPDHEADER;
+  SOPHeaderExtended:TPDHEADEREXTENDED;
   GBDB:TGBDB;
   DWordData:TDWordData;
   Data:string;
@@ -686,33 +667,6 @@ begin
   SendCommand(1,Ord(DPM_MESSAGE_REQ),Buffer,3);
 
   KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDCMD].Command,[USBPD_CONTROLMSG_GET_SRC_CAPEXT]));
-
-  exit;
-
-
-  // Create Header
-  SOPHeader.Raw:=0;
-  SOPHeader.Data.Message_Type:=Ord(USBPD_EXTMSG_SOURCE_CAPABILITIES_EXTENDED);
-  SOPHeader.Data.Specification_Revision:=2;
-  SOPHeader.Data.Port_Power_Role_or_Plug:=1;
-  SOPHeader.Data.Number_of_Data_Objects:=2;
-  SOPHeader.Data.Extended:=1;
-  //SOPHeader.Raw:=$F7A1;
-
-  // Create Extended Header
-  SOPHeaderExtended.Raw:=0;
-  SOPHeaderExtended.Data.Data_Size:=24;
-  SOPHeaderExtended.Data.Chunked:=1;
-  //SOPHeaderExtended.Raw:=$8018;
-
-  // Add SOP
-  Data:=InttoHex(Ord(USBPD_SOPTYPE_SOP),2);
-  // Add Header
-  for j:=0 to 1 do Data:=Data+InttoHex(SOPHeader.Bytes[j],2);
-  // Add Extended Header
-  for j:=0 to 1 do Data:=Data+InttoHex(SOPHeaderExtended.Bytes[j],2);
-
-  KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDDATA].Command,[Data]));
 end;
 
 procedure TPowerbankMainForm.btnRcvRemoteSinkExtClick(Sender: TObject);
@@ -801,9 +755,6 @@ procedure TPowerbankMainForm.btnVDMDiscoIndentClick(Sender: TObject);
 var
   Buffer:array[0..255] of byte;
 begin
-  //GUI_MSG_VDM_DISCO_IDENT,
-  //GUI_MSG_VDM_DISCO_SVID,
-  //GUI_MSG_VDM_DISCO_MODE,
   FillChar({%H-}Buffer,SizeOf(Buffer),0);
   Buffer[0]:=Ord(GUI_MSG_VDM_DISCO_IDENT);
   Buffer[1]:=0;
@@ -842,6 +793,11 @@ begin
   //KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDCMD].Command,[USBPD_CONTROLMSG_GET_SNK_CAPEXT]));
   KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDCMD].Command,[USBPD_CONTROLMSG_GET_SOURCE_INFO]));
   //KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDCMD].Command,[USBPD_CONTROLMSG_GET_REVISION]));
+end;
+
+procedure TPowerbankMainForm.btnGetPPSStatusClick(Sender: TObject);
+begin
+  KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDCMD].Command,[USBPD_CONTROLMSG_GET_PPS_STATUS]));
 end;
 
 procedure TPowerbankMainForm.btnSwapClick(Sender: TObject);
@@ -1086,8 +1042,8 @@ var
   StackMessageSOP:USBPD_SOPTYPE;
 
   aSOPLength:word;
-  aSOPHeader:PDHEADER;
-  aSOPExtendedHeader:PDHEADEREXTENDED;
+  aSOPHeader:TPDHEADER;
+  aSOPExtendedHeader:TPDHEADEREXTENDED;
   aGUIMessage:GUI_TAG;
   aGUIInitMessage:GUI_INIT_TAG;
   aGUIParam:GUI_PARAM_TAG;
@@ -1867,7 +1823,7 @@ var
   aButton:TButton;
   Buffer:array[0..255] of byte;
 
-  aPDO:USBC_SOURCE_PD_POWER_DATA_OBJECT;
+  aPDO:TSOURCEPDO;
   aPDOType:TSUPPLY_TYPES;
 
 begin
@@ -1968,7 +1924,7 @@ end;
 
 procedure TPowerbankMainForm.SetGridSRCPDO(PDONumber:integer);
 var
-  aPDO:USBC_SOURCE_PD_POWER_DATA_OBJECT;
+  aPDO:TSOURCEPDO;
   aPDOType:TSUPPLY_TYPES;
   aPDOGrid:TStringGrid;
   s:string;
@@ -1998,7 +1954,7 @@ begin
     end
     else
     begin
-      if (PDOIndex=0) then
+      if (PDOIndex=1) then
       begin
         chkgrpPDOFLags.Checked[0]:=(aPDO.FixedSupplyPdo.DataRoleSwap=1);
         chkgrpPDOFLags.Checked[1]:=(aPDO.FixedSupplyPdo.UsbCommunicationCapable=1);
@@ -2055,7 +2011,7 @@ end;
 
 procedure TPowerbankMainForm.SetGridSNKPDO(PDONumber:integer);
 var
-  aPDO:USBC_SINK_PD_POWER_DATA_OBJECT;
+  aPDO:TSINKPDO;
   aPDOType:TSUPPLY_TYPES;
   aPDOGrid:TStringGrid;
   aPDOGridColumn:integer;
@@ -2130,63 +2086,11 @@ end;
 
 procedure TPowerbankMainForm.SetBatteryData;
 var
-  aBattCaps:USBC_BATTERY_CAPABILITIES_DATA_OBJECT;
-  aBattStatus:USBC_BATTERY_STATUS_DATA_OBJECT;
+  aBattCaps:TBATTCAPS;
+  aBattStatus:TBATTSTATS;
 begin
   aBattCaps:=DUT.BatteryCaps;
   aBattStatus:=DUT.BatteryStatus;
-end;
-
-procedure TPowerbankMainForm.SetSourceExtended;
-var
-  aSRCExtended:USBC_SOURCE_CAPABILITIES_EXTENDED_DATA_OBJECT;
-  i:integer;
-begin
-  aSRCExtended:=DUT.SRCExtended;
-  i:=aSRCExtended.Data.VID;
-  vleSourceExtended.Values['VID']:=InttoStr(i)+' ('+DUT.GetVID(i)+')';
-  vleSourceExtended.Values['PID']:=InttoStr(aSRCExtended.Data.PID);
-  vleSourceExtended.Values['XID']:=InttoStr(aSRCExtended.Data.XID);
-  vleSourceExtended.Values['FW_Version']:=InttoStr(aSRCExtended.Data.FW_Version);
-  vleSourceExtended.Values['HW_Version']:=InttoStr(aSRCExtended.Data.HW_Version);
-  vleSourceExtended.Values['Voltage_Regulation']:=InttoStr(aSRCExtended.Data.Voltage_Regulation);
-  vleSourceExtended.Values['Holdup_Time']:=InttoStr(aSRCExtended.Data.Holdup_Time);
-  vleSourceExtended.Values['Compliance']:=InttoStr(aSRCExtended.Data.Compliance);
-  vleSourceExtended.Values['Touch_Current']:=InttoStr(aSRCExtended.Data.Touch_Current);
-  vleSourceExtended.Values['Peak_Current1']:=InttoStr(aSRCExtended.Data.Peak_Current1);
-  vleSourceExtended.Values['Peak_Current2']:=InttoStr(aSRCExtended.Data.Peak_Current2);
-  vleSourceExtended.Values['Peak_Current3']:=InttoStr(aSRCExtended.Data.Peak_Current3);
-  vleSourceExtended.Values['Touch_Temp']:=InttoStr(aSRCExtended.Data.Touch_Temp);
-  vleSourceExtended.Values['Source_Inputs']:=InttoStr(aSRCExtended.Data.Source_Inputs);
-  vleSourceExtended.Values['Batteries']:=InttoStr(aSRCExtended.Data.Batteries);
-  vleSourceExtended.Values['Source_PDP']:=InttoStr(aSRCExtended.Data.Source_PDP);
-end;
-
-procedure TPowerbankMainForm.SetSinkExtended;
-var
-  aSNKExtended:USBC_SINK_CAPABILITIES_EXTENDED_DATA_OBJECT;
-  i:integer;
-begin
-  aSNKExtended:=DUT.SNKExtended;
-  i:=aSNKExtended.Data.VID;
-  vleSinkExtended.Values['VID']:=InttoStr(i)+' ('+DUT.GetVID(i)+')';
-  vleSinkExtended.Values['PID']:=InttoStr(aSNKExtended.Data.PID);
-  vleSinkExtended.Values['XID']:=InttoStr(aSNKExtended.Data.XID);
-  vleSinkExtended.Values['FW_Version']:=InttoStr(aSNKExtended.Data.FW_Version);
-  vleSinkExtended.Values['HW_Version']:=InttoStr(aSNKExtended.Data.HW_Version);
-  vleSinkExtended.Values['SKEDB_Version']:=InttoStr(aSNKExtended.Data.SKEDB_Version);
-  vleSinkExtended.Values['Load_Step']:=InttoStr(aSNKExtended.Data.Load_Step);
-  vleSinkExtended.Values['Sink_Load_Characteristics']:=InttoStr(aSNKExtended.Data.Sink_Load_Characteristics);
-  vleSinkExtended.Values['Compliance']:=InttoStr(aSNKExtended.Data.Compliance);
-  vleSinkExtended.Values['Touch_Temp']:=InttoStr(aSNKExtended.Data.Touch_Temp);
-  vleSinkExtended.Values['Battery_Info']:=InttoStr(aSNKExtended.Data.Battery_Info);
-  vleSinkExtended.Values['Sink_Modes']:=InttoStr(aSNKExtended.Data.Sink_Modes);
-  vleSinkExtended.Values['Sink_Minimum_PDP']:=InttoStr(aSNKExtended.Data.Sink_Minimum_PDP);
-  vleSinkExtended.Values['Sink_Operational_PDP']:=InttoStr(aSNKExtended.Data.Sink_Operational_PDP);
-  vleSinkExtended.Values['Sink_Maximum_PDP']:=InttoStr(aSNKExtended.Data.Sink_Maximum_PDP);
-  vleSinkExtended.Values['EPR_Sink_Minimum_PDP']:=InttoStr(aSNKExtended.Data.EPR_Sink_Minimum_PDP);
-  vleSinkExtended.Values['EPR_Sink_Operational_PDP']:=InttoStr(aSNKExtended.Data.EPR_Sink_Operational_PDP);
-  vleSinkExtended.Values['EPR_Sink_Maximum_PDP']:=InttoStr(aSNKExtended.Data.EPR_Sink_Maximum_PDP);
 end;
 
 procedure TPowerbankMainForm.DataTimerTimer(Sender: TObject);
@@ -2198,6 +2102,7 @@ var
   avalue                : double;
   signed                : pinteger;
   normal                : integer;
+  DWordData:TDWordData;
 begin
   // Send command to get ADC data
   header.Raw:=0;
@@ -2215,40 +2120,49 @@ begin
   // Did we receive a packet from our command ?
   if ((sensordata.header.Data.typ=TKM003C_CMD_PUT_DATA) AND (sensordata.header_ext.Header.att=TKM003C_ATT_ADC)) then
   begin
-    avalue:=swap(sensordata.V_bus_ori_avg)/1000000;
+    {$push}
+    {$R-}
+    normal:=(sensordata.V_bus);
+    {$pop}
+    signed:=@normal;
+    avalue:=signed^/1000000;
     PDOVoltageDisplay.Value:=avalue;
 
     {$push}
     {$R-}
-    normal:=swap(sensordata.I_bus_ori_avg);
+    normal:=(sensordata.I_bus);
     {$pop}
     signed:=@normal;
     avalue:=signed^/1000000;
     PDOCurrentDisplay.Value:=avalue;
 
-    avalue:=swap(sensordata.V_bus_avg)/1000000;
+    {$push}
+    {$R-}
+    normal:=(sensordata.V_bus_avg);
+    {$pop}
+    signed:=@normal;
+    avalue:=signed^/1000000;
     RealVoltageDisplay.Value:=avalue;
 
     {$push}
     {$R-}
-    normal:=swap(sensordata.I_bus_avg);
+    normal:=(sensordata.I_bus_avg);
     {$pop}
     signed:=@normal;
     avalue:=signed^/1000000;
     RealCurrentDisplay.Value:=avalue;
 
-    avalue:=swap(sensordata.V_dp)/10000;
-    VdpVoltageDisplay.Value:=(avalue);
-    avalue:=swap(sensordata.V_cc1)/10000;
-    Vcc1VoltageDisplay.Value:=(avalue);
-    avalue:=swap(sensordata.V_dm)/10000;
-    VdmVoltageDisplay.Value:=(avalue);
-    avalue:=swap(sensordata.V_cc2)/10000;
-    Vcc2VoltageDisplay.Value:=(avalue);
+    // INA228/9 datasheet LSB = 7.8125 m°C = 1000/128
+    //Edit1.Text:=FloattoStr((sensordata.temp[1]*2000 + sensordata.temp[0]*1000/128)/1000);
 
-    //normal:={swap}(sensordata.unknown_1);
-    //avalue:=((normal) - 32) * 5 / 9;
-    //Edit3.Text:=FloattoStr(avalue);
+    avalue:=(sensordata.V_dp)/10000;
+    VdpVoltageDisplay.Value:=(avalue);
+    avalue:=(sensordata.V_cc1)/10000;
+    Vcc1VoltageDisplay.Value:=(avalue);
+    avalue:=(sensordata.V_dm)/10000;
+    VdmVoltageDisplay.Value:=(avalue);
+    avalue:=(sensordata.V_cc2)/10000;
+    Vcc2VoltageDisplay.Value:=(avalue);
   end;
 end;
 
@@ -2320,7 +2234,56 @@ begin
   case aMSG of
     USBPD_EXTMSG_SOURCE_CAPABILITIES_EXTENDED:
     begin
-      SetSourceExtended;
+      with DUT.SRCExtended.Data do
+      begin
+        j:=VID;
+        vleSourceExtended.Values['VID']:=InttoStr(j)+' ('+DUT.GetVID(j)+')';
+        vleSourceExtended.Values['PID']:=InttoStr(PID);
+        vleSourceExtended.Values['XID']:=InttoStr(XID);
+        vleSourceExtended.Values['FW_Version']:=InttoStr(FW_Version);
+        vleSourceExtended.Values['HW_Version']:=InttoStr(HW_Version);
+        vleSourceExtended.Values['Voltage_Regulation']:=InttoStr(Voltage_Regulation);
+        vleSourceExtended.Values['Holdup_Time']:=InttoStr(Holdup_Time);
+        vleSourceExtended.Values['Compliance']:=InttoStr(Compliance);
+        vleSourceExtended.Values['Touch_Current']:=InttoStr(Touch_Current);
+        vleSourceExtended.Values['Peak_Current1']:=InttoStr(Peak_Current1);
+        vleSourceExtended.Values['Peak_Current2']:=InttoStr(Peak_Current2);
+        vleSourceExtended.Values['Peak_Current3']:=InttoStr(Peak_Current3);
+        vleSourceExtended.Values['Touch_Temp']:=InttoStr(Touch_Temp);
+        vleSourceExtended.Values['Source_Inputs']:=InttoStr(Source_Inputs);
+        vleSourceExtended.Values['Batteries']:=InttoStr(Batteries);
+        vleSourceExtended.Values['Source_PDP']:=InttoStr(Source_PDP)+'W';
+      end;
+    end;
+    USBPD_EXTMSG_SINK_CAPABILITIES_EXTENDED:
+    begin
+      with DUT.SNKExtended.Data do
+      begin
+        j:=VID;
+        vleSinkExtended.Values['VID']:=InttoStr(j)+' ('+DUT.GetVID(j)+')';
+        vleSinkExtended.Values['PID']:=InttoStr(PID);
+        vleSinkExtended.Values['XID']:=InttoStr(XID);
+        vleSinkExtended.Values['FW_Version']:=InttoStr(FW_Version);
+        vleSinkExtended.Values['HW_Version']:=InttoStr(HW_Version);
+        vleSinkExtended.Values['SKEDB_Version']:=InttoStr(SKEDB_Version);
+        vleSinkExtended.Values['Load_Step']:=InttoStr(Load_Step);
+        vleSinkExtended.Values['Sink_Load_Characteristics']:=InttoStr(Sink_Load_Characteristics);
+        vleSinkExtended.Values['Compliance']:=InttoStr(Compliance);
+        vleSinkExtended.Values['Touch_Temp']:=InttoStr(Touch_Temp);
+        vleSinkExtended.Values['Battery_Info']:=InttoStr(Battery_Info);
+        vleSinkExtended.Values['Sink_Modes']:=InttoStr(Sink_Modes);
+        vleSinkExtended.Values['Sink_Minimum_PDP']:=InttoStr(Sink_Minimum_PDP);
+        vleSinkExtended.Values['Sink_Operational_PDP']:=InttoStr(Sink_Operational_PDP);
+        vleSinkExtended.Values['Sink_Maximum_PDP']:=InttoStr(Sink_Maximum_PDP);
+        vleSinkExtended.Values['EPR_Sink_Minimum_PDP']:=InttoStr(EPR_Sink_Minimum_PDP);
+        vleSinkExtended.Values['EPR_Sink_Operational_PDP']:=InttoStr(EPR_Sink_Operational_PDP);
+        vleSinkExtended.Values['EPR_Sink_Maximum_PDP']:=InttoStr(EPR_Sink_Maximum_PDP);
+      end;
+    end;
+    USBPD_EXTMSG_PPS_STATUS:
+    begin
+      vlePPS.Values['Output Voltage']:=InttoStr(DUT.PPSSDB.Data.OutputVoltage20mV*20)+'mV';
+      vlePPS.Values['Output Current']:=InttoStr(DUT.PPSSDB.Data.OutputCurrent50mA*50)+'mA';
     end;
     USBPD_EXTMSG_BATTERY_CAPABILITIES:
     begin
@@ -2328,6 +2291,16 @@ begin
       vleBatteryData.Values['VID']:=InttoStr(j)+' ('+DUT.GetVID(j)+')';
       vleBatteryData.Values['Type']:=InttoStr(DUT.BatteryCaps.Data.BatteryType);
       vleBatteryData.Values['Capacity']:=FloattoStrF((DUT.BatteryCaps.Data.BatteryDesignCapacity/10),ffFixed, 5, 1)+'Wh';
+    end;
+    USBPD_EXTMSG_STATUS:
+    begin
+      if DUT.SDB.Data.InternalTemp>1 then vleStatus.Values['InternalTemp']:=InttoStr(DUT.SDB.Data.InternalTemp)+'°C';
+      vleStatus.Values['PresentInput']:=DUT.GetStatusPresentInputInfo;
+      vleStatus.Values['PresentBatteryInput']:=InttoStr(DUT.SDB.Data.PresentBatteryInput);
+      vleStatus.Values['EventFlags']:=InttoStr(DUT.SDB.Data.EventFlags);
+      vleStatus.Values['TemperatureStatus']:=DUT.GetStatusTemperatureStatusInfo;
+      vleStatus.Values['PowerStatus']:=InttoStr(DUT.SDB.Data.PowerStatus);
+      vleStatus.Values['PowerStateChange']:=DUT.GetStatusPowerStateChangeInfo;
     end;
     else
     begin
@@ -2350,8 +2323,8 @@ var
   SOPPacket             : boolean;
   s                     : string;
 
-  aSOPDHEADER           : PDHEADER;
-  aSOPExtendedHeader    : PDHEADEREXTENDED;
+  aSOPDHEADER           : TPDHEADER;
+  aSOPExtendedHeader    : TPDHEADEREXTENDED;
   PDControlMessage      : TUSBPD_CONTROLMSG;
   PDDataMessage         : TUSBPD_DATAMSG;
   PDExtendedMessage     : TUSBPD_EXTENDEDMSG;
@@ -2410,7 +2383,7 @@ begin
 
         if (datasize=0) then
         begin
-          USBDebugLog.Lines.Append('Empty data. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(PacketHeader.Data.Time.Raw))));
+           USBDebugLog.Lines.Append('Empty data. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(PacketHeader.Data.Time.Raw))));
           break;
         end;
 

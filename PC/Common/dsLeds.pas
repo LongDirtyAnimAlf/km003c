@@ -1111,7 +1111,7 @@ var
   numberchar:char;
 begin
   FValue:=value;
-  temp2:=FloattoStrF(value,fffixed,12,5);
+  temp2:=FloattoStrF(value,fffixed,12,7);
   temp1:=1;
   x:=0;
   repeat

@@ -11,8 +11,8 @@ uses
   {$endif}
   ;
 
+{$ifdef MSWindows}
 type
-  {$ifdef MSWindows}
   PDEVPROPKEY = ^TDEVPROPKEY;
   DEVPROPKEY = record
     fmtid : TGUID ;
@@ -20,7 +20,7 @@ type
   end;
   TDEVPROPKEY = DEVPROPKEY;
   DEVPROPTYPE = Pointer;
-  {$endif}
+{$endif}
 
 function  GetEnumNameSimple(aTypeInfo:PTypeInfo;const aEnum:integer):string;
 function  GetEnumNameUnCamel(aTypeInfo:PTypeInfo;const aEnum:integer):string;

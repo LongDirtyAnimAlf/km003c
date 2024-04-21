@@ -142,24 +142,23 @@ type
   TKM003CSensorData = packed record
     header:TKM003CMsgHeader;
     header_ext:TKM003CMsgHeader;
-    //unknown_1: packed array [0..1] of byte;
-    unknown_1: word;
     V_bus:dword;
     I_bus:dword;
     V_bus_avg:dword;
     I_bus_avg:dword;
     V_bus_ori_avg:dword;
     I_bus_ori_avg:dword;
-    temp: packed array [0..0] of byte;
+    temp: packed array [0..1] of byte;
     V_cc1:word;
     V_cc2:word;
     V_dp:word;
     V_dm:word;
     V_dd:word;
-    Rate:byte;
-    P0_extra:word;
-    V_dp_extra:word;
-    V_dm_extra:word;
+    Rate:byte; // 0 = 2/s; 1 = 10/s 2 = 50/s; 3 = 1000/s
+    Unknown1:byte;
+    V_cc2_avg:word;
+    V_dp_avg:word;
+    V_dm_avg:word;
   end;
 
   TKM003CHeaderCommand =

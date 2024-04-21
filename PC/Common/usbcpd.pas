@@ -17,7 +17,7 @@ const
   MAXPDO = 7;
 
 type
-  USBC_SOURCE_PD_POWER_DATA_OBJECT = bitpacked record
+  TSOURCEPDO = bitpacked record
       case integer of
           1 : (  FixedSupplyPdo : record
                    MaximumCurrentIn10mA     : T10BITS;
@@ -91,7 +91,7 @@ type
 
   end;
 
-  USBC_SINK_PD_POWER_DATA_OBJECT = bitpacked record
+  TSINKPDO = bitpacked record
       case integer of
           1 : (  FixedSupplyPdo : record
                    OperationalCurrentIn10mA : T10BITS;
@@ -160,7 +160,7 @@ type
               );
   end;
 
-  USBC_PD_REQUEST_DATA_OBJECT = bitpacked record
+  TPDREQUEST = bitpacked record
       case integer of
           1 : (  STANDARD : record
                    MaximumOperatingCurrentIn10mA : T10BITS;
@@ -235,7 +235,7 @@ type
               );
   end;
 
-  USBC_VDM_HEADER = bitpacked record
+  TVDMHEADER = bitpacked record
       case integer of
           1 : (  StructuredVDM : record
                    Command                     : T5BITS;
@@ -271,7 +271,7 @@ type
               );
   end;
 
-  IDHeaderVDO = bitpacked record
+  TVDOIDHEADER = bitpacked record
       case integer of
           1 : (
                    VID                            : T16BITS;
@@ -294,7 +294,7 @@ type
               );
   end;
 
-  CertStatVDO = bitpacked record
+  TVDOCERTSTATHEADER = bitpacked record
       case integer of
           1 : (
                XID             : T32BITS;
@@ -310,7 +310,7 @@ type
               );
   end;
 
-  ProductVDO = bitpacked record
+  TVDOPRODUCTHEADER = bitpacked record
       case integer of
           1 : (
                    bcdDevice   : T16BITS;
@@ -327,7 +327,7 @@ type
               );
   end;
 
-  ProductTypeVDO = bitpacked record
+  TVDOPRODUCTTYPEHEADER = bitpacked record
       case integer of
           1 : (
                  UFPVDO : record
@@ -400,7 +400,7 @@ type
               );
   end;
 
-  TCableVDO = bitpacked record
+  TVDOCABLEHEADER = bitpacked record
       case integer of
           1 : (
              PassiveCableVDO : record
@@ -449,7 +449,7 @@ type
               );
   end;
 
-  USBC_SOURCE_CAPABILITIES_EXTENDED_DATA_OBJECT = packed record
+  TSOURCECAPSEXTENDED = packed record
       case byte of
           1 : (
                Data : packed record
@@ -479,7 +479,7 @@ type
                );
   end;
 
-  USBC_SINK_CAPABILITIES_EXTENDED_DATA_OBJECT = packed record
+  TSINKCAPSEXTENDED = packed record
       case byte of
           1 : (
                Data : packed record
@@ -511,7 +511,7 @@ type
                );
   end;
 
-  PDHEADER = bitpacked record
+  TPDHEADER = bitpacked record
       case integer of
           1 : (
                Data : record
@@ -535,7 +535,7 @@ type
               );
   end;
 
-  PDHEADEREXTENDED = bitpacked record
+  TPDHEADEREXTENDED = bitpacked record
       case integer of
           1 : (
                Data : record
@@ -557,7 +557,7 @@ type
               );
   end;
 
-  USBC_BATTERY_STATUS_DATA_OBJECT = packed record
+  TBATTSTATS = packed record
       case integer of
           1 : (
                Data : record
@@ -574,7 +574,7 @@ type
                );
   end;
 
-  USBC_BATTERY_CAPABILITIES_DATA_OBJECT = packed record
+  TBATTCAPS = packed record
       case byte of
           1 : (
                Data : packed record
@@ -642,6 +642,20 @@ type
           4 : (
                Raw             : DWord;
               );
+  end;
+
+  TPPSSDB = packed record
+      case integer of
+          1 : (
+               Data : record
+                     OutputVoltage20mV  : word;
+                     OutputCurrent50mA  : byte;
+                     RealTimeFlags      : byte;
+                 end;
+              );
+          2 : (
+               Bytes           : bitpacked array[0..3] of byte;
+               );
   end;
 
   TUSBPD_CONTROLMSG =
@@ -770,16 +784,16 @@ type
     ActiveSRCPDO: dword;
     ActiveSNKPDO: dword;
 
-    SourcePDOs: array[1..MAXPDO] of USBC_SOURCE_PD_POWER_DATA_OBJECT;
-    SinkPDOs: array[1..MAXPDO] of USBC_SINK_PD_POWER_DATA_OBJECT;
+    SourcePDOs: array[1..MAXPDO] of TSOURCEPDO;
+    SinkPDOs: array[1..MAXPDO] of TSINKPDO;
 
-    RDO:USBC_PD_REQUEST_DATA_OBJECT;
+    RDO:TPDREQUEST;
 
-    SRCExtended:USBC_SOURCE_CAPABILITIES_EXTENDED_DATA_OBJECT;
-    SNKExtended:USBC_SINK_CAPABILITIES_EXTENDED_DATA_OBJECT;
+    SRCExtended:TSOURCECAPSEXTENDED;
+    SNKExtended:TSINKCAPSEXTENDED;
 
-    BatteryCaps:USBC_BATTERY_CAPABILITIES_DATA_OBJECT;
-    BatteryStatus:USBC_BATTERY_STATUS_DATA_OBJECT;
+    BatteryCaps:TBATTCAPS;
+    BatteryStatus:TBATTSTATS;
     NBBatteries:dword;
 
     GBCDB  : TGBDB;
@@ -787,8 +801,9 @@ type
     SDB    : TSDB;
 
     SIDO   : TSIDO;
+    PPSSDB : TPPSSDB;
 
-    Cable:TCableVDO;
+    Cable:TVDOCABLEHEADER;
 
     ActiveCCIs:dword;
     PowerRole:dword;
@@ -804,20 +819,25 @@ type
     RequestedCurrent:dword;
     RequestedPower:dword;
 
-    VDM_Header:USBC_VDM_HEADER;
-    VDO_ID:IDHeaderVDO;
-    VDO_Cert:CertStatVDO;
-    VDO_Product:ProductVDO;
-    VDO_ProductType:ProductTypeVDO;
+    VDM_Header:TVDMHEADER;
+    VDO_ID:TVDOIDHEADER;
+    VDO_Cert:TVDOCERTSTATHEADER;
+    VDO_Product:TVDOPRODUCTHEADER;
+    VDO_ProductType:TVDOPRODUCTTYPEHEADER;
 
     function GetSRCPDOInfo(aSRCPDO:byte):string;
     function GetSNKPDOInfo(aSNKPDO:byte):string;
 
-    function GetFixed5VSRCPDO:USBC_SOURCE_PD_POWER_DATA_OBJECT;
+    function GetFixed5VSRCPDO:TSOURCEPDO;
 
     function GetRDOInfo:string;
+
     function GetSRCExtendedInfo:string;
     function GetSNKExtendedInfo:string;
+
+    function GetStatusPresentInputInfo:string;
+    function GetStatusTemperatureStatusInfo:string;
+    function GetStatusPowerStateChangeInfo:string;
 
     function GetCableInfo:string;
 
@@ -829,9 +849,9 @@ type
     procedure Cleanup;
   end;
 
-  function GetSOPInfo(aSOPHeader:PDHEADER):string;
-  function SRCPDOInfo(aPDO:USBC_SOURCE_PD_POWER_DATA_OBJECT):string;
-  function SNKPDOInfo(aPDO:USBC_SINK_PD_POWER_DATA_OBJECT):string;
+  function GetSOPInfo(aSOPHeader:TPDHEADER):string;
+  function SRCPDOInfo(aPDO:TSOURCEPDO):string;
+  function SNKPDOInfo(aPDO:TSINKPDO):string;
 
 implementation
 
@@ -839,7 +859,7 @@ implementation
 uses
   vids;
 
-function GetSOPInfo(aSOPHeader:PDHEADER):string;
+function GetSOPInfo(aSOPHeader:TPDHEADER):string;
 var
   s:string;
   enumname:string;
@@ -899,7 +919,7 @@ begin
   result:=s;
 end;
 
-function SRCPDOInfo(aPDO:USBC_SOURCE_PD_POWER_DATA_OBJECT):string;
+function SRCPDOInfo(aPDO:TSOURCEPDO):string;
 var
   aPDOType:TSUPPLY_TYPES;
   s:string;
@@ -940,7 +960,7 @@ begin
   result:=s;
 end;
 
-function SNKPDOInfo(aPDO:USBC_SINK_PD_POWER_DATA_OBJECT):string;
+function SNKPDOInfo(aPDO:TSINKPDO):string;
 var
   aPDOType:TSUPPLY_TYPES;
   s:string;
@@ -1094,7 +1114,7 @@ begin
   result:=s;
 end;
 
-function TUSBPD.GetFixed5VSRCPDO:USBC_SOURCE_PD_POWER_DATA_OBJECT;
+function TUSBPD.GetFixed5VSRCPDO:TSOURCEPDO;
 begin
   result:=SourcePDOs[1];
 end;
@@ -1126,6 +1146,8 @@ begin
   GBSDB.Raw:=0;
   for i:=0 to Pred(Length(SDB.Bytes)) do SDB.Bytes[i]:=0;
   SIDO.Raw:=0;
+
+  for i:=0 to Pred(Length(PPSSDB.Bytes)) do PPSSDB.Bytes[i]:=0;
 
   Cable.Raw:=0;
 
@@ -1194,6 +1216,10 @@ begin
     USBPD_EXTMSG_GET_BATTERY_STATUS:
     begin
       GBSDB.Raw:=data^[0];
+    end;
+    USBPD_EXTMSG_PPS_STATUS:
+    begin
+      for j:=0 to Pred(Length(PPSSDB.Bytes)) do PPSSDB.Bytes[j]:=data^[j];
     end;
     else
     begin
@@ -1275,5 +1301,65 @@ begin
     end;
   end;
 end;
+
+function TUSBPD.GetStatusPresentInputInfo:string;
+var
+  ByteData:TByteData;
+begin
+  result:='';
+  ByteData.Raw:=SDB.Data.PresentInput;
+  if ByteData.Bits[1]=1 then
+  begin
+    result:=result+'ExtPower';
+    if ByteData.Bits[2]=0 then
+      result:=result+'DC'
+    else
+      result:=result+'AC';
+  end;
+  if ByteData.Bits[3]=1 then result:=result+'IntPowerBatt';
+  if ByteData.Bits[4]=1 then result:=result+'IntPowerOther';
+end;
+
+function TUSBPD.GetStatusTemperatureStatusInfo:string;
+var
+  TempData:byte;
+begin
+  result:='';
+  TempData:=((SDB.Data.TemperatureStatus SHR 1) AND $03);
+  case TempData of
+    1:result:='Normal';
+    2:result:='Warning';
+    3:result:='Over';
+  end;
+end;
+
+function TUSBPD.GetStatusPowerStateChangeInfo:string;
+var
+  TempData:byte;
+  s:string;
+begin
+  s:='';
+  TempData:=((SDB.Data.PowerStateChange) AND $07);
+  case TempData of
+    0:s:='Status not supported';
+    1:s:='S0';
+    2:s:='Modern Standby';
+    3:s:='S3';
+    4:s:='S4';
+    5:s:='S5 (Off with battery, wake events supported)';
+    6:s:='G3 (Off with no battery, wake events not supported)';
+  end;
+  result:=s;
+  TempData:=((SDB.Data.PowerStateChange SHL 3) AND $07);
+  case TempData of
+    0:s:='Off LED';
+    1:s:='On LED';
+    2:s:='Blinking LED';
+    3:s:='Breathing LED';
+  end;
+  result:=result+' '+s;
+  result:=Trim(result);
+end;
+
 
 end.
