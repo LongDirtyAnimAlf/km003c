@@ -127,8 +127,8 @@
       <Filename Value="bin\$NameOnly($(ProjFile))-$(TargetCPU)-$(TargetOS)"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir);..\Common\jedi\jvcl\jvcl\common"/>
-      <OtherUnitFiles Value="..\Common;..\Common\jedi\jvcl\jvcl\run;..\Common\serial;..\Common\libusb\src"/>
+      <IncludeFiles Value="$(ProjOutDir);..\Common\jedi\jvcl\jvcl\common;..\Common\synaser"/>
+      <OtherUnitFiles Value="..\Common;..\Common\jedi\jvcl\jvcl\run;..\Common\serial;..\Common\libusb\src;..\Common\synaser"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

@@ -1,10 +1,10 @@
 object PowerbankMainForm: TPowerbankMainForm
-  Left = 47
-  Height = 823
-  Top = 180
+  Left = 256
+  Height = 884
+  Top = 102
   Width = 1692
   Caption = 'CONSULAB Powerbank Tester V1.2'
-  ClientHeight = 823
+  ClientHeight = 884
   ClientWidth = 1692
   OnClose = FormClose
   OnCreate = FormCreate
@@ -33,7 +33,7 @@ object PowerbankMainForm: TPowerbankMainForm
       AnchorSideRight.Control = grpPDOs
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 116
+      Height = 138
       Top = 0
       Width = 494
       Anchors = [akTop, akLeft, akRight]
@@ -42,6 +42,7 @@ object PowerbankMainForm: TPowerbankMainForm
       BorderSpacing.Right = 4
       ColCount = 8
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected]
+      RowCount = 6
       ScrollBars = ssNone
       TabOrder = 0
       OnResize = gridPDOResize
@@ -62,17 +63,20 @@ object PowerbankMainForm: TPowerbankMainForm
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = grpPDOs
       AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = grpPDOs
+      AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 116
-      Top = 124
+      Height = 96
+      Top = 148
       Width = 494
-      Anchors = [akTop, akLeft, akRight]
+      Anchors = [akLeft, akRight, akBottom]
       AutoEdit = False
       AutoFillColumns = True
       BorderSpacing.Top = 8
       BorderSpacing.Right = 4
       ColCount = 8
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected]
+      RowCount = 4
       ScrollBars = ssNone
       TabOrder = 1
       OnResize = gridPDOResize
@@ -368,33 +372,398 @@ object PowerbankMainForm: TPowerbankMainForm
   end
   object PageControl1: TPageControl
     AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = grpPDOs
+    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 4
-    Height = 239
-    Top = 580
-    Width = 1684
-    ActivePage = TabSheet2
-    Anchors = [akLeft, akRight, akBottom]
-    BorderSpacing.Left = 4
-    BorderSpacing.Right = 4
-    BorderSpacing.Bottom = 4
-    TabIndex = 1
+    Left = 8
+    Height = 288
+    Top = 280
+    Width = 1152
+    ActivePage = TabSheet1
+    BorderSpacing.Around = 8
+    TabIndex = 0
     TabOrder = 7
     object TabSheet1: TTabSheet
       Caption = 'TabSheet1'
+      ClientHeight = 260
+      ClientWidth = 1144
+      object GroupBattery: TGroupBox
+        AnchorSideLeft.Control = TabSheet1
+        AnchorSideTop.Control = TabSheet1
+        Left = 8
+        Height = 181
+        Top = 4
+        Width = 196
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 4
+        BorderSpacing.InnerBorder = 4
+        Caption = 'GroupBattery'
+        ClientHeight = 161
+        ClientWidth = 192
+        TabOrder = 0
+        object btnBatteryCapabilities: TButton
+          AnchorSideLeft.Control = btnBatteryStatus
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = vleBatteryData
+          AnchorSideTop.Side = asrBottom
+          AnchorSideBottom.Control = GroupBattery
+          AnchorSideBottom.Side = asrBottom
+          Left = 74
+          Height = 25
+          Top = 132
+          Width = 87
+          Anchors = [akLeft, akBottom]
+          AutoSize = True
+          BorderSpacing.Left = 8
+          BorderSpacing.Top = 8
+          BorderSpacing.Around = 4
+          Caption = 'Capabilities'
+          TabOrder = 0
+          OnClick = btnBatteryCapabilitiesClick
+        end
+        object btnBatteryStatus: TButton
+          AnchorSideLeft.Control = GroupBattery
+          AnchorSideTop.Control = vleBatteryData
+          AnchorSideTop.Side = asrBottom
+          AnchorSideBottom.Control = GroupBattery
+          AnchorSideBottom.Side = asrBottom
+          Left = 4
+          Height = 25
+          Top = 132
+          Width = 58
+          Anchors = [akLeft, akBottom]
+          AutoSize = True
+          BorderSpacing.Top = 8
+          BorderSpacing.Around = 4
+          Caption = 'Status'
+          TabOrder = 1
+          OnClick = btnBatteryStatusClick
+        end
+        object vleBatteryData: TValueListEditor
+          AnchorSideLeft.Control = GroupBattery
+          AnchorSideTop.Control = GroupBattery
+          AnchorSideBottom.Control = GroupBattery
+          Left = 4
+          Height = 120
+          Top = 0
+          Width = 184
+          AlternateColor = clBtnFace
+          AutoEdit = False
+          BorderSpacing.Left = 4
+          ExtendedSelect = False
+          FixedCols = 0
+          RowCount = 5
+          ScrollBars = ssAutoVertical
+          TabOrder = 2
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking]
+          Strings.Strings = (
+            'VID='
+            'Type='
+            'Capacity='
+            'SOC='
+          )
+          ColWidths = (
+            64
+            116
+          )
+        end
+      end
+      object GroupExtendedSource: TGroupBox
+        AnchorSideLeft.Control = GroupBattery
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = TabSheet1
+        AnchorSideBottom.Side = asrBottom
+        Left = 208
+        Height = 244
+        Top = 4
+        Width = 232
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 4
+        Caption = 'Extended source info'
+        ClientHeight = 224
+        ClientWidth = 228
+        TabOrder = 1
+        object vleSourceExtended: TValueListEditor
+          AnchorSideLeft.Control = GroupExtendedSource
+          AnchorSideTop.Control = GroupExtendedSource
+          AnchorSideRight.Control = GroupExtendedSource
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = btnRcvRemoteSourceExt
+          Left = 4
+          Height = 187
+          Top = 4
+          Width = 212
+          AlternateColor = clBtnFace
+          Anchors = [akTop, akLeft, akBottom]
+          AutoEdit = False
+          BorderSpacing.Left = 4
+          BorderSpacing.Top = 4
+          BorderSpacing.Right = 4
+          BorderSpacing.Bottom = 4
+          DefaultColWidth = 100
+          FixedCols = 0
+          RowCount = 17
+          ScrollBars = ssAutoVertical
+          TabOrder = 0
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking]
+          Strings.Strings = (
+            'VID='
+            'PID='
+            'XID='
+            'FW_Version='
+            'HW_Version='
+            'Voltage_Regulation='
+            'Holdup_Time='
+            'Compliance='
+            'Touch_Current='
+            'Peak_Current1='
+            'Peak_Current2='
+            'Peak_Current3='
+            'Touch_Temp='
+            'Source_Inputs='
+            'Batteries='
+            'Source_PDP='
+          )
+          ColWidths = (
+            100
+            91
+          )
+        end
+        object btnRcvRemoteSourceExt: TButton
+          AnchorSideLeft.Control = GroupExtendedSource
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = GroupExtendedSource
+          AnchorSideBottom.Side = asrBottom
+          Left = 4
+          Height = 25
+          Top = 195
+          Width = 125
+          Anchors = [akLeft, akBottom]
+          AutoSize = True
+          BorderSpacing.Left = 4
+          BorderSpacing.Top = 4
+          BorderSpacing.Bottom = 4
+          Caption = 'Remote Source Ext'
+          TabOrder = 1
+          OnClick = btnRcvRemoteSourceExtClick
+        end
+      end
+      object GroupExtendedSink: TGroupBox
+        AnchorSideLeft.Control = GroupExtendedSource
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = TabSheet1
+        AnchorSideBottom.Side = asrBottom
+        Left = 444
+        Height = 244
+        Top = 4
+        Width = 232
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 4
+        Caption = 'Extended sink info'
+        ClientHeight = 224
+        ClientWidth = 228
+        TabOrder = 2
+        object vleSinkExtended: TValueListEditor
+          AnchorSideLeft.Control = GroupExtendedSink
+          AnchorSideTop.Control = GroupExtendedSink
+          AnchorSideRight.Control = GroupExtendedSink
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = btnRcvRemoteSinkExt
+          Left = 4
+          Height = 187
+          Top = 4
+          Width = 220
+          AlternateColor = clBtnFace
+          Anchors = [akTop, akLeft, akBottom]
+          AutoEdit = False
+          BorderSpacing.Left = 4
+          BorderSpacing.Top = 4
+          BorderSpacing.Right = 4
+          BorderSpacing.Bottom = 4
+          DefaultColWidth = 100
+          FixedCols = 0
+          RowCount = 19
+          ScrollBars = ssAutoVertical
+          TabOrder = 0
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking]
+          Strings.Strings = (
+            'VID='
+            'PID='
+            'XID='
+            'FW_Version='
+            'HW_Version='
+            'SKEDB_Version='
+            'Load_Step='
+            'Sink_Load_Characteristics='
+            'Compliance='
+            'Touch_Temp='
+            'Battery_Info='
+            'Sink_Modes='
+            'Sink_Minimum_PDP='
+            'Sink_Operational_PDP='
+            'Sink_Maximum_PDP='
+            'EPR_Sink_Minimum_PDP='
+            'EPR_Sink_Operational_PDP='
+            'EPR_Sink_Maximum_PDP='
+          )
+          ColWidths = (
+            100
+            99
+          )
+        end
+        object btnRcvRemoteSinkExt: TButton
+          AnchorSideLeft.Control = GroupExtendedSink
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = GroupExtendedSink
+          AnchorSideBottom.Side = asrBottom
+          Left = 4
+          Height = 25
+          Top = 195
+          Width = 111
+          Anchors = [akLeft, akBottom]
+          AutoSize = True
+          BorderSpacing.Left = 4
+          BorderSpacing.Top = 4
+          BorderSpacing.Bottom = 4
+          Caption = 'Remote Sink Ext'
+          TabOrder = 1
+          OnClick = btnRcvRemoteSinkExtClick
+        end
+      end
+      object GroupPPS: TGroupBox
+        AnchorSideLeft.Control = GroupExtendedSink
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = TabSheet1
+        Left = 680
+        Height = 132
+        Top = 4
+        Width = 228
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 4
+        BorderSpacing.InnerBorder = 4
+        Caption = 'PPS Info'
+        ClientHeight = 112
+        ClientWidth = 224
+        TabOrder = 3
+        object vlePPS: TValueListEditor
+          AnchorSideLeft.Control = GroupPPS
+          AnchorSideTop.Control = GroupPPS
+          AnchorSideBottom.Control = GroupPPS
+          Left = 4
+          Height = 74
+          Top = 0
+          Width = 216
+          AlternateColor = clBtnFace
+          AutoEdit = False
+          BorderSpacing.Left = 4
+          DefaultColWidth = 100
+          ExtendedSelect = False
+          FixedCols = 0
+          RowCount = 3
+          ScrollBars = ssNone
+          TabOrder = 0
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking]
+          Strings.Strings = (
+            'Output Voltage='
+            'Output Current='
+          )
+          ColWidths = (
+            100
+            112
+          )
+        end
+        object btnGetPPSStatus: TButton
+          AnchorSideLeft.Control = GroupPPS
+          AnchorSideBottom.Control = GroupPPS
+          AnchorSideBottom.Side = asrBottom
+          Left = 4
+          Height = 28
+          Top = 80
+          Width = 100
+          Anchors = [akLeft, akBottom]
+          BorderSpacing.Around = 4
+          Caption = 'Get PPS Status'
+          TabOrder = 1
+          OnClick = btnGetPPSStatusClick
+        end
+      end
+      object GroupStatus: TGroupBox
+        AnchorSideLeft.Control = GroupPPS
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = TabSheet1
+        Left = 912
+        Height = 252
+        Top = 4
+        Width = 228
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 4
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Status Info'
+        ClientHeight = 232
+        ClientWidth = 224
+        TabOrder = 4
+        object vleStatus: TValueListEditor
+          AnchorSideLeft.Control = GroupStatus
+          AnchorSideTop.Control = GroupStatus
+          AnchorSideBottom.Control = GroupStatus
+          Left = 4
+          Height = 186
+          Top = 0
+          Width = 216
+          AlternateColor = clBtnFace
+          AutoEdit = False
+          BorderSpacing.Left = 4
+          DefaultColWidth = 120
+          ExtendedSelect = False
+          FixedCols = 0
+          RowCount = 8
+          ScrollBars = ssAutoVertical
+          TabOrder = 0
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking]
+          Strings.Strings = (
+            'InternalTemp='
+            'PresentInput='
+            'PresentBatteryInput='
+            'EventFlags='
+            'TemperatureStatus='
+            'PowerStatus='
+            'PowerStateChange='
+          )
+          ColWidths = (
+            120
+            92
+          )
+        end
+        object btnGetStatus: TButton
+          AnchorSideLeft.Control = GroupStatus
+          AnchorSideBottom.Control = GroupStatus
+          AnchorSideBottom.Side = asrBottom
+          Left = 4
+          Height = 28
+          Top = 200
+          Width = 100
+          Anchors = [akLeft, akBottom]
+          BorderSpacing.Around = 4
+          Caption = 'Get Status'
+          TabOrder = 1
+          OnClick = btnGetStatusClick
+        end
+      end
     end
     object TabSheet2: TTabSheet
       Caption = 'TabSheet2'
-      ClientHeight = 211
-      ClientWidth = 1676
+      ClientHeight = 260
+      ClientWidth = 1144
       object GroupLogs: TGroupBox
         Left = 8
-        Height = 203
+        Height = 252
         Top = 0
-        Width = 1660
+        Width = 1128
         Align = alClient
         Anchors = []
         BorderSpacing.Left = 8
@@ -407,34 +776,34 @@ object PowerbankMainForm: TPowerbankMainForm
         ChildSizing.ShrinkVertical = crsHomogenousChildResize
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 3
-        ClientHeight = 183
-        ClientWidth = 1656
+        ClientHeight = 232
+        ClientWidth = 1124
         TabOrder = 0
         object USBComLog: TMemo
           AnchorSideBottom.Side = asrBottom
           Left = 0
-          Height = 183
+          Height = 232
           Top = 0
-          Width = 552
+          Width = 375
           ScrollBars = ssAutoVertical
           TabOrder = 0
         end
         object USBDetailsLog: TMemo
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Side = asrBottom
-          Left = 552
-          Height = 183
+          Left = 375
+          Height = 232
           Top = 0
-          Width = 552
+          Width = 375
           ScrollBars = ssAutoVertical
           TabOrder = 1
         end
         object USBDebugLog: TMemo
           AnchorSideBottom.Side = asrBottom
-          Left = 1104
-          Height = 183
+          Left = 750
+          Height = 232
           Top = 0
-          Width = 552
+          Width = 374
           ScrollBars = ssAutoVertical
           TabOrder = 2
         end
@@ -541,384 +910,6 @@ object PowerbankMainForm: TPowerbankMainForm
     TabOrder = 9
     OnResize = grpVADataResize
   end
-  object grpAdditionalInfo: TGroupBox
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = grpPDOs
-    AnchorSideTop.Side = asrBottom
-    Left = 8
-    Height = 280
-    Top = 280
-    Width = 1240
-    BorderSpacing.Left = 8
-    BorderSpacing.Top = 8
-    Caption = 'Additional Info'
-    ClientHeight = 260
-    ClientWidth = 1236
-    TabOrder = 10
-    object GroupBattery: TGroupBox
-      AnchorSideLeft.Control = grpAdditionalInfo
-      AnchorSideTop.Control = grpAdditionalInfo
-      Left = 8
-      Height = 181
-      Top = 4
-      Width = 196
-      BorderSpacing.Left = 8
-      BorderSpacing.Top = 4
-      BorderSpacing.InnerBorder = 4
-      Caption = 'GroupBattery'
-      ClientHeight = 161
-      ClientWidth = 192
-      TabOrder = 0
-      object btnBatteryCapabilities: TButton
-        AnchorSideLeft.Control = btnBatteryStatus
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = vleBatteryData
-        AnchorSideTop.Side = asrBottom
-        AnchorSideBottom.Control = GroupBattery
-        AnchorSideBottom.Side = asrBottom
-        Left = 74
-        Height = 25
-        Top = 132
-        Width = 87
-        Anchors = [akLeft, akBottom]
-        AutoSize = True
-        BorderSpacing.Left = 8
-        BorderSpacing.Top = 8
-        BorderSpacing.Around = 4
-        Caption = 'Capabilities'
-        TabOrder = 0
-        OnClick = btnBatteryCapabilitiesClick
-      end
-      object btnBatteryStatus: TButton
-        AnchorSideLeft.Control = GroupBattery
-        AnchorSideTop.Control = vleBatteryData
-        AnchorSideTop.Side = asrBottom
-        AnchorSideBottom.Control = GroupBattery
-        AnchorSideBottom.Side = asrBottom
-        Left = 4
-        Height = 25
-        Top = 132
-        Width = 58
-        Anchors = [akLeft, akBottom]
-        AutoSize = True
-        BorderSpacing.Top = 8
-        BorderSpacing.Around = 4
-        Caption = 'Status'
-        TabOrder = 1
-        OnClick = btnBatteryStatusClick
-      end
-      object vleBatteryData: TValueListEditor
-        AnchorSideLeft.Control = GroupBattery
-        AnchorSideTop.Control = GroupBattery
-        AnchorSideBottom.Control = GroupBattery
-        Left = 4
-        Height = 120
-        Top = 0
-        Width = 184
-        AlternateColor = clBtnFace
-        AutoEdit = False
-        BorderSpacing.Left = 4
-        ExtendedSelect = False
-        FixedCols = 0
-        RowCount = 5
-        ScrollBars = ssAutoVertical
-        TabOrder = 2
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking]
-        Strings.Strings = (
-          'VID='
-          'Type='
-          'Capacity='
-          'SOC='
-        )
-        ColWidths = (
-          64
-          116
-        )
-      end
-    end
-    object GroupExtendedSource: TGroupBox
-      AnchorSideLeft.Control = GroupBattery
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = grpAdditionalInfo
-      AnchorSideBottom.Side = asrBottom
-      Left = 208
-      Height = 244
-      Top = 4
-      Width = 232
-      BorderSpacing.Left = 4
-      BorderSpacing.Top = 4
-      Caption = 'Extended source info'
-      ClientHeight = 224
-      ClientWidth = 228
-      TabOrder = 1
-      object vleSourceExtended: TValueListEditor
-        AnchorSideLeft.Control = GroupExtendedSource
-        AnchorSideTop.Control = GroupExtendedSource
-        AnchorSideRight.Control = GroupExtendedSource
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = btnRcvRemoteSourceExt
-        Left = 4
-        Height = 187
-        Top = 4
-        Width = 212
-        AlternateColor = clBtnFace
-        Anchors = [akTop, akLeft, akBottom]
-        AutoEdit = False
-        BorderSpacing.Left = 4
-        BorderSpacing.Top = 4
-        BorderSpacing.Right = 4
-        BorderSpacing.Bottom = 4
-        DefaultColWidth = 100
-        FixedCols = 0
-        RowCount = 17
-        ScrollBars = ssAutoVertical
-        TabOrder = 0
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking]
-        Strings.Strings = (
-          'VID='
-          'PID='
-          'XID='
-          'FW_Version='
-          'HW_Version='
-          'Voltage_Regulation='
-          'Holdup_Time='
-          'Compliance='
-          'Touch_Current='
-          'Peak_Current1='
-          'Peak_Current2='
-          'Peak_Current3='
-          'Touch_Temp='
-          'Source_Inputs='
-          'Batteries='
-          'Source_PDP='
-        )
-        ColWidths = (
-          100
-          91
-        )
-      end
-      object btnRcvRemoteSourceExt: TButton
-        AnchorSideLeft.Control = GroupExtendedSource
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = GroupExtendedSource
-        AnchorSideBottom.Side = asrBottom
-        Left = 4
-        Height = 25
-        Top = 195
-        Width = 125
-        Anchors = [akLeft, akBottom]
-        AutoSize = True
-        BorderSpacing.Left = 4
-        BorderSpacing.Top = 4
-        BorderSpacing.Bottom = 4
-        Caption = 'Remote Source Ext'
-        TabOrder = 1
-        OnClick = btnRcvRemoteSourceExtClick
-      end
-    end
-    object GroupExtendedSink: TGroupBox
-      AnchorSideLeft.Control = GroupExtendedSource
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = grpAdditionalInfo
-      AnchorSideBottom.Side = asrBottom
-      Left = 448
-      Height = 244
-      Top = 4
-      Width = 232
-      BorderSpacing.Left = 8
-      BorderSpacing.Top = 4
-      Caption = 'Extended sink info'
-      ClientHeight = 224
-      ClientWidth = 228
-      TabOrder = 2
-      object vleSinkExtended: TValueListEditor
-        AnchorSideLeft.Control = GroupExtendedSink
-        AnchorSideTop.Control = GroupExtendedSink
-        AnchorSideRight.Control = GroupExtendedSink
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = btnRcvRemoteSinkExt
-        Left = 4
-        Height = 187
-        Top = 4
-        Width = 220
-        AlternateColor = clBtnFace
-        Anchors = [akTop, akLeft, akBottom]
-        AutoEdit = False
-        BorderSpacing.Left = 4
-        BorderSpacing.Top = 4
-        BorderSpacing.Right = 4
-        BorderSpacing.Bottom = 4
-        DefaultColWidth = 100
-        FixedCols = 0
-        RowCount = 19
-        ScrollBars = ssAutoVertical
-        TabOrder = 0
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking]
-        Strings.Strings = (
-          'VID='
-          'PID='
-          'XID='
-          'FW_Version='
-          'HW_Version='
-          'SKEDB_Version='
-          'Load_Step='
-          'Sink_Load_Characteristics='
-          'Compliance='
-          'Touch_Temp='
-          'Battery_Info='
-          'Sink_Modes='
-          'Sink_Minimum_PDP='
-          'Sink_Operational_PDP='
-          'Sink_Maximum_PDP='
-          'EPR_Sink_Minimum_PDP='
-          'EPR_Sink_Operational_PDP='
-          'EPR_Sink_Maximum_PDP='
-        )
-        ColWidths = (
-          100
-          99
-        )
-      end
-      object btnRcvRemoteSinkExt: TButton
-        AnchorSideLeft.Control = GroupExtendedSink
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = GroupExtendedSink
-        AnchorSideBottom.Side = asrBottom
-        Left = 4
-        Height = 25
-        Top = 195
-        Width = 111
-        Anchors = [akLeft, akBottom]
-        AutoSize = True
-        BorderSpacing.Left = 4
-        BorderSpacing.Top = 4
-        BorderSpacing.Bottom = 4
-        Caption = 'Remote Sink Ext'
-        TabOrder = 1
-        OnClick = btnRcvRemoteSinkExtClick
-      end
-    end
-    object GroupPPS: TGroupBox
-      AnchorSideLeft.Control = GroupExtendedSink
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = grpAdditionalInfo
-      Left = 688
-      Height = 132
-      Top = 4
-      Width = 228
-      BorderSpacing.Left = 8
-      BorderSpacing.Top = 4
-      BorderSpacing.InnerBorder = 4
-      Caption = 'PPS Info'
-      ClientHeight = 112
-      ClientWidth = 224
-      TabOrder = 3
-      object vlePPS: TValueListEditor
-        AnchorSideLeft.Control = GroupPPS
-        AnchorSideTop.Control = GroupPPS
-        AnchorSideBottom.Control = GroupPPS
-        Left = 4
-        Height = 74
-        Top = 0
-        Width = 216
-        AlternateColor = clBtnFace
-        AutoEdit = False
-        BorderSpacing.Left = 4
-        DefaultColWidth = 100
-        ExtendedSelect = False
-        FixedCols = 0
-        RowCount = 3
-        ScrollBars = ssNone
-        TabOrder = 0
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking]
-        Strings.Strings = (
-          'Output Voltage='
-          'Output Current='
-        )
-        ColWidths = (
-          100
-          112
-        )
-      end
-      object btnGetPPSStatus: TButton
-        AnchorSideLeft.Control = GroupPPS
-        AnchorSideBottom.Control = GroupPPS
-        AnchorSideBottom.Side = asrBottom
-        Left = 4
-        Height = 28
-        Top = 80
-        Width = 100
-        Anchors = [akLeft, akBottom]
-        BorderSpacing.Around = 4
-        Caption = 'Get PPS Status'
-        TabOrder = 1
-        OnClick = btnGetPPSStatusClick
-      end
-    end
-    object GroupStatus: TGroupBox
-      AnchorSideLeft.Control = GroupPPS
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = GroupPPS
-      Left = 920
-      Height = 252
-      Top = 4
-      Width = 228
-      BorderSpacing.Left = 4
-      BorderSpacing.InnerBorder = 4
-      Caption = 'Status Info'
-      ClientHeight = 232
-      ClientWidth = 224
-      TabOrder = 4
-      object vleStatus: TValueListEditor
-        AnchorSideLeft.Control = GroupStatus
-        AnchorSideTop.Control = GroupStatus
-        AnchorSideBottom.Control = GroupStatus
-        Left = 4
-        Height = 186
-        Top = 0
-        Width = 216
-        AlternateColor = clBtnFace
-        AutoEdit = False
-        BorderSpacing.Left = 4
-        DefaultColWidth = 120
-        ExtendedSelect = False
-        FixedCols = 0
-        RowCount = 8
-        ScrollBars = ssAutoVertical
-        TabOrder = 0
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking]
-        Strings.Strings = (
-          'InternalTemp='
-          'PresentInput='
-          'PresentBatteryInput='
-          'EventFlags='
-          'TemperatureStatus='
-          'PowerStatus='
-          'PowerStateChange='
-        )
-        ColWidths = (
-          120
-          92
-        )
-      end
-      object btnGetStatus: TButton
-        AnchorSideLeft.Control = GroupStatus
-        AnchorSideBottom.Control = GroupStatus
-        AnchorSideBottom.Side = asrBottom
-        Left = 4
-        Height = 28
-        Top = 200
-        Width = 100
-        Anchors = [akLeft, akBottom]
-        BorderSpacing.Around = 4
-        Caption = 'Get Status'
-        TabOrder = 1
-        OnClick = btnGetStatusClick
-      end
-    end
-  end
   object btnGetSourceInfo: TButton
     Left = 264
     Height = 25
@@ -926,13 +917,11 @@ object PowerbankMainForm: TPowerbankMainForm
     Width = 107
     AutoSize = True
     Caption = 'Get Source Info'
-    TabOrder = 11
+    TabOrder = 10
     OnClick = btnGetSourceInfoClick
   end
   object grpLineVoltages: TGroupBox
-    AnchorSideLeft.Control = grpAdditionalInfo
     AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = grpAdditionalInfo
     Left = 1260
     Height = 270
     Top = 280
@@ -941,6 +930,438 @@ object PowerbankMainForm: TPowerbankMainForm
     Caption = 'Control Line Voltages'
     Constraints.MinHeight = 270
     Constraints.MinWidth = 200
+    TabOrder = 11
+  end
+  object grpTesting: TGroupBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = PageControl1
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 8
+    Height = 304
+    Top = 576
+    Width = 1680
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 4
+    BorderSpacing.Around = 4
+    Caption = 'Testing'
+    ClientHeight = 284
+    ClientWidth = 1676
     TabOrder = 12
+    object Chart1: TChart
+      AnchorSideTop.Control = grpTesting
+      AnchorSideRight.Control = grpTesting
+      AnchorSideBottom.Control = grpTesting
+      Left = 948
+      Height = 280
+      Top = 4
+      Width = 728
+      AxisList = <      
+        item
+          Grid.Color = clWhite
+          TickColor = clWhite
+          AxisPen.Color = clWhite
+          AxisPen.Visible = True
+          Marks.LabelFont.Color = clAqua
+          Marks.LabelBrush.Style = bsClear
+          Minors = <>
+          Title.LabelFont.Color = clAqua
+          Title.LabelFont.Orientation = 900
+          Title.Visible = True
+          Title.Caption = 'Voltage'
+          Title.LabelBrush.Style = bsClear
+        end      
+        item
+          Grid.Color = clWhite
+          Alignment = calBottom
+          Marks.LabelBrush.Style = bsClear
+          Minors = <>
+          Title.LabelFont.Color = clWhite
+          Title.LabelBrush.Style = bsClear
+        end      
+        item
+          Alignment = calRight
+          Marks.LabelFont.Color = clRed
+          Marks.LabelBrush.Style = bsClear
+          Minors = <>
+          Title.LabelFont.Color = clRed
+          Title.LabelFont.Orientation = -900
+          Title.Visible = True
+          Title.Caption = 'Current'
+          Title.LabelBrush.Style = bsClear
+        end>
+      BackColor = clBlack
+      Foot.Brush.Color = clBtnFace
+      Foot.Font.Color = clBlue
+      Title.Brush.Color = clBtnFace
+      Title.Font.Color = clBlue
+      Title.Text.Strings = (
+        'TChart'
+      )
+      Align = alRight
+      BorderSpacing.Top = 4
+      Color = clBlack
+      object Chart1LineSeries1: TLineSeries
+        LinePen.Color = clAqua
+        LinePen.Width = 3
+      end
+      object Chart1LineSeries2: TLineSeries
+        LinePen.Color = clRed
+        LinePen.Width = 3
+      end
+      object Chart1LineSeries3: TLineSeries
+        Active = False
+        LinePen.Color = clFuchsia
+        LinePen.Width = 3
+      end
+    end
+    object GroupBox1: TGroupBox
+      AnchorSideLeft.Control = grpTesting
+      AnchorSideTop.Control = grpTesting
+      AnchorSideBottom.Control = grpTesting
+      Left = 0
+      Height = 284
+      Top = 0
+      Width = 664
+      Align = alLeft
+      Caption = 'GroupBox1'
+      ClientHeight = 264
+      ClientWidth = 660
+      TabOrder = 1
+      object btnInit: TButton
+        Left = 8
+        Height = 30
+        Top = 8
+        Width = 222
+        AutoSize = True
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 8
+        Caption = 'Init and Connect Powersource'
+        Font.CharSet = ANSI_CHARSET
+        Font.Height = -15
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        ParentFont = False
+        TabOrder = 0
+        OnClick = btnInitClick
+      end
+      object TypesBox: TComboBox
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        Left = 432
+        Height = 23
+        Top = 12
+        Width = 187
+        Anchors = []
+        BorderSpacing.Left = 8
+        BorderSpacing.Right = 8
+        ItemHeight = 15
+        Items.Strings = (
+          'TA0001 Powerocks Stone 3'
+          'TA0002 Xtorm AL 420'
+          'TA0003 ISY IAP 3001'
+          'TA0004 TPLink TL - PB 10400'
+          'TA0005 PURO BB60P1 WHI'
+          'TA0006 Cellularline Freepower Multi 10000'
+          'TA0007 Energea Duo 9000'
+          'TA0008 PNY Powerpack T 7800'
+          'TA0009 GP Powerbank 8400mAh'
+          'TA00010 Samsung 8400mAh'
+          'TA00011 iWalk Extreme Duo 8200mAh'
+          'TA00012 Avanca Powerbar Pro 9000'
+        )
+        TabOrder = 1
+        Text = 'Enter battery type'
+      end
+      object TestsBox: TComboBox
+        AnchorSideLeft.Control = TypesBox
+        AnchorSideTop.Control = SamplesBox
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = TypesBox
+        AnchorSideRight.Side = asrBottom
+        Left = 432
+        Height = 23
+        Top = 74
+        Width = 187
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 8
+        ItemHeight = 15
+        TabOrder = 2
+        Text = 'Enter test type'
+        OnChange = TestsBoxChange
+      end
+      object SamplesBox: TComboBox
+        AnchorSideLeft.Control = TypesBox
+        AnchorSideTop.Control = TypesBox
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = TypesBox
+        AnchorSideRight.Side = asrBottom
+        Left = 432
+        Height = 23
+        Top = 43
+        Width = 187
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 8
+        ItemHeight = 15
+        Items.Strings = (
+          '1'
+        )
+        TabOrder = 3
+        Text = 'Enter battery #'
+      end
+      object cmboSerialPorts1: TComboBox
+        AnchorSideLeft.Control = btnInit
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnInit
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        Left = 238
+        Height = 23
+        Top = 12
+        Width = 142
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 8
+        BorderSpacing.Right = 8
+        ItemHeight = 15
+        TabOrder = 4
+        Text = 'Serial Ports'
+      end
+      object StartStopButton: TSpeedButton
+        AnchorSideLeft.Control = btnInit
+        AnchorSideTop.Control = btnInit
+        AnchorSideTop.Side = asrBottom
+        Left = 8
+        Height = 40
+        Top = 50
+        Width = 177
+        AllowAllUp = True
+        BorderSpacing.Top = 12
+        Caption = 'Start'
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clLime
+        Font.Height = -27
+        Font.Name = 'Tahoma'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        GroupIndex = 1
+        OnClick = StartStopButtonClick
+        ParentFont = False
+      end
+      object ProgressBar1: TProgressBar
+        Left = 16
+        Height = 23
+        Top = 145
+        Width = 166
+        TabOrder = 5
+      end
+      object btnTestDischarge: TSpeedButton
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        Left = 16
+        Height = 25
+        Top = 96
+        Width = 177
+        AllowAllUp = True
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 8
+        Caption = 'Test Discharge'
+        GroupIndex = 1
+        OnClick = btnTestDischargeClick
+      end
+      object lblDischargeSettings: TLabel
+        AnchorSideTop.Side = asrBottom
+        Left = 424
+        Height = 13
+        Top = 128
+        Width = 106
+        BorderSpacing.Top = 20
+        Caption = 'Discharge Settings'
+        Font.CharSet = ANSI_CHARSET
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblCurrent: TLabel
+        AnchorSideLeft.Control = lblDischargeSettings
+        AnchorSideTop.Control = lblDischargeSettings
+        AnchorSideTop.Side = asrBottom
+        AnchorSideBottom.Control = CurrentEdit
+        Left = 424
+        Height = 13
+        Top = 145
+        Width = 75
+        BorderSpacing.Top = 4
+        Caption = 'Current [mA]'
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentFont = False
+      end
+      object CurrentEdit: TEdit
+        AnchorSideLeft.Control = lblCurrent
+        AnchorSideTop.Control = lblCurrent
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = VoltageEdit
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = VoltageEdit
+        AnchorSideBottom.Side = asrCenter
+        Left = 424
+        Height = 23
+        Top = 162
+        Width = 86
+        BorderSpacing.Top = 4
+        NumbersOnly = True
+        ReadOnly = True
+        TabOrder = 6
+        Text = '0'
+      end
+      object chkCurrentLimit: TCheckBox
+        AnchorSideLeft.Control = CurrentEdit
+        AnchorSideTop.Control = CurrentEdit
+        AnchorSideTop.Side = asrBottom
+        Left = 424
+        Height = 19
+        Top = 185
+        Width = 45
+        Caption = 'Limit'
+        TabOrder = 7
+      end
+      object lblVoltage: TLabel
+        AnchorSideLeft.Control = VoltageEdit
+        AnchorSideTop.Side = asrBottom
+        AnchorSideBottom.Control = VoltageEdit
+        Left = 533
+        Height = 13
+        Top = 143
+        Width = 74
+        Anchors = [akLeft, akBottom]
+        BorderSpacing.Top = 16
+        BorderSpacing.Bottom = 6
+        Caption = 'Voltage [mV]'
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentFont = False
+      end
+      object VoltageEdit: TEdit
+        AnchorSideLeft.Control = Owner
+        AnchorSideTop.Control = CurrentEdit
+        AnchorSideRight.Control = TestsBox
+        AnchorSideRight.Side = asrBottom
+        Left = 533
+        Height = 23
+        Top = 162
+        Width = 86
+        Anchors = [akTop, akRight]
+        BorderSpacing.Left = 8
+        NumbersOnly = True
+        ReadOnly = True
+        TabOrder = 8
+        Text = '0'
+      end
+      object chkVoltageLimit: TCheckBox
+        AnchorSideLeft.Control = VoltageEdit
+        AnchorSideTop.Control = VoltageEdit
+        AnchorSideTop.Side = asrBottom
+        Left = 533
+        Height = 19
+        Top = 185
+        Width = 45
+        Caption = 'Limit'
+        Checked = True
+        State = cbChecked
+        TabOrder = 9
+      end
+    end
+    object DisplaysPanel: TPanel
+      AnchorSideLeft.Control = GroupBox1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = grpTesting
+      AnchorSideRight.Control = Chart1
+      AnchorSideBottom.Control = grpTesting
+      AnchorSideBottom.Side = asrBottom
+      Left = 666
+      Height = 280
+      Top = 4
+      Width = 280
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Left = 2
+      BorderSpacing.Top = 4
+      BorderSpacing.Right = 2
+      ClientHeight = 280
+      ClientWidth = 280
+      TabOrder = 2
+      object StaticText1: TStaticText
+        AnchorSideLeft.Control = DisplaysPanel
+        AnchorSideTop.Control = ProgressBar1
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = DisplaysPanel
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = DisplaysPanel
+        AnchorSideBottom.Side = asrBottom
+        Left = 1
+        Height = 22
+        Top = 253
+        Width = 278
+        Alignment = taCenter
+        Anchors = [akLeft, akRight, akBottom]
+        AutoSize = True
+        BorderSpacing.Top = 4
+        BorderSpacing.Bottom = 4
+        Caption = 'Date and Time'
+        Color = clDefault
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -16
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        ParentFont = False
+        ParentColor = False
+        TabOrder = 1
+      end
+      object TestInfoMemo: TMemo
+        AnchorSideLeft.Control = DisplaysPanel
+        AnchorSideTop.Control = DisplaysPanel
+        AnchorSideRight.Control = DisplaysPanel
+        AnchorSideRight.Side = asrBottom
+        Left = 1
+        Height = 110
+        Top = 1
+        Width = 278
+        Anchors = [akTop, akLeft, akRight]
+        ReadOnly = True
+        ScrollBars = ssVertical
+        TabOrder = 0
+      end
+    end
+  end
+  object StoreTimer: TTimer
+    Enabled = False
+    OnTimer = StoreTimerTimer
+    Left = 1029
+    Top = 70
+  end
+  object TestTimer: TTimer
+    Enabled = False
+    OnTimer = TestTimerTimer
+    Left = 1026
+    Top = 138
+  end
+  object UpdateTimer: TTimer
+    OnTimer = UpdateTimerTimer
+    Left = 1094
+    Top = 96
   end
 end
