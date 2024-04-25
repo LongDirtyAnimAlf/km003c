@@ -531,7 +531,7 @@ begin
         FBuffer:=Owner.FSynSer.RecvPacket(10);
         x:=Length(FBuffer);
         if (x>0) then DataString:=DataString+FBuffer;
-        //if (y>10) then break; // report at least every 100 ms in case of much data
+        if (y>10) then break; // report at least every 100 ms in case of much data
       until ((x=0) OR (Terminated));
 
       x:=Length(DataString);
@@ -559,6 +559,11 @@ begin
             Synchronize(@CallEvent);
             continue;
           end;
+        end
+        else
+        begin
+          // Prevent burning of CPU
+          sleep(1);
         end;
         break;
       end;

@@ -271,6 +271,27 @@ type
               );
   end;
 
+  TEPRMODE = bitpacked record
+      case integer of
+          1 :(
+               Data : record
+                   Reserved                       : T16BITS;
+                   Data                           : T8BITS;
+                   Action                         : T8BITS;
+               end;
+              );
+          2 : (
+               Bits            : bitpacked array[0..31] of T1BITS;
+               );
+          3 : (
+               Bytes           : bitpacked array[0..3] of byte;
+               );
+          4 : (
+               Raw             : DWord;
+              );
+  end;
+
+
   TVDOIDHEADER = bitpacked record
       case integer of
           1 : (
@@ -781,11 +802,17 @@ type
     NumberSRCPDO: dword;
     NumberSNKPDO: dword;
 
+    NumberEPRSRCPDO: dword;
+    NumberEPRSNKPDO: dword;
+
     ActiveSRCPDO: dword;
     ActiveSNKPDO: dword;
 
     SourcePDOs: array[1..MAXPDO] of TSOURCEPDO;
     SinkPDOs: array[1..MAXPDO] of TSINKPDO;
+
+    SourceEPRPDOs: array[8..11] of TSOURCEPDO;
+    SinkEPRPDOs: array[8..11] of TSINKPDO;
 
     RDO:TPDREQUEST;
 
@@ -799,6 +826,8 @@ type
     GBCDB  : TGBDB;
     GBSDB  : TGBDB;
     SDB    : TSDB;
+
+    EPRMODE: TEPRMODE;
 
     SIDO   : TSIDO;
     PPSSDB : TPPSSDB;
@@ -838,6 +867,7 @@ type
     function GetStatusPresentInputInfo:string;
     function GetStatusTemperatureStatusInfo:string;
     function GetStatusPowerStateChangeInfo:string;
+    function EPRModeInfo:string;
 
     function GetCableInfo:string;
 
@@ -1126,11 +1156,17 @@ begin
   NumberSRCPDO:=0;
   NumberSNKPDO:=0;
 
+  NumberEPRSRCPDO:=0;
+  NumberEPRSNKPDO:=0;
+
   ActiveSRCPDO:=0;
   ActiveSNKPDO:=0;
 
   for i:=1 to MAXPDO do SourcePDOs[i].Raw:=0;
   for i:=1 to MAXPDO do SinkPDOs[i].Raw:=0;
+
+  for i:=8 to 11 do SourceEPRPDOs[i].Raw:=0;
+  for i:=8 to 11 do SinkEPRPDOs[i].Raw:=0;
 
   RDO.Raw:=0;
 
@@ -1189,7 +1225,7 @@ end;
 
 function TUSBPD.ProcessExtendedMessage(aMSG:TUSBPD_EXTENDEDMSG; data:PByteArray):boolean;
 var
-  j:integer;
+  i,j:integer;
 begin
   result:=true;
   case aMSG of
@@ -1221,6 +1257,37 @@ begin
     begin
       for j:=0 to Pred(Length(PPSSDB.Bytes)) do PPSSDB.Bytes[j]:=data^[j];
     end;
+    USBPD_EXTMSG_EPR_SOURCE_CAPABILITIES:
+    begin
+      NumberSRCPDO:=0;
+      for i:=1 to 7 do
+      begin
+        for j:=0 to 3 do SourcePDOs[i].Bytes[j]:=data^[j+(i-1)*4];
+        if SourcePDOs[i].Raw>0 then Inc(NumberSRCPDO);
+      end;
+      NumberEPRSRCPDO:=0;
+      for i:=8 to 11 do
+      begin
+        for j:=0 to 3 do SourceEPRPDOs[i].Bytes[j]:=data^[j+(i-1)*4];
+        if SourceEPRPDOs[i].Raw>0 then Inc(NumberEPRSRCPDO);
+      end;
+    end;
+    USBPD_EXTMSG_EPR_SINK_CAPABILITIES:
+    begin
+      NumberSNKPDO:=0;
+      for i:=1 to 7 do
+      begin
+        for j:=0 to 3 do SinkPDOs[i].Bytes[j]:=data^[j+(i-1)*4];
+        if SinkPDOs[i].Raw>0 then Inc(NumberSNKPDO);
+      end;
+      NumberEPRSNKPDO:=0;
+      for i:=8 to 11 do
+      begin
+        for j:=0 to 3 do SinkEPRPDOs[i].Bytes[j]:=data^[j+(i-1)*4];
+        if SinkEPRPDOs[i].Raw>0 then Inc(NumberEPRSNKPDO);
+      end;
+    end;
+
     else
     begin
       result:=false;
@@ -1262,6 +1329,10 @@ begin
     USBPD_DATAMSG_SOURCE_INFO:
     begin
       for j:=0 to 3 do SIDO.Bytes[j]:=data^[j];
+    end;
+    USBPD_DATAMSG_EPR_MODE:
+    begin
+      for j:=0 to 3 do EPRMODE.Bytes[j]:=data^[j];
     end;
     USBPD_DATAMSG_VENDOR_DEFINED:
     begin
@@ -1360,6 +1431,37 @@ begin
   result:=result+' '+s;
   result:=Trim(result);
 end;
+
+function TUSBPD.EPRModeInfo:string;
+var
+  TempData:byte;
+  s:string;
+begin
+  s:='';
+  TempData:=(EPRMODE.Data.Action);
+  case TempData of
+    1:s:='Enter. EPR Sink Operational PDP: '+InttoStr(EPRMODE.Data.Data);
+    2:s:='Enter Acknowledged';
+    3:s:='Enter Succeeded';
+    4:
+    begin
+      s:='Enter Failed. ';
+      case EPRMODE.Data.Data of
+        0:s:=s+'Unknown cause.';
+        1:s:=s+'Cable not EPR capable.';
+        2:s:=s+'Source failed to become VCONN source.';
+        3:s:=s+'EPR Mode Capable bit not set in RDO.';
+        4:s:=s+'Source unable to enter EPR Mode at this time.';
+        5:s:=s+'EPR Mode Capable bit not set in PDO.';
+      end;
+    end;
+    5:s:='Exit';
+  else
+    s:='';
+  end;
+  result:=s;
+end;
+
 
 
 end.

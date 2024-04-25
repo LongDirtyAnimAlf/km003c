@@ -6,12 +6,9 @@ uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
-  {$IFDEF HASAMIGA}
-  athreads,
-  {$ENDIF}
-  Interfaces, // this includes the LCL widgetset
+  Interfaces,
   Forms, tachartlazaruspkg,
-  main, pddevice, vids;
+  main;
 
 {$R *.res}
 

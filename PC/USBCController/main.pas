@@ -39,6 +39,8 @@ type
     btnKC003CReset: TButton;
     btnRcvRemoteSinkExt: TButton;
     btnRcvRemoteSourceExt: TButton;
+    btnSetEPRKC003C: TButton;
+    btnSetEPRKC003C1: TButton;
     btnSwapVconn: TButton;
     btnReset: TButton;
     btnRcvSelf: TButton;
@@ -51,6 +53,8 @@ type
     btnVDMDiscoIndent: TButton;
     btnVDMDiscoSVID: TButton;
     btnGetSourceInfo: TButton;
+    btnRcvRemoteEPRSource: TButton;
+    Button1: TButton;
     Chart1: TChart;
     Chart1LineSeries1: TLineSeries;
     Chart1LineSeries2: TLineSeries;
@@ -62,9 +66,13 @@ type
     cmboSerialPorts1: TComboBox;
     CurrentEdit: TEdit;
     DisplaysPanel: TPanel;
+    Edit1: TEdit;
     gridRemoteSinkPDO: TStringGrid;
+    gridRemoteSinkEPRPDO: TStringGrid;
+    gridRemoteSourceEPRPDO: TStringGrid;
     GroupBattery: TGroupBox;
     GroupBox1: TGroupBox;
+    grpEPRPDOs: TGroupBox;
     grpTesting: TGroupBox;
     GroupExtendedSink: TGroupBox;
     GroupExtendedSource: TGroupBox;
@@ -83,8 +91,8 @@ type
     lblCurrent: TLabel;
     lblDischargeSettings: TLabel;
     lblVoltage: TLabel;
-    TestInfoMemo: TMemo;
     MemoUnhandled: TMemo;
+    TestInfoMemo: TMemo;
     PageControl1: TPageControl;
     ProgressBar1: TProgressBar;
     SamplesBox: TComboBox;
@@ -106,51 +114,51 @@ type
     vleSourceExtended: TValueListEditor;
     vleStatus: TValueListEditor;
     VoltageEdit: TEdit;
-    procedure btnBatteryCapabilitiesClick(Sender: TObject);
-    procedure btnBatteryStatusClick(Sender: TObject);
-    procedure btnCleanLogsClick(Sender: TObject);
+    procedure btnBatteryCapabilitiesClick({%H-}Sender: TObject);
+    procedure btnBatteryStatusClick({%H-}Sender: TObject);
+    procedure btnCleanLogsClick({%H-}Sender: TObject);
     procedure btnConnectKC003CClick(Sender: TObject);
     procedure btnConnectSTM32Click(Sender: TObject);
-    procedure btnGetStatusClick(Sender: TObject);
+    procedure btnGetStatusClick({%H-}Sender: TObject);
     procedure btnInitClick(Sender: TObject);
-    procedure btnKC003CRcvRemoteSinkClick(Sender: TObject);
-    procedure btnKC003CRcvRemoteSourceClick(Sender: TObject);
-    procedure btnKC003CResetClick(Sender: TObject);
-    procedure btnRcvRemoteSourceExtClick(Sender: TObject);
-    procedure btnRcvRemoteSinkExtClick(Sender: TObject);
+    procedure btnKC003CRcvRemoteSinkClick({%H-}Sender: TObject);
+    procedure btnKC003CRcvRemoteSourceClick({%H-}Sender: TObject);
+    procedure btnKC003CResetClick({%H-}Sender: TObject);
+    procedure btnRcvRemoteEPRSourceClick(Sender: TObject);
+    procedure btnRcvRemoteSourceExtClick({%H-}Sender: TObject);
+    procedure btnRcvRemoteSinkExtClick({%H-}Sender: TObject);
     procedure btnResetClick(Sender: TObject);
-    procedure btnRcvSelfClick(Sender: TObject);
-    procedure btnSwapClick(Sender: TObject);
-    procedure btnRcvRemoteSourceClick(Sender: TObject);
-    procedure btnRcvRemoteSinkClick(Sender: TObject);
+    procedure btnRcvSelfClick({%H-}Sender: TObject);
+    procedure btnSwapClick({%H-}Sender: TObject);
+    procedure btnRcvRemoteSourceClick({%H-}Sender: TObject);
+    procedure btnRcvRemoteSinkClick({%H-}Sender: TObject);
     procedure btnHardResetClick(Sender: TObject);
-    procedure btnSwapVconnClick(Sender: TObject);
+    procedure btnSwapVconnClick({%H-}Sender: TObject);
     procedure btnTestDischargeClick(Sender: TObject);
-    procedure btnVDMDiscoIndentClick(Sender: TObject);
-    procedure btnVDMDiscoSVIDClick(Sender: TObject);
-    procedure btnGetSourceInfoClick(Sender: TObject);
-    procedure btnGetPPSStatusClick(Sender: TObject);
+    procedure btnVDMDiscoIndentClick({%H-}Sender: TObject);
+    procedure btnVDMDiscoSVIDClick({%H-}Sender: TObject);
+    procedure btnGetSourceInfoClick({%H-}Sender: TObject);
+    procedure btnGetPPSStatusClick({%H-}Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure DataEditKeyPress(Sender: TObject; var Key: char);
     procedure gridPDOResize(Sender: TObject);
     procedure grpVADataResize(Sender: TObject);
+    procedure StartStopButtonClick(Sender: TObject);
+    procedure StoreTimerTimer(Sender: TObject);
+    procedure TestsBoxChange(Sender: TObject);
+    procedure TestTimerTimer({%H-}Sender: TObject);
+    procedure UpdateTimerTimer({%H-}Sender: TObject);
 
     procedure FormCreate({%H-}Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormDestroy(Sender: TObject);
-    procedure StartStopButtonClick(Sender: TObject);
-    procedure StoreTimerTimer(Sender: TObject);
-    procedure TestsBoxChange(Sender: TObject);
-    procedure TestTimerTimer(Sender: TObject);
-    procedure UpdateTimerTimer(Sender: TObject);
   private
-    aFS                 : TFormatSettings;
+    LocalFS             : TFormatSettings;
 
     FMessageConfirmed   : boolean;
 
     FSTM32BoardSerial   : string;
 
-    PDOVoltageDisplay   : TdsSevenSegmentMultiDisplay;
-    PDOCurrentDisplay   : TdsSevenSegmentMultiDisplay;
     RealVoltageDisplay  : TdsSevenSegmentMultiDisplay;
     RealCurrentDisplay  : TdsSevenSegmentMultiDisplay;
 
@@ -211,7 +219,7 @@ type
     procedure GridButtonClick(Sender: TObject);
 
     procedure SetEnable(Sender: TObject; value:boolean);
-    procedure SetChartAxis(Sender:TObject);
+    procedure SetChartAxis({%H-}Sender:TObject);
     procedure CreateDataFile(Sender: TObject);
     procedure AllStop(Sender: TObject);
     procedure Measure;
@@ -221,7 +229,7 @@ type
     function  CorrectVoltage(value:double):double;
     function  CorrectCurrent(value:double):double;
 
-    procedure OnRXUSBCData(Sender: TObject);
+    procedure OnRXUSBCData({%H-}Sender: TObject);
 
     procedure SetActive(value:boolean);
 
@@ -237,7 +245,11 @@ type
     function  GetTemperature:double;
 
     procedure SetGridSRCPDO(PDONumber:integer);
+    procedure SetGridSRCEPRPDO(PDONumber:integer);
+
     procedure SetGridSNKPDO(PDONumber:integer);
+    procedure SetGridSNKEPRPDO(PDONumber:integer);
+
     procedure SetBatteryData;
 
     function ProcessControlMessageGUI(MSGCTRL:TUSBPD_CONTROLMSG):boolean;
@@ -245,10 +257,10 @@ type
     function ProcessExtendedMessageGUI(aMSG:TUSBPD_EXTENDEDMSG):boolean;
 
     procedure Connect(Sender: TObject);
-    procedure DisConnect(Sender: TObject);
+    procedure DisConnect({%H-}Sender: TObject);
 
-    procedure DataTimerTimer(Sender: TObject);
-    procedure CheckTimerTimer(Sender: TObject);
+    procedure DataTimerTimer({%H-}Sender: TObject);
+    procedure CheckTimerTimer({%H-}Sender: TObject);
   public
     Capacity                     : double;
 
@@ -301,6 +313,7 @@ procedure TPowerbankMainForm.FormCreate(Sender: TObject);
 var
   bt      : TButton;
   Rect    : TRect;
+  aGrid   : TStringGrid;
   index   : Integer;
   ACol    : Integer;
   ARow    : Integer;
@@ -309,15 +322,12 @@ var
   s       : string;
   CList,CListDeatails:TStringList;
 begin
-  aFS:=DefaultFormatSettings;
+  LocalFS:=DefaultFormatSettings;
 
-  aFS.ShortDateFormat:='dd-mm-yyyy';
-  aFS.LongTimeFormat:='hh:nn:ss';
-  aFS.DecimalSeparator:=',';
-  aFS.ListSeparator:=';';
-
-
-
+  LocalFS.ShortDateFormat:='dd-mm-yyyy';
+  LocalFS.LongTimeFormat:='hh:nn:ss';
+  LocalFS.DecimalSeparator:=',';
+  LocalFS.ListSeparator:=';';
 
   DUT:=TUSBPDDevice.Create;
   DUT.Cleanup;
@@ -348,24 +358,6 @@ begin
   Led.Brush.Color := clLime;
   Led.Shape := stCircle;
 
-  PDOVoltageDisplay:=TdsSevenSegmentMultiDisplay.Create(grpVAData);
-  with PDOVoltageDisplay do
-  begin
-    Parent:=grpVAData;
-    OnColor:=clAqua;
-    OffColor:=ChangeBrightness(OnColor,0.1);
-    DisplayCount:=6;
-  end;
-  PDOCurrentDisplay:=TdsSevenSegmentMultiDisplay.Create(grpVAData);
-  with PDOCurrentDisplay do
-  begin
-    Parent:=grpVAData;
-    OnColor:=clRed;
-    OffColor:=ChangeBrightness(OnColor,0.1);
-    SignDigit:=True;
-    DisplayCount:=6;
-  end;
-
   RealVoltageDisplay:=TdsSevenSegmentMultiDisplay.Create(grpVAData);
   with RealVoltageDisplay do
   begin
@@ -389,7 +381,7 @@ begin
   begin
     Parent:=grpLineVoltages;
     OnColor:=clAqua;
-    Height:=60;
+    Height:=66;
     DisplayCount:=4;
     Align:=alTop;
     Hint:='VCC1';
@@ -400,7 +392,7 @@ begin
   begin
     Parent:=grpLineVoltages;
     OnColor:=clFuchsia;
-    Height:=60;
+    Height:=66;
     DisplayCount:=4;
     Align:=alTop;
     Hint:='VCC2';
@@ -412,7 +404,7 @@ begin
   begin
     Parent:=grpLineVoltages;
     OnColor:=clLime;
-    Height:=60;
+    Height:=66;
     DisplayCount:=4;
     Align:=alTop;
     Hint:='VD+';
@@ -424,7 +416,7 @@ begin
   begin
     Parent:=grpLineVoltages;
     OnColor:=clYellow;
-    Height:=60;
+    Height:=66;
     DisplayCount:=4;
     Align:=alTop;
     Hint:='VD-';
@@ -483,23 +475,47 @@ begin
     Anchors := [akTop, akLeft, akRight];
   end;
 
-  for ACol:=1 to 7  do
+
+  aGrid:=gridRemoteSourcePDO;
+  for ACol:=1 to Pred(aGrid.ColCount)  do
   begin
     ARow           := 5;
-    Rect           := gridRemoteSourcePDO.CellRect(ACol,ARow);
+    Rect           := aGrid.CellRect(ACol,ARow);
     InflateRect(Rect,-4,-2);
-    bt             := TButton.Create(gridRemoteSourcePDO);
-    bt.Parent      := gridRemoteSourcePDO;
+    bt             := TButton.Create(aGrid);
+    bt.Parent      := aGrid;
     bt.BoundsRect  := Rect;
     bt.Caption     := 'Select';
     bt.Name        := 'bt'+IntToStr(ACol);
     bt.Tag         := 0;
     bt.Enabled     := false;
-    index          := gridRemoteSourcePDO.ComponentCount-1;
-    bt             :=(gridRemoteSourcePDO.Components[index] as TButton);
-    gridRemoteSourcePDO.Objects[ACol,ARow] := gridRemoteSourcePDO.Components[index];
-    bt.OnMouseUp   := gridRemoteSourcePDO.OnMouseUp;
-    bt.OnMouseMove := gridRemoteSourcePDO.OnMouseMove;
+    index          := aGrid.ComponentCount-1;
+    bt             :=(aGrid.Components[index] as TButton);
+    aGrid.Objects[ACol,ARow] := aGrid.Components[index];
+    bt.OnMouseUp   := aGrid.OnMouseUp;
+    bt.OnMouseMove := aGrid.OnMouseMove;
+    bt.Visible     := true;
+    bt.OnClick     := @GridButtonClick;
+  end;
+
+  aGrid:=gridRemoteSourceEPRPDO;
+  for ACol:=1 to Pred(aGrid.ColCount)  do
+  begin
+    ARow           := 5;
+    Rect           := aGrid.CellRect(ACol,ARow);
+    InflateRect(Rect,-4,-2);
+    bt             := TButton.Create(aGrid);
+    bt.Parent      := aGrid;
+    bt.BoundsRect  := Rect;
+    bt.Caption     := 'Select';
+    bt.Name        := 'bt'+IntToStr(ACol);
+    bt.Tag         := 0;
+    bt.Enabled     := false;
+    index          := aGrid.ComponentCount-1;
+    bt             :=(aGrid.Components[index] as TButton);
+    aGrid.Objects[ACol,ARow] := aGrid.Components[index];
+    bt.OnMouseUp   := aGrid.OnMouseUp;
+    bt.OnMouseMove := aGrid.OnMouseMove;
     bt.Visible     := true;
     bt.OnClick     := @GridButtonClick;
   end;
@@ -679,26 +695,16 @@ end;
 
 procedure TPowerbankMainForm.grpVADataResize(Sender: TObject);
 begin
-  PDOVoltageDisplay.Top:=2;
-  PDOVoltageDisplay.Left:=5;
+  RealVoltageDisplay.Top:=2;
+  RealVoltageDisplay.Left:=5;
 
-  PDOVoltageDisplay.Width:=(TControl(Sender).Width DIV 2)-12;
-  PDOVoltageDisplay.Height:=(TControl(Sender).Height DIV 2)-12;
-
-  PDOCurrentDisplay.Width:=PDOVoltageDisplay.Width;
-  PDOCurrentDisplay.Height:=PDOVoltageDisplay.Height;
-  PDOCurrentDisplay.Left:=PDOVoltageDisplay.Left;
-  PDOCurrentDisplay.Top:=PDOVoltageDisplay.Top+PDOVoltageDisplay.Height;
-
-  RealVoltageDisplay.Width:=PDOVoltageDisplay.Width;
-  RealVoltageDisplay.Height:=PDOVoltageDisplay.Height;
-  RealVoltageDisplay.Left:=PDOVoltageDisplay.Width+PDOVoltageDisplay.Left+12;
-  RealVoltageDisplay.Top:=PDOVoltageDisplay.Top;
+  RealVoltageDisplay.Width:=(TControl(Sender).Width)-6;
+  RealVoltageDisplay.Height:=(TControl(Sender).Height DIV 2)-12;
 
   RealCurrentDisplay.Width:=RealVoltageDisplay.Width;
   RealCurrentDisplay.Height:=RealVoltageDisplay.Height;
   RealCurrentDisplay.Left:=RealVoltageDisplay.Left;
-  RealCurrentDisplay.Top:=PDOCurrentDisplay.Top;
+  RealCurrentDisplay.Top:=RealVoltageDisplay.Top+RealVoltageDisplay.Height;
 end;
 
 procedure TPowerbankMainForm.btnCleanLogsClick(Sender: TObject);
@@ -814,6 +820,46 @@ end;
 procedure TPowerbankMainForm.btnKC003CResetClick(Sender: TObject);
 begin
   KM003C.WriteString(KC003CCommand[TKC003CCOMMAND.RESET].Command);
+end;
+
+procedure TPowerbankMainForm.btnRcvRemoteEPRSourceClick(Sender: TObject);
+var
+  SOPHeader:TPDHEADER;
+  SOPHeaderExtended:TPDHEADEREXTENDED;
+  GBDB:TGBDB;
+  DWordData:TDWordData;
+  Data:string;
+  j:integer;
+begin
+  // Create Header
+  SOPHeader.Raw:=0;
+  SOPHeader.Data.Message_Type:=Ord(USBPD_EXTMSG_EPR_SOURCE_CAPABILITIES);
+  SOPHeader.Data.Specification_Revision:=2;
+  SOPHeader.Data.Port_Power_Role_or_Plug:=1;
+  SOPHeader.Data.Number_of_Data_Objects:=2;
+  SOPHeader.Data.Extended:=1;
+
+  // Create Extended Header
+  SOPHeaderExtended.Raw:=0;
+  SOPHeaderExtended.Data.Data_Size:=9;
+  SOPHeaderExtended.Data.Chunked:=1;
+
+  // Create DataObject
+  DWordData.Raw:=0;
+  GBDB.Raw:=0;
+  DWordData.Bytes[0]:=GBDB.Raw;
+
+  // Add SOP
+  Data:=InttoHex(Ord(USBPD_SOPTYPE_SOP),2);
+  // Add Header
+  for j:=0 to 1 do Data:=Data+InttoHex(SOPHeader.Bytes[j],2);
+  // Add Extended Header
+  for j:=0 to 1 do Data:=Data+InttoHex(SOPHeaderExtended.Bytes[j],2);
+  // Add DataObject
+  //Data:=Data+InttoHex(GBDB.Raw,2);
+  //for j:=0 to 3 do Data:=Data+InttoHex(DWordData.Bytes[j],2);
+
+  KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDDATA].Command,[Data]));
 end;
 
 procedure TPowerbankMainForm.btnBatteryStatusClick(Sender: TObject);
@@ -935,12 +981,6 @@ end;
 procedure TPowerbankMainForm.btnRcvRemoteSourceExtClick(Sender: TObject);
 var
   Buffer:array[0..255] of byte;
-  SOPHeader:TPDHEADER;
-  SOPHeaderExtended:TPDHEADEREXTENDED;
-  GBDB:TGBDB;
-  DWordData:TDWordData;
-  Data:string;
-  j:integer;
 begin
   FillChar({%H-}Buffer,SizeOf(Buffer),0);
   Buffer[0]:=Ord(GUI_MSG_GET_SOURCE_CAPA_EXTENDED);
@@ -1117,6 +1157,11 @@ begin
   SendCommand(1,Ord(DPM_MESSAGE_REQ),Buffer,3);
 
   KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDCMD].Command,[USBPD_CONTROLMSG_GET_PPS_STATUS]));
+end;
+
+procedure TPowerbankMainForm.Button1Click(Sender: TObject);
+begin
+  KM003C.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDMSETTYPE].Command,[0,2,1]));
 end;
 
 procedure TPowerbankMainForm.btnSwapClick(Sender: TObject);
@@ -1360,9 +1405,9 @@ end;
 procedure TPowerbankMainForm.UpdateTimerTimer(Sender: TObject);
 begin
   if (StartTime<>0) then
-    StaticText1.Caption:='Running: '+InttoStr(SecondsBetween(NowUTC,StartTime))+' sec'
+    Edit1.Text:='Running: '+InttoStr(SecondsBetween(NowUTC,StartTime))+' sec'
   else
-    StaticText1.Caption:='CONSULAB    ' + DateTimeToStr(NowUTC);
+    Edit1.Text:='CONSULAB    ' + DateTimeToStr(NowUTC);
 end;
 
 procedure TPowerbankMainForm.SetEnable(Sender: TObject; value:boolean);
@@ -1575,15 +1620,15 @@ var
   MessageData:array of byte;
 
   StackMessageLength:byte;
-  StackMessageTime:DWord;
-  StackMessageUSBPort:byte;
+  {%H-}StackMessageTime:DWord;
+  {%H-}StackMessageUSBPort:byte;
   StackMessageIDRaw,MessageID:byte;
   StackEvent:TRACE_EVENT;
   StackMessageSOP:USBPD_SOPTYPE;
 
   aSOPLength:word;
   aSOPHeader:TPDHEADER;
-  aSOPExtendedHeader:TPDHEADEREXTENDED;
+  {%H-}aSOPExtendedHeader:TPDHEADEREXTENDED;
   aGUIMessage:GUI_TAG;
   aGUIInitMessage:GUI_INIT_TAG;
   aGUIParam:GUI_PARAM_TAG;
@@ -1597,8 +1642,6 @@ var
   WordData:TWordData;
   DWordData:TDWordData;
   DataIndexer:word;
-
-  TraceMessage:TTRACE_MESSAGE;
 
   PDDataMessage:TUSBPD_DATAMSG;
   PDExtendedMessage:TUSBPD_EXTENDEDMSG;
@@ -2000,12 +2043,11 @@ begin
 
                 WordData.NamedBytes.LSB:=DWordData.NamedBytes.LSB;
                 WordData.NamedBytes.HSB:=DWordData.NamedBytes.HSB;
-                if (MessagePortNumber=1) then PDOVoltageDisplay.Value:=CorrectVoltage(WordData.Raw/1000);
-                if (MessagePortNumber=2) then RealVoltageDisplay.Value:=CorrectVoltage(WordData.Raw/1000);
+                if (MessagePortNumber=1) then RealVoltageDisplay.Value:=CorrectVoltage(WordData.Raw/1000);
 
                 WordData.NamedBytes.LSB:=DWordData.NamedBytes.USB;
                 WordData.NamedBytes.HSB:=DWordData.NamedBytes.MSB;
-                if (MessagePortNumber=1) then PDOCurrentDisplay.Value:=CorrectCurrent(WordData.Raw/1000);
+                if (MessagePortNumber=1) then RealCurrentDisplay.Value:=CorrectCurrent(WordData.Raw/1000);
               end;
               GUI_IND_LISTOFRCVSRCPDO:
               begin
@@ -2356,17 +2398,14 @@ end;
 
 procedure TPowerbankMainForm.GridButtonClick(Sender: TObject);
 var
-  s:string;
-  PDOVoltage:integer;
-  PDOCurrent:integer;
-  PDONumber:byte;
-  index:integer;
-  aButton:TButton;
-  Buffer:array[0..255] of byte;
-
-  aPDO:TSOURCEPDO;
-  aPDOType:TSUPPLY_TYPES;
-
+  PDOVoltage      : integer;
+  PDOCurrent      : integer;
+  PDONumber       : byte;
+  index           : integer;
+  aButton         : TButton;
+  Buffer          : array[0..255] of byte;
+  aPDO            : TSOURCEPDO;
+  aPDOType        : TSUPPLY_TYPES;
 begin
   PDONumber:=0;
 
@@ -2568,6 +2607,112 @@ begin
   end;
 end;
 
+procedure TPowerbankMainForm.SetGridSRCEPRPDO(PDONumber:integer);
+var
+  aPDO:TSOURCEPDO;
+  aPDOType:TSUPPLY_TYPES;
+  aPDOGrid:TStringGrid;
+  s:string;
+  aPDOGridColumn:integer;
+  PDOIndex:integer;
+begin
+  aPDOGrid:=gridRemoteSourceEPRPDO;
+
+  for PDOIndex:=8 to 11 do
+  begin
+    if (PDONumber>0) AND (PDONumber<>PDOIndex) then continue;
+
+    aPDO:=DUT.SourceEPRPDOs[PDOIndex];
+    aPDOGridColumn:=PDOIndex-7;
+
+    TButton(aPDOGrid.Objects[aPDOGridColumn,5]).Enabled:=true;
+    TButton(aPDOGrid.Objects[aPDOGridColumn,5]).Tag:=(aPDOGridColumn);
+
+    if aPDO.Raw=0 then
+    begin
+      aPDOGrid.Cells[aPDOGridColumn,0]:='';
+      aPDOGrid.Cells[aPDOGridColumn,1]:='';
+      aPDOGrid.Cells[aPDOGridColumn,2]:='';
+      aPDOGrid.Cells[aPDOGridColumn,3]:='';
+      aPDOGrid.Cells[aPDOGridColumn,4]:='';
+      TButton(aPDOGrid.Objects[aPDOGridColumn,5]).Enabled:=false;
+      TButton(aPDOGrid.Objects[aPDOGridColumn,5]).Tag:=0;
+    end
+    else
+    begin
+      if (PDOIndex=1) then
+      begin
+        chkgrpPDOFLags.Checked[0]:=(aPDO.FixedSupplyPdo.DataRoleSwap=1);
+        chkgrpPDOFLags.Checked[1]:=(aPDO.FixedSupplyPdo.UsbCommunicationCapable=1);
+        chkgrpPDOFLags.Checked[2]:=(aPDO.FixedSupplyPdo.ExternallyPowered=1);
+        chkgrpPDOFLags.Checked[3]:=(aPDO.FixedSupplyPdo.UsbSuspendSupported=1);
+        chkgrpPDOFLags.Checked[4]:=(aPDO.FixedSupplyPdo.DualRolePower=1);
+      end;
+
+      aPDOType:=TSUPPLY_TYPES(aPDO.GenericPdo.Supply);
+
+      aPDOGrid.Cells[aPDOGridColumn,0]:='PDO '+InttoStr(aPDOGridColumn);
+      aPDOGrid.Cells[aPDOGridColumn,1]:=SUPPLY_TYPES[aPDOType];
+
+      if (aPDOType=TSUPPLY_TYPES.Fixed) then
+      begin
+        with aPDO.FixedSupplyPdo do
+        begin
+          aPDOGrid.Cells[aPDOGridColumn,2]:=InttoStr(MaximumCurrentIn10mA*10)+ 'mA';
+          aPDOGrid.Cells[aPDOGridColumn,3]:=InttoStr(VoltageIn50mV*50 DIV 1000)+'Volt';
+        end;
+      end
+      else
+      if (aPDOType=TSUPPLY_TYPES.Variable) then
+      begin
+        with aPDO.VariableSupplyNonBatteryPdo do
+        begin
+          aPDOGrid.Cells[aPDOGridColumn,2]:=InttoStr(MaximumCurrentIn10mA*10)+ 'mA';
+          aPDOGrid.Cells[aPDOGridColumn,3]:=InttoStr(MaximumVoltageIn50mV*50 DIV 1000)+'Volt';
+        end;
+      end
+      else
+      if (aPDOType=TSUPPLY_TYPES.APDO) then
+      begin
+        if (TAPDO_TYPES(aPDO.GenericAPdo.APO)=TAPDO_TYPES.SPR) then
+        begin
+          with aPDO.SPRPowerSupplyApdo do
+          begin
+            aPDOGrid.Cells[aPDOGridColumn,2]:=InttoStr(MaximumCurrentIn50mA*50)+ 'mA';
+            s:=InttoStr(MinimumVoltageIn100mV*100 DIV 1000)+
+               '-'+
+               InttoStr(MaximumVoltageIn100mV*100 DIV 1000)+
+               'Volt';
+            aPDOGrid.Cells[aPDOGridColumn,3]:=s;
+          end;
+        end;
+
+        if (TAPDO_TYPES(aPDO.GenericAPdo.APO)=TAPDO_TYPES.EPR) then
+        begin
+          with aPDO.EPRPowerSupplyApdo do
+          begin
+            s:=InttoStr(MinimumVoltageIn100mV*100 DIV 1000)+
+               '-'+
+               InttoStr(MaximumVoltageIn100mV*100 DIV 1000)+
+               'Volt';
+            aPDOGrid.Cells[aPDOGridColumn,3]:=s;
+            aPDOGrid.Cells[aPDOGridColumn,4]:=InttoStr(PDPInW)+'Watt';
+          end;
+        end;
+      end
+      else
+      begin
+        aPDOGrid.Cells[aPDOGridColumn,2]:='No data';
+        aPDOGrid.Cells[aPDOGridColumn,3]:='No data';
+        aPDOGrid.Cells[aPDOGridColumn,4]:='No data';
+        TButton(aPDOGrid.Objects[aPDOGridColumn,5]).Enabled:=false;
+        TButton(aPDOGrid.Objects[aPDOGridColumn,5]).Tag:=0;
+      end;
+    end;
+  end;
+end;
+
+
 procedure TPowerbankMainForm.SetGridSNKPDO(PDONumber:integer);
 var
   aPDO:TSINKPDO;
@@ -2644,6 +2789,83 @@ begin
   end;
 end;
 
+procedure TPowerbankMainForm.SetGridSNKEPRPDO(PDONumber:integer);
+var
+  aPDO:TSINKPDO;
+  aPDOType:TSUPPLY_TYPES;
+  aPDOGrid:TStringGrid;
+  aPDOGridColumn:integer;
+  PDOIndex:integer;
+  s:string;
+begin
+  aPDOGrid:=gridRemoteSinkEPRPDO;
+
+  for PDOIndex:=8 to 11 do
+  begin
+    if (PDONumber>0) AND (PDOIndex<>PDONumber) then continue;
+
+    aPDO:=DUT.SinkEPRPDOs[PDOIndex];
+    aPDOGridColumn:=PDOIndex-7;
+
+    if aPDO.Raw=0 then
+    begin
+      aPDOGrid.Cells[aPDOGridColumn,0]:='';
+      aPDOGrid.Cells[aPDOGridColumn,1]:='';
+      aPDOGrid.Cells[aPDOGridColumn,2]:='';
+      aPDOGrid.Cells[aPDOGridColumn,3]:='';
+    end
+    else
+    begin
+      aPDOType:=TSUPPLY_TYPES(aPDO.GenericPdo.Supply);
+
+      aPDOGrid.Cells[aPDOGridColumn,0]:='PDO '+InttoStr(aPDOGridColumn);
+      aPDOGrid.Cells[aPDOGridColumn,1]:=SUPPLY_TYPES[aPDOType];
+
+
+      if (aPDOType=TSUPPLY_TYPES.Fixed) then
+      begin
+        with aPDO.FixedSupplyPdo do
+        begin
+          aPDOGrid.Cells[aPDOGridColumn,2]:=InttoStr(OperationalCurrentIn10mA*10)+ 'mA';
+          aPDOGrid.Cells[aPDOGridColumn,3]:=InttoStr(VoltageIn50mV*50 DIV 1000)+'Volt';
+        end;
+      end
+      else
+      if (aPDOType=TSUPPLY_TYPES.Battery) then
+      begin
+        with aPDO.BatterySupplyPdo do
+        begin
+          aPDOGrid.Cells[aPDOGridColumn,2]:=InttoStr(MaximumAllowablePowerIn250mW*250)+ 'mW';
+          s:=InttoStr(MinimumVoltageIn50mV*50 DIV 1000)+
+             '-'+
+             InttoStr(MaximumVoltageIn50mV*50 DIV 1000)+
+             'Volt';
+          aPDOGrid.Cells[aPDOGridColumn,3]:=s;
+        end;
+      end
+      else
+      if (aPDOType=TSUPPLY_TYPES.Variable) then
+      begin
+        with aPDO.VariableSupplyNonBatteryPdo do
+        begin
+          aPDOGrid.Cells[aPDOGridColumn,2]:=InttoStr(OperationalCurrentIn10mA*10)+ 'mA';
+          s:=InttoStr(MinimumVoltageIn50mV*50 DIV 1000)+
+             '-'+
+             InttoStr(MaximumVoltageIn50mV*50 DIV 1000)+
+             'Volt';
+          aPDOGrid.Cells[aPDOGridColumn,3]:=s;
+        end;
+      end
+      else
+      begin
+        aPDOGrid.Cells[aPDOGridColumn,2]:='No data';
+        aPDOGrid.Cells[aPDOGridColumn,3]:='No data';
+      end;
+    end;
+  end;
+end;
+
+
 procedure TPowerbankMainForm.SetBatteryData;
 var
   aBattCaps:TBATTCAPS;
@@ -2662,7 +2884,6 @@ var
   avalue                : double;
   signed                : pinteger;
   normal                : integer;
-  DWordData:TDWordData;
 begin
   // Send command to get ADC data
   header.Raw:=0;
@@ -2671,7 +2892,7 @@ begin
   result_code := OutEndPoint.Send(header.Bytes , 4 ,10);
 
   // Receive ADC data
-  FillChar({$H-}newdata,4096,0);
+  FillChar({%H-}newdata,4096,0);
   sensordata:=Default(TKM003CSensorData);
   result_code := InEndPoint.Recv(newdata ,4096 , 10);
   if (result_code>sizeof(TKM003CSensorData)) then result_code:=sizeof(TKM003CSensorData);
@@ -2686,7 +2907,7 @@ begin
     {$pop}
     signed:=@normal;
     avalue:=signed^/1000000;
-    PDOVoltageDisplay.Value:=avalue;
+    RealVoltageDisplay.Value:=avalue;
 
     {$push}
     {$R-}
@@ -2694,7 +2915,7 @@ begin
     {$pop}
     signed:=@normal;
     avalue:=signed^/1000000;
-    PDOCurrentDisplay.Value:=avalue;
+    RealCurrentDisplay.Value:=avalue;
 
     // INA228/9 datasheet LSB = 7.8125 m°C = 1000/128
     Temperature:=((sensordata.temp[1]*2000 + sensordata.temp[0]*1000/128)/1000);
@@ -2763,6 +2984,12 @@ begin
         USBDebugLog.Lines.Append(s);
       end;
     end;
+    USBPD_DATAMSG_EPR_MODE:
+    begin
+      s:=s+'EPR mode message.'+#13#10;
+      s:=s+DUT.EPRModeInfo;
+      USBDebugLog.Lines.Append(s);
+    end
     else
     begin
       result:=false;
@@ -2849,6 +3076,16 @@ begin
       vleStatus.Values['PowerStatus']:=InttoStr(DUT.SDB.Data.PowerStatus);
       vleStatus.Values['PowerStateChange']:=DUT.GetStatusPowerStateChangeInfo;
     end;
+    USBPD_EXTMSG_EPR_SINK_CAPABILITIES:
+    begin
+      SetGridSNKPDO(0);
+      SetGridSNKEPRPDO(0);
+    end;
+    USBPD_EXTMSG_EPR_SOURCE_CAPABILITIES:
+    begin
+      SetGridSRCPDO(0);
+      SetGridSRCEPRPDO(0);
+    end;
     else
     begin
       result:=false;
@@ -2864,14 +3101,13 @@ var
 
   result_code           : LongInt;
   newdata               : packed array[0..4095] of byte;
-  i,j,k                 : integer;
+  j                     : integer;
   dataindexer           : integer;
   datasize              : integer;
   SOPPacket             : boolean;
-  s                     : string;
 
   aSOPDHEADER           : TPDHEADER;
-  aSOPExtendedHeader    : TPDHEADEREXTENDED;
+  {%H-}aSOPExtendedHeader    : TPDHEADEREXTENDED;
   PDControlMessage      : TUSBPD_CONTROLMSG;
   PDDataMessage         : TUSBPD_DATAMSG;
   PDExtendedMessage     : TUSBPD_EXTENDEDMSG;
@@ -3236,8 +3472,8 @@ end;
 
 procedure TPowerbankMainForm.Measure;
 begin
-  Voltage:=PDOVoltageDisplay.Value;
-  Current:=PDOCurrentDisplay.Value;
+  Voltage:=RealVoltageDisplay.Value;
+  Current:=RealCurrentDisplay.Value;
   if (false) then
   begin
     //if HPsource.Connected then
@@ -3292,17 +3528,17 @@ begin
          writeln(F,'*************************************************');
          writeln(F);
 
-         write(F,'B_code',aFS.ListSeparator);
-         write(F,'Sample#',aFS.ListSeparator);
-         write(F,'Battery mode',aFS.ListSeparator); // = CD
-         write(F,'Battery mode value',aFS.ListSeparator);
-         write(F,'Trigger moment UTC',aFS.ListSeparator);
-         write(F,'Human time',aFS.ListSeparator);
-         write(F,'Time(sec)',aFS.ListSeparator);
-         write(F,'Voltage(V)',aFS.ListSeparator);
-         write(F,'Current(mA)',aFS.ListSeparator);
-         write(F,'Capacity(mAh)',aFS.ListSeparator);
-         write(F,'Energy(mWh)',aFS.ListSeparator);
+         write(F,'B_code',LocalFS.ListSeparator);
+         write(F,'Sample#',LocalFS.ListSeparator);
+         write(F,'Battery mode',LocalFS.ListSeparator); // = CD
+         write(F,'Battery mode value',LocalFS.ListSeparator);
+         write(F,'Trigger moment UTC',LocalFS.ListSeparator);
+         write(F,'Human time',LocalFS.ListSeparator);
+         write(F,'Time(sec)',LocalFS.ListSeparator);
+         write(F,'Voltage(V)',LocalFS.ListSeparator);
+         write(F,'Current(mA)',LocalFS.ListSeparator);
+         write(F,'Capacity(mAh)',LocalFS.ListSeparator);
+         write(F,'Energy(mWh)',LocalFS.ListSeparator);
          writeln(F);
        end;
 
@@ -3311,17 +3547,17 @@ begin
     else
       ProgressBar1.StepIt;
 
-    write(F,PC,aFS.ListSeparator);
-    write(F,SamplesBox.Text,aFS.ListSeparator);
-    write(F,'CD',aFS.ListSeparator);
-    write(F,ActiveTestType.Current,aFS.ListSeparator);
-    write(F,FloattoStr(NowUTC,aFS),aFS.ListSeparator);
-    write(F,FormatDateTime('dd-mm-yyyy hh:nn:ss',NowUTC),aFS.ListSeparator);
-    write(F,FloattoStrF((Elapsed/1000),ffFixed,6,1,aFS),aFS.ListSeparator);
-    write(F,FloattoStrF(Voltage,ffFixed,10,3,aFS),aFS.ListSeparator);
-    write(F,FloattoStrF(Current,ffFixed,10,4,aFS),aFS.ListSeparator);
-    write(F,FloattoStrF(Capacity,ffFixed,10,1,aFS),aFS.ListSeparator);
-    write(F,FloattoStrF(Energy,ffFixed,10,1,aFS),aFS.ListSeparator);
+    write(F,PC,LocalFS.ListSeparator);
+    write(F,SamplesBox.Text,LocalFS.ListSeparator);
+    write(F,'CD',LocalFS.ListSeparator);
+    write(F,ActiveTestType.Current,LocalFS.ListSeparator);
+    write(F,FloattoStr(NowUTC,LocalFS),LocalFS.ListSeparator);
+    write(F,FormatDateTime('dd-mm-yyyy hh:nn:ss',NowUTC),LocalFS.ListSeparator);
+    write(F,FloattoStrF((Elapsed/1000),ffFixed,6,1,LocalFS),LocalFS.ListSeparator);
+    write(F,FloattoStrF(Voltage,ffFixed,10,3,LocalFS),LocalFS.ListSeparator);
+    write(F,FloattoStrF(Current,ffFixed,10,4,LocalFS),LocalFS.ListSeparator);
+    write(F,FloattoStrF(Capacity,ffFixed,10,1,LocalFS),LocalFS.ListSeparator);
+    write(F,FloattoStrF(Energy,ffFixed,10,1,LocalFS),LocalFS.ListSeparator);
 
     writeln(F);
   finally
