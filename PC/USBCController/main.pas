@@ -292,10 +292,13 @@ uses
   Bits,Tools;
 
 Const
-  DevVID        = $5FC9;
-  DevPID        = $0063;
-  EP_IN         =  1 or LIBUSB_ENDPOINT_IN;
-  EP_OUT        =  1 or LIBUSB_ENDPOINT_OUT;
+  DevVID                       = $5FC9;
+  DevPID                       = $0063;
+  EP_IN                        = 1 or LIBUSB_ENDPOINT_IN;
+  EP_OUT                       = 1 or LIBUSB_ENDPOINT_OUT;
+  ConfigUSBConfiguration       = 1;
+  ConfigUSBInterface           = 0;
+  ConfigUSBAltInterface        = 0;
 
 function ChangeBrightness(lIn: tColor; factor:double): TColor;
 var
@@ -3166,7 +3169,7 @@ begin
 
         if (datasize=0) then
         begin
-           USBDebugLog.Lines.Append('Empty data. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(PacketHeader.Data.Time.Raw))));
+           USBDebugLog.Lines.Append('Empty data. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(Int64(PacketHeader.Data.Time.Raw)))));
           break;
         end;
 
@@ -3351,8 +3354,12 @@ begin
         Device := TLibUsbDevice.Create(Context,DevVID,DevPID);
         if Assigned(Device) then
         begin
-          Device.SetConfiguration(1);
-          DeviceInterface := TLibUsbInterface.Create(Device,Device.FindInterface(0,0));
+          Device.SetConfiguration(ConfigUSBConfiguration);
+          DeviceInterface := TLibUsbInterface.Create(Device,Device.FindInterface(ConfigUSBInterface,ConfigUSBAltInterface));
+
+          //Device.SetConfiguration(1);
+          //DeviceInterface := TLibUsbInterface.Create(Device,Device.FindInterface(0,0));
+
           OutEndPoint := TLibUsbBulkOutEndpoint.Create(DeviceInterface , DeviceInterface.FindEndpoint(EP_OUT));
           InEndPoint := TLibUsbBulkInEndpoint.Create(DeviceInterface , DeviceInterface.FindEndpoint(EP_IN));
         end;

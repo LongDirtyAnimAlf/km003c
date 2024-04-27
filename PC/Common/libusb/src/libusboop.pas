@@ -18,11 +18,7 @@ Unit libusboop;
 {$mode objfpc}{$H+}
 
 {$macro on}
-{$ifdef windows}
-  {$define extdecl:=stdcall}
-{$else}
-  {$define extdecl:=cdecl}
-{$endif}
+{$define extdecl:=cdecl}
 
 Interface
 
@@ -1539,15 +1535,15 @@ End;
 
 Class Function ELibUsb.Check(AResult : Integer; Const Msg : String) : Integer;
 Begin
-  if AResult < 0 then
-    raise ELibUsb.Create(AResult,Msg);
+  //if AResult < 0 then
+  //  raise ELibUsb.Create(AResult,Msg);
   Result := AResult;
 End;
 
 Class Function ELibUsb.CheckFmt(AResult : Integer; Const Msg : String; Const Args : Array Of Const) : Integer;
 Begin
-  if AResult < 0 then
-    raise ELibUsb.CreateFmt(AResult,Msg,Args);
+  //if AResult < 0 then
+  //  raise ELibUsb.CreateFmt(AResult,Msg,Args);
   Result := AResult;
 End;
 

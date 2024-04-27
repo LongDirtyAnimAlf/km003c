@@ -343,7 +343,7 @@ object PowerbankMainForm: TPowerbankMainForm
     Width = 121
     AutoSize = True
     Caption = 'Discover Indentity'
-    TabOrder = 4
+    TabOrder = 15
     OnClick = btnVDMDiscoIndentClick
   end
   object btnVDMDiscoSVID: TButton
@@ -1461,6 +1461,26 @@ object PowerbankMainForm: TPowerbankMainForm
     TabOrder = 14
     OnClick = Button1Click
   end
+  object btnSetEPRKC003C: TButton
+    AnchorSideTop.Control = grpKC003CPDControl
+    AnchorSideTop.Side = asrBottom
+    Left = 0
+    Height = 19
+    Top = 209
+    Width = 79
+    Caption = 'btnSetEPRKC003C'
+    TabOrder = 16
+  end
+  object btnSetEPRKC003C1: TButton
+    AnchorSideTop.Control = grpKC003CPDControl
+    AnchorSideTop.Side = asrBottom
+    Left = 0
+    Height = 19
+    Top = 209
+    Width = 79
+    Caption = 'btnSetEPRKC003C1'
+    TabOrder = 4
+  end
   object StoreTimer: TTimer
     Enabled = False
     OnTimer = StoreTimerTimer
@@ -1477,24 +1497,5 @@ object PowerbankMainForm: TPowerbankMainForm
     OnTimer = UpdateTimerTimer
     Left = 1094
     Top = 96
-  end
-  object btnSetEPRKC003C: TButton
-    AnchorSideTop.Control = grpKC003CPDControl
-    AnchorSideTop.Side = asrBottom
-    Left = 0
-    Height = 19
-    Top = 65494
-    Width = 79
-    Caption = 'btnSetEPRKC003C'
-  end
-  object btnSetEPRKC003C1: TButton
-    AnchorSideTop.Control = grpKC003CPDControl
-    AnchorSideTop.Side = asrBottom
-    Left = 0
-    Height = 19
-    Top = 65502
-    Width = 79
-    Caption = 'btnSetEPRKC003C1'
-    TabOrder = 4
   end
 end

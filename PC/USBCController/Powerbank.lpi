@@ -82,6 +82,45 @@
           </Linking>
         </CompilerOptions>
       </Item>
+      <Item Name="win64">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="bin\$NameOnly($(ProjFile))-$(TargetCPU)-$(TargetOS)"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);..\Common\jedi\jvcl\jvcl\common;..\Common\synaser;..\Common\mORMot2"/>
+            <Libraries Value="..\Common\static\$(TargetCPU)-$(TargetOS)"/>
+            <OtherUnitFiles Value="..\Common;..\Common\jedi\jvcl\jvcl\run;..\Common\serial;..\Common\libusb\src;..\Common\synaser;..\Common\mORMot2\src"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="win64"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseHeaptrc Value="True"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dDEBUG"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -127,8 +166,9 @@
       <Filename Value="bin\$NameOnly($(ProjFile))-$(TargetCPU)-$(TargetOS)"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir);..\Common\jedi\jvcl\jvcl\common;..\Common\synaser"/>
-      <OtherUnitFiles Value="..\Common;..\Common\jedi\jvcl\jvcl\run;..\Common\serial;..\Common\libusb\src;..\Common\synaser"/>
+      <IncludeFiles Value="$(ProjOutDir);..\Common\jedi\jvcl\jvcl\common;..\Common\synaser;..\Common\mORMot2"/>
+      <Libraries Value="..\Common\static\$(TargetCPU)-$(TargetOS)"/>
+      <OtherUnitFiles Value="..\Common;..\Common\jedi\jvcl\jvcl\run;..\Common\serial;..\Common\libusb\src;..\Common\synaser;..\Common\mORMot2\src"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
@@ -142,6 +182,7 @@
       <Debugging>
         <DebugInfoType Value="dsDwarf3"/>
         <UseHeaptrc Value="True"/>
+        <UseExternalDbgSyms Value="True"/>
       </Debugging>
       <Options>
         <Win32>
