@@ -1,233 +1,169 @@
 object PowerbankMainForm: TPowerbankMainForm
-  Left = 405
+  Left = 138
   Height = 884
-  Top = 174
-  Width = 1692
-  Caption = 'CONSULAB Powerbank Tester V1.2'
+  Top = 74
+  Width = 1391
+  Caption = 'KM003C control'
   ClientHeight = 884
-  ClientWidth = 1692
+  ClientWidth = 1391
+  LCLVersion = '4.6.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '3.2.0.0'
   object grpPDOs: TGroupBox
     AnchorSideLeft.Control = grpPowerStatus
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
     AnchorSideBottom.Control = grpPowerStatus
     AnchorSideBottom.Side = asrBottom
-    Left = 498
-    Height = 264
+    Left = 361
+    Height = 392
     Top = 8
     Width = 502
     BorderSpacing.Left = 8
     BorderSpacing.Top = 8
     BorderSpacing.InnerBorder = 5
     Caption = 'Available remote PDOs'
-    ClientHeight = 244
+    ChildSizing.LeftRightSpacing = 2
+    ChildSizing.TopBottomSpacing = 2
+    ChildSizing.VerticalSpacing = 4
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+    ChildSizing.ShrinkVertical = crsHomogenousChildResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 372
     ClientWidth = 498
     TabOrder = 0
-    object gridRemoteSourcePDO: TStringGrid
-      AnchorSideLeft.Control = grpPDOs
-      AnchorSideTop.Control = grpPDOs
+    object SourcePDODrawGrid: TDrawGrid
       AnchorSideRight.Control = grpPDOs
       AnchorSideRight.Side = asrBottom
-      Left = 0
-      Height = 138
-      Top = 0
+      Left = 2
+      Height = 182
+      Top = 2
       Width = 494
-      Anchors = [akTop, akLeft, akRight]
+      AlternateColor = clBtnFace
       AutoEdit = False
       AutoFillColumns = True
-      BorderSpacing.Right = 4
-      ColCount = 8
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected]
-      RowCount = 6
-      ScrollBars = ssNone
+      Columns = <      
+        item
+          ButtonStyle = cbsButtonColumn
+          MinSize = 60
+          MaxSize = 60
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Source'
+          Width = 60
+        end      
+        item
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Type'
+          Width = 130
+        end      
+        item
+          ReadOnly = True
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Voltage'
+          Width = 130
+        end      
+        item
+          ReadOnly = True
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Current'
+          Width = 129
+        end>
+      DefaultColWidth = 24
+      ExtendedSelect = False
+      FocusRectVisible = False
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking, goSmoothScroll, goFixedRowNumbering]
+      RowCount = 8
+      ScrollBars = ssVertical
       TabOrder = 0
-      OnResize = gridPDOResize
+      OnDrawCell = SourcePDODrawGridDrawCell
+      OnButtonClick = SourcePDODrawGridButtonClick
       ColWidths = (
-        64
-        61
-        61
-        61
-        61
-        61
-        61
+        24
         60
+        130
+        130
+        129
       )
     end
-    object gridRemoteSinkPDO: TStringGrid
-      AnchorSideLeft.Control = grpPDOs
-      AnchorSideTop.Control = gridRemoteSourcePDO
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = grpPDOs
+    object SinkPDODrawGrid: TDrawGrid
       AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = grpPDOs
-      AnchorSideBottom.Side = asrBottom
-      Left = 0
-      Height = 96
-      Top = 148
+      Left = 2
+      Height = 182
+      Top = 188
       Width = 494
-      Anchors = [akLeft, akRight, akBottom]
+      AlternateColor = clBtnFace
       AutoEdit = False
       AutoFillColumns = True
-      BorderSpacing.Top = 8
-      BorderSpacing.Right = 4
-      ColCount = 8
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected]
-      RowCount = 4
-      ScrollBars = ssNone
+      ColCount = 6
+      Columns = <      
+        item
+          ButtonStyle = cbsButtonColumn
+          MinSize = 60
+          MaxSize = 60
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Sink'
+          Width = 60
+        end      
+        item
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Type'
+          Width = 98
+        end      
+        item
+          ReadOnly = True
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Voltage'
+          Width = 97
+        end      
+        item
+          ReadOnly = True
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Current'
+          Width = 97
+        end      
+        item
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Power'
+          Width = 97
+        end>
+      DefaultColWidth = 24
+      ExtendedSelect = False
+      FocusRectVisible = False
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking, goSmoothScroll, goFixedRowNumbering]
+      RowCount = 8
+      ScrollBars = ssVertical
       TabOrder = 1
-      OnResize = gridPDOResize
+      OnDrawCell = SourcePDODrawGridDrawCell
+      OnButtonClick = SourcePDODrawGridButtonClick
       ColWidths = (
-        64
-        61
-        61
-        61
-        61
-        61
-        61
+        24
         60
+        98
+        97
+        97
+        97
       )
-    end
-  end
-  object grpSTM32PDControl: TGroupBox
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    Left = 8
-    Height = 229
-    Top = 8
-    Width = 130
-    AutoSize = True
-    BorderSpacing.Left = 8
-    BorderSpacing.Top = 8
-    BorderSpacing.InnerBorder = 4
-    Caption = 'STM32 PD Control'
-    ClientHeight = 209
-    ClientWidth = 126
-    TabOrder = 1
-    object btnConnectSTM32: TButton
-      AnchorSideLeft.Control = grpSTM32PDControl
-      AnchorSideTop.Control = grpSTM32PDControl
-      AnchorSideRight.Control = grpSTM32PDControl
-      AnchorSideRight.Side = asrBottom
-      Left = 4
-      Height = 25
-      Top = 4
-      Width = 118
-      Anchors = [akTop, akLeft, akRight]
-      AutoSize = True
-      BorderSpacing.Around = 4
-      Caption = 'Connect STM32'
-      TabOrder = 0
-      OnClick = btnConnectSTM32Click
-    end
-    object btnReset: TButton
-      AnchorSideLeft.Control = grpSTM32PDControl
-      AnchorSideTop.Control = btnRcvSelf
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = grpSTM32PDControl
-      AnchorSideRight.Side = asrBottom
-      Left = 4
-      Height = 25
-      Top = 89
-      Width = 118
-      Anchors = [akTop, akLeft, akRight]
-      AutoSize = True
-      BorderSpacing.Around = 4
-      Caption = 'Reset Controller'
-      TabOrder = 1
-      OnClick = btnResetClick
-    end
-    object btnRcvSelf: TButton
-      AnchorSideLeft.Control = grpSTM32PDControl
-      AnchorSideTop.Control = btnSwap
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = grpSTM32PDControl
-      AnchorSideRight.Side = asrBottom
-      Left = 4
-      Height = 22
-      Top = 63
-      Width = 118
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Around = 4
-      Caption = 'Rcv Self'
-      TabOrder = 2
-      OnClick = btnRcvSelfClick
-    end
-    object btnSwap: TButton
-      AnchorSideLeft.Control = grpSTM32PDControl
-      AnchorSideTop.Control = btnConnectSTM32
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = grpSTM32PDControl
-      AnchorSideRight.Side = asrBottom
-      Left = 4
-      Height = 26
-      Top = 33
-      Width = 118
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Around = 4
-      Caption = 'Swap'
-      TabOrder = 3
-      OnClick = btnSwapClick
-    end
-    object btnRcvRemoteSource: TButton
-      AnchorSideLeft.Control = grpSTM32PDControl
-      AnchorSideTop.Control = btnRcvRemoteSink
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = grpSTM32PDControl
-      AnchorSideRight.Side = asrBottom
-      Left = 4
-      Height = 24
-      Top = 145
-      Width = 118
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Around = 4
-      Caption = 'Remote Source'
-      TabOrder = 4
-      OnClick = btnRcvRemoteSourceClick
-    end
-    object btnRcvRemoteSink: TButton
-      AnchorSideLeft.Control = grpSTM32PDControl
-      AnchorSideTop.Control = btnReset
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = grpSTM32PDControl
-      AnchorSideRight.Side = asrBottom
-      Left = 4
-      Height = 23
-      Top = 118
-      Width = 118
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Around = 4
-      Caption = 'Remote Sink'
-      TabOrder = 5
-      OnClick = btnRcvRemoteSinkClick
-    end
-    object btnSwapVconn: TButton
-      AnchorSideLeft.Control = grpSTM32PDControl
-      AnchorSideTop.Control = btnRcvRemoteSource
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = grpSTM32PDControl
-      AnchorSideRight.Side = asrBottom
-      Left = 4
-      Height = 24
-      Top = 173
-      Width = 118
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Around = 4
-      Caption = 'Swap Vconn'
-      TabOrder = 6
-      OnClick = btnSwapVconnClick
     end
   end
   object grpPowerStatus: TGroupBox
     AnchorSideLeft.Control = grpKC003CPDControl
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
-    AnchorSideBottom.Control = grpSTM32PDControl
     AnchorSideBottom.Side = asrBottom
-    Left = 289
+    Left = 152
     Height = 225
     Top = 8
     Width = 201
@@ -236,7 +172,7 @@ object PowerbankMainForm: TPowerbankMainForm
     Caption = 'Power Status'
     ClientHeight = 205
     ClientWidth = 197
-    TabOrder = 2
+    TabOrder = 1
     object editPowerStatusUSBCurrent: TEdit
       AnchorSideLeft.Control = grpPowerStatus
       AnchorSideTop.Control = grpPowerStatus
@@ -308,7 +244,6 @@ object PowerbankMainForm: TPowerbankMainForm
       BorderSpacing.Left = 8
       Caption = 'Reset'
       TabOrder = 3
-      OnClick = btnHardResetClick
     end
     object btnCleanLogs: TButton
       AnchorSideLeft.Control = chkgrpPDOFLags
@@ -329,31 +264,12 @@ object PowerbankMainForm: TPowerbankMainForm
     end
   end
   object cmboSerialPorts: TComboBox
-    Left = 16
+    Left = 205
     Height = 23
-    Top = 240
+    Top = 248
     Width = 101
     ItemHeight = 15
-    TabOrder = 3
-  end
-  object btnVDMDiscoIndent: TButton
-    Left = 72
-    Height = 25
-    Top = 240
-    Width = 121
-    AutoSize = True
-    Caption = 'Discover Indentity'
-    TabOrder = 15
-    OnClick = btnVDMDiscoIndentClick
-  end
-  object btnVDMDiscoSVID: TButton
-    Left = 152
-    Height = 26
-    Top = 211
-    Width = 84
-    Caption = 'Discover SVID'
-    TabOrder = 5
-    OnClick = btnVDMDiscoSVIDClick
+    TabOrder = 2
   end
   object PageControl1: TPageControl
     AnchorSideLeft.Control = Owner
@@ -365,14 +281,62 @@ object PowerbankMainForm: TPowerbankMainForm
     AnchorSideBottom.Side = asrBottom
     Left = 8
     Height = 288
-    Top = 280
+    Top = 408
     Width = 1152
-    ActivePage = TabSheet2
+    ActivePage = TabSheet3
     BorderSpacing.Around = 8
-    TabIndex = 1
-    TabOrder = 6
+    TabIndex = 0
+    TabOrder = 3
+    object TabSheet3: TTabSheet
+      Caption = 'PD logger'
+      ClientHeight = 260
+      ClientWidth = 1144
+      object ListView1: TListView
+        Left = 0
+        Height = 260
+        Top = 0
+        Width = 1144
+        Align = alClient
+        AutoSort = False
+        AutoWidthLastColumn = True
+        Columns = <        
+          item
+            Caption = '#'
+          end        
+          item
+            Caption = 'ID'
+            Width = 250
+          end        
+          item
+            Caption = 'SOP'
+          end        
+          item
+            Caption = 'PD Data'
+            Width = 840
+          end>
+        ColumnClick = False
+        Font.CharSet = ANSI_CHARSET
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Pitch = fpFixed
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        GridLines = True
+        MultiSelect = True
+        ParentFont = False
+        PopupMenu = PopupPDMessages
+        ReadOnly = True
+        RowSelect = True
+        ScrollBars = ssVertical
+        TabOrder = 0
+        ToolTips = False
+        ViewStyle = vsReport
+        OnCustomDrawItem = ListView1CustomDrawItem
+        OnKeyDown = ListView1KeyDown
+      end
+    end
     object TabSheet1: TTabSheet
-      Caption = 'TabSheet1'
+      Caption = 'PD sweets'
       ClientHeight = 260
       ClientWidth = 1144
       object GroupBattery: TGroupBox
@@ -439,7 +403,6 @@ object PowerbankMainForm: TPowerbankMainForm
           AutoEdit = False
           BorderSpacing.Left = 4
           ExtendedSelect = False
-          FixedCols = 0
           RowCount = 5
           ScrollBars = ssAutoVertical
           TabOrder = 2
@@ -452,7 +415,7 @@ object PowerbankMainForm: TPowerbankMainForm
           )
           ColWidths = (
             64
-            99
+            116
           )
         end
       end
@@ -489,7 +452,6 @@ object PowerbankMainForm: TPowerbankMainForm
           BorderSpacing.Right = 4
           BorderSpacing.Bottom = 4
           DefaultColWidth = 100
-          FixedCols = 0
           RowCount = 17
           ScrollBars = ssAutoVertical
           TabOrder = 0
@@ -526,7 +488,7 @@ object PowerbankMainForm: TPowerbankMainForm
           Left = 4
           Height = 25
           Top = 195
-          Width = 146
+          Width = 145
           Anchors = [akLeft, akBottom]
           AutoSize = True
           BorderSpacing.Left = 4
@@ -570,7 +532,6 @@ object PowerbankMainForm: TPowerbankMainForm
           BorderSpacing.Right = 4
           BorderSpacing.Bottom = 4
           DefaultColWidth = 100
-          FixedCols = 0
           RowCount = 19
           ScrollBars = ssAutoVertical
           TabOrder = 0
@@ -609,7 +570,7 @@ object PowerbankMainForm: TPowerbankMainForm
           Left = 4
           Height = 25
           Top = 195
-          Width = 132
+          Width = 131
           Anchors = [akLeft, akBottom]
           AutoSize = True
           BorderSpacing.Left = 4
@@ -648,7 +609,6 @@ object PowerbankMainForm: TPowerbankMainForm
           BorderSpacing.Left = 4
           DefaultColWidth = 100
           ExtendedSelect = False
-          FixedCols = 0
           RowCount = 3
           ScrollBars = ssNone
           TabOrder = 0
@@ -659,7 +619,7 @@ object PowerbankMainForm: TPowerbankMainForm
           )
           ColWidths = (
             100
-            95
+            112
           )
         end
         object btnGetPPSStatus: TButton
@@ -705,7 +665,6 @@ object PowerbankMainForm: TPowerbankMainForm
           BorderSpacing.Left = 4
           DefaultColWidth = 120
           ExtendedSelect = False
-          FixedCols = 0
           RowCount = 8
           ScrollBars = ssAutoVertical
           TabOrder = 0
@@ -721,7 +680,7 @@ object PowerbankMainForm: TPowerbankMainForm
           )
           ColWidths = (
             120
-            75
+            92
           )
         end
         object btnGetStatus: TButton
@@ -741,14 +700,14 @@ object PowerbankMainForm: TPowerbankMainForm
       end
     end
     object TabSheet2: TTabSheet
-      Caption = 'TabSheet2'
+      Caption = 'PD debug'
       ClientHeight = 260
       ClientWidth = 1144
       object GroupLogs: TGroupBox
-        Left = 8
+        Left = 216
         Height = 252
         Top = 0
-        Width = 1128
+        Width = 920
         Align = alClient
         Anchors = []
         BorderSpacing.Left = 8
@@ -762,55 +721,70 @@ object PowerbankMainForm: TPowerbankMainForm
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 3
         ClientHeight = 232
-        ClientWidth = 1124
+        ClientWidth = 916
         TabOrder = 0
         object USBComLog: TMemo
           AnchorSideBottom.Side = asrBottom
           Left = 0
           Height = 232
           Top = 0
-          Width = 375
+          Width = 305
           ScrollBars = ssAutoVertical
           TabOrder = 0
         end
         object USBDetailsLog: TMemo
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Side = asrBottom
-          Left = 375
+          Left = 305
           Height = 232
           Top = 0
-          Width = 375
+          Width = 306
           ScrollBars = ssAutoVertical
           TabOrder = 1
         end
         object USBDebugLog: TMemo
           AnchorSideBottom.Side = asrBottom
-          Left = 750
+          Left = 611
           Height = 232
           Top = 0
-          Width = 374
+          Width = 305
           ScrollBars = ssAutoVertical
           TabOrder = 2
         end
       end
+      object ListBox1: TListBox
+        Left = 4
+        Height = 244
+        Top = 8
+        Width = 204
+        Align = alLeft
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 8
+        BorderSpacing.Right = 4
+        BorderSpacing.Bottom = 8
+        ItemHeight = 0
+        PopupMenu = PopupPDMessages
+        Style = lbOwnerDrawFixed
+        TabOrder = 1
+        OnDrawItem = ListBox1DrawItem
+      end
     end
   end
   object grpKC003CPDControl: TGroupBox
-    AnchorSideLeft.Control = grpSTM32PDControl
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
-    Left = 146
-    Height = 201
+    Left = 8
+    Height = 260
     Top = 8
-    Width = 135
+    Width = 136
     AutoSize = True
     BorderSpacing.Left = 8
     BorderSpacing.Top = 8
     BorderSpacing.InnerBorder = 4
-    Caption = 'KC003C PD Control'
-    ClientHeight = 181
-    ClientWidth = 131
-    TabOrder = 7
+    Caption = 'Basics'
+    ClientHeight = 240
+    ClientWidth = 132
+    TabOrder = 4
     object btnConnectKC003C: TButton
       AnchorSideLeft.Control = grpKC003CPDControl
       AnchorSideTop.Control = grpKC003CPDControl
@@ -819,7 +793,7 @@ object PowerbankMainForm: TPowerbankMainForm
       Left = 4
       Height = 25
       Top = 4
-      Width = 123
+      Width = 124
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BorderSpacing.Around = 4
@@ -829,13 +803,14 @@ object PowerbankMainForm: TPowerbankMainForm
     end
     object btnKC003CReset: TButton
       AnchorSideLeft.Control = grpKC003CPDControl
+      AnchorSideTop.Control = btnKC003CEnterCommandMode
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = grpKC003CPDControl
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 25
-      Top = 89
-      Width = 123
+      Top = 148
+      Width = 124
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BorderSpacing.Around = 4
@@ -851,8 +826,8 @@ object PowerbankMainForm: TPowerbankMainForm
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 24
-      Top = 145
-      Width = 123
+      Top = 204
+      Width = 124
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Around = 4
       Caption = 'Remote Source'
@@ -867,515 +842,84 @@ object PowerbankMainForm: TPowerbankMainForm
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 23
-      Top = 118
-      Width = 123
+      Top = 177
+      Width = 124
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Around = 4
       Caption = 'Remote Sink'
       TabOrder = 3
       OnClick = btnKC003CRcvRemoteSinkClick
     end
+    object btnKC003CEnterCommandMode: TButton
+      AnchorSideLeft.Control = grpKC003CPDControl
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = grpKC003CPDControl
+      AnchorSideRight.Side = asrBottom
+      Left = 4
+      Height = 25
+      Top = 119
+      Width = 124
+      Anchors = [akLeft, akRight]
+      AutoSize = True
+      BorderSpacing.Around = 4
+      Caption = 'Enter cmd-mode'
+      TabOrder = 4
+      OnClick = btnKC003CEnterCommandModeClick
+    end
   end
   object grpVAData: TGroupBox
-    AnchorSideLeft.Control = PageControl1
+    AnchorSideLeft.Control = grpPDOs
     AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = PageControl1
+    AnchorSideTop.Control = grpEPRPDOs
+    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = grpPDOs
     AnchorSideBottom.Side = asrBottom
-    Left = 1168
-    Height = 264
-    Top = 280
-    Width = 248
+    Left = 867
+    Height = 128
+    Top = 272
+    Width = 506
     BorderSpacing.Left = 4
     BorderSpacing.Right = 4
     Caption = 'Realtime Power Data'
-    TabOrder = 8
+    TabOrder = 5
     OnResize = grpVADataResize
   end
   object btnGetSourceInfo: TButton
-    Left = 168
+    Left = 184
     Height = 25
-    Top = 247
+    Top = 288
     Width = 107
     AutoSize = True
     Caption = 'Get Source Info'
-    TabOrder = 9
+    TabOrder = 6
     OnClick = btnGetSourceInfoClick
   end
   object grpLineVoltages: TGroupBox
-    AnchorSideLeft.Control = grpVAData
+    AnchorSideLeft.Control = PageControl1
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = PageControl1
     AnchorSideBottom.Control = PageControl1
     AnchorSideBottom.Side = asrBottom
-    Left = 1420
+    Left = 1168
     Height = 288
-    Top = 280
+    Top = 408
     Width = 200
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 4
     Caption = 'Control Line Voltages'
     Constraints.MinHeight = 270
     Constraints.MinWidth = 200
-    TabOrder = 10
-  end
-  object grpTesting: TGroupBox
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = PageControl1
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Owner
-    AnchorSideBottom.Side = asrBottom
-    Left = 8
-    Height = 304
-    Top = 576
-    Width = 1680
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Left = 4
-    BorderSpacing.Around = 4
-    Caption = 'Testing'
-    ClientHeight = 284
-    ClientWidth = 1676
-    TabOrder = 11
-    object Chart1: TChart
-      AnchorSideTop.Control = grpTesting
-      AnchorSideRight.Control = grpTesting
-      AnchorSideBottom.Control = grpTesting
-      Left = 948
-      Height = 280
-      Top = 4
-      Width = 728
-      AxisList = <      
-        item
-          Grid.Color = clWhite
-          TickColor = clWhite
-          AxisPen.Color = clWhite
-          AxisPen.Visible = True
-          Marks.LabelFont.Color = clAqua
-          Marks.LabelBrush.Style = bsClear
-          Minors = <>
-          Title.LabelFont.Color = clAqua
-          Title.LabelFont.Orientation = 900
-          Title.Visible = True
-          Title.Caption = 'Voltage'
-          Title.LabelBrush.Style = bsClear
-        end      
-        item
-          Grid.Color = clWhite
-          Alignment = calBottom
-          Marks.LabelBrush.Style = bsClear
-          Minors = <>
-          Title.LabelFont.Color = clWhite
-          Title.LabelBrush.Style = bsClear
-        end      
-        item
-          Alignment = calRight
-          Marks.LabelFont.Color = clRed
-          Marks.LabelBrush.Style = bsClear
-          Minors = <>
-          Title.LabelFont.Color = clRed
-          Title.LabelFont.Orientation = -900
-          Title.Visible = True
-          Title.Caption = 'Current'
-          Title.LabelBrush.Style = bsClear
-        end>
-      BackColor = clBlack
-      Foot.Brush.Color = clBtnFace
-      Foot.Font.Color = clBlue
-      Title.Brush.Color = clBtnFace
-      Title.Font.Color = clBlue
-      Title.Text.Strings = (
-        'TChart'
-      )
-      Align = alRight
-      BorderSpacing.Top = 4
-      Color = clBlack
-      object Chart1LineSeries1: TLineSeries
-        LinePen.Color = clAqua
-        LinePen.Width = 3
-      end
-      object Chart1LineSeries2: TLineSeries
-        LinePen.Color = clRed
-        LinePen.Width = 3
-      end
-      object Chart1LineSeries3: TLineSeries
-        Active = False
-        LinePen.Color = clFuchsia
-        LinePen.Width = 3
-      end
-    end
-    object GroupBox1: TGroupBox
-      AnchorSideLeft.Control = grpTesting
-      AnchorSideTop.Control = grpTesting
-      AnchorSideBottom.Control = grpTesting
-      Left = 0
-      Height = 284
-      Top = 0
-      Width = 664
-      Align = alLeft
-      Caption = 'GroupBox1'
-      ClientHeight = 264
-      ClientWidth = 660
-      TabOrder = 1
-      object btnInit: TButton
-        Left = 8
-        Height = 30
-        Top = 8
-        Width = 222
-        AutoSize = True
-        BorderSpacing.Left = 8
-        BorderSpacing.Top = 8
-        Caption = 'Init and Connect Powersource'
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -15
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        ParentFont = False
-        TabOrder = 0
-        OnClick = btnInitClick
-      end
-      object TypesBox: TComboBox
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideRight.Side = asrBottom
-        Left = 432
-        Height = 23
-        Top = 12
-        Width = 187
-        Anchors = []
-        BorderSpacing.Left = 8
-        BorderSpacing.Right = 8
-        ItemHeight = 15
-        Items.Strings = (
-          'TA0001 Powerocks Stone 3'
-          'TA0002 Xtorm AL 420'
-          'TA0003 ISY IAP 3001'
-          'TA0004 TPLink TL - PB 10400'
-          'TA0005 PURO BB60P1 WHI'
-          'TA0006 Cellularline Freepower Multi 10000'
-          'TA0007 Energea Duo 9000'
-          'TA0008 PNY Powerpack T 7800'
-          'TA0009 GP Powerbank 8400mAh'
-          'TA00010 Samsung 8400mAh'
-          'TA00011 iWalk Extreme Duo 8200mAh'
-          'TA00012 Avanca Powerbar Pro 9000'
-        )
-        TabOrder = 1
-        Text = 'Enter battery type'
-      end
-      object TestsBox: TComboBox
-        AnchorSideLeft.Control = TypesBox
-        AnchorSideTop.Control = SamplesBox
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = TypesBox
-        AnchorSideRight.Side = asrBottom
-        Left = 432
-        Height = 23
-        Top = 74
-        Width = 187
-        Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 8
-        ItemHeight = 15
-        TabOrder = 2
-        Text = 'Enter test type'
-        OnChange = TestsBoxChange
-      end
-      object SamplesBox: TComboBox
-        AnchorSideLeft.Control = TypesBox
-        AnchorSideTop.Control = TypesBox
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = TypesBox
-        AnchorSideRight.Side = asrBottom
-        Left = 432
-        Height = 23
-        Top = 43
-        Width = 187
-        Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 8
-        ItemHeight = 15
-        Items.Strings = (
-          '1'
-        )
-        TabOrder = 3
-        Text = 'Enter battery #'
-      end
-      object cmboSerialPorts1: TComboBox
-        AnchorSideLeft.Control = btnInit
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = btnInit
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Side = asrBottom
-        Left = 238
-        Height = 23
-        Top = 12
-        Width = 142
-        Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Left = 8
-        BorderSpacing.Right = 8
-        ItemHeight = 15
-        TabOrder = 4
-        Text = 'Serial Ports'
-      end
-      object StartStopButton: TSpeedButton
-        AnchorSideLeft.Control = btnInit
-        AnchorSideTop.Control = btnInit
-        AnchorSideTop.Side = asrBottom
-        Left = 8
-        Height = 40
-        Top = 50
-        Width = 177
-        AllowAllUp = True
-        BorderSpacing.Top = 12
-        Caption = 'Start'
-        Font.CharSet = ANSI_CHARSET
-        Font.Color = clLime
-        Font.Height = -27
-        Font.Name = 'Tahoma'
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        Font.Style = [fsBold]
-        GroupIndex = 1
-        OnClick = StartStopButtonClick
-        ParentFont = False
-      end
-      object ProgressBar1: TProgressBar
-        Left = 16
-        Height = 23
-        Top = 145
-        Width = 166
-        TabOrder = 5
-      end
-      object btnTestDischarge: TSpeedButton
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Side = asrBottom
-        Left = 16
-        Height = 25
-        Top = 96
-        Width = 177
-        AllowAllUp = True
-        Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 8
-        Caption = 'Test Discharge'
-        GroupIndex = 1
-        OnClick = btnTestDischargeClick
-      end
-      object lblDischargeSettings: TLabel
-        AnchorSideTop.Side = asrBottom
-        Left = 424
-        Height = 13
-        Top = 128
-        Width = 106
-        BorderSpacing.Top = 20
-        Caption = 'Discharge Settings'
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object lblCurrent: TLabel
-        AnchorSideLeft.Control = lblDischargeSettings
-        AnchorSideTop.Control = lblDischargeSettings
-        AnchorSideTop.Side = asrBottom
-        AnchorSideBottom.Control = CurrentEdit
-        Left = 424
-        Height = 13
-        Top = 145
-        Width = 75
-        BorderSpacing.Top = 4
-        Caption = 'Current [mA]'
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        Layout = tlCenter
-        ParentFont = False
-      end
-      object CurrentEdit: TEdit
-        AnchorSideLeft.Control = lblCurrent
-        AnchorSideTop.Control = lblCurrent
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = VoltageEdit
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = VoltageEdit
-        AnchorSideBottom.Side = asrCenter
-        Left = 424
-        Height = 23
-        Top = 162
-        Width = 86
-        BorderSpacing.Top = 4
-        NumbersOnly = True
-        ReadOnly = True
-        TabOrder = 6
-        Text = '0'
-      end
-      object chkCurrentLimit: TCheckBox
-        AnchorSideLeft.Control = CurrentEdit
-        AnchorSideTop.Control = CurrentEdit
-        AnchorSideTop.Side = asrBottom
-        Left = 424
-        Height = 19
-        Top = 185
-        Width = 45
-        Caption = 'Limit'
-        TabOrder = 7
-      end
-      object lblVoltage: TLabel
-        AnchorSideLeft.Control = VoltageEdit
-        AnchorSideTop.Side = asrBottom
-        AnchorSideBottom.Control = VoltageEdit
-        Left = 533
-        Height = 13
-        Top = 143
-        Width = 74
-        Anchors = [akLeft, akBottom]
-        BorderSpacing.Top = 16
-        BorderSpacing.Bottom = 6
-        Caption = 'Voltage [mV]'
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        Layout = tlCenter
-        ParentFont = False
-      end
-      object VoltageEdit: TEdit
-        AnchorSideLeft.Control = Owner
-        AnchorSideTop.Control = CurrentEdit
-        AnchorSideRight.Control = TestsBox
-        AnchorSideRight.Side = asrBottom
-        Left = 533
-        Height = 23
-        Top = 162
-        Width = 86
-        Anchors = [akTop, akRight]
-        BorderSpacing.Left = 8
-        NumbersOnly = True
-        ReadOnly = True
-        TabOrder = 8
-        Text = '0'
-      end
-      object chkVoltageLimit: TCheckBox
-        AnchorSideLeft.Control = VoltageEdit
-        AnchorSideTop.Control = VoltageEdit
-        AnchorSideTop.Side = asrBottom
-        Left = 533
-        Height = 19
-        Top = 185
-        Width = 45
-        Caption = 'Limit'
-        TabOrder = 9
-      end
-      object MemoUnhandled: TMemo
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = Owner
-        AnchorSideRight.Side = asrBottom
-        Left = 200
-        Height = 257
-        Top = 0
-        Width = 186
-        Anchors = []
-        BorderSpacing.Top = 8
-        BorderSpacing.Right = 8
-        BorderSpacing.Bottom = 8
-        ScrollBars = ssAutoBoth
-        TabOrder = 10
-      end
-    end
-    object DisplaysPanel: TPanel
-      AnchorSideLeft.Control = GroupBox1
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = grpTesting
-      AnchorSideRight.Control = Chart1
-      AnchorSideBottom.Control = grpTesting
-      AnchorSideBottom.Side = asrBottom
-      Left = 666
-      Height = 280
-      Top = 4
-      Width = 280
-      Anchors = [akTop, akLeft, akRight, akBottom]
-      BorderSpacing.Left = 2
-      BorderSpacing.Top = 4
-      BorderSpacing.Right = 2
-      ClientHeight = 280
-      ClientWidth = 280
-      TabOrder = 2
-      object StaticText1: TStaticText
-        AnchorSideLeft.Control = DisplaysPanel
-        AnchorSideTop.Control = ProgressBar1
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = DisplaysPanel
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = DisplaysPanel
-        AnchorSideBottom.Side = asrBottom
-        Left = 1
-        Height = 22
-        Top = 253
-        Width = 278
-        Alignment = taCenter
-        Anchors = [akLeft, akRight, akBottom]
-        AutoSize = True
-        BorderSpacing.Top = 4
-        BorderSpacing.Bottom = 4
-        Caption = 'Date and Time'
-        Color = clDefault
-        Font.CharSet = ANSI_CHARSET
-        Font.Color = clRed
-        Font.Height = -16
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        Font.Style = [fsBold]
-        ParentFont = False
-        ParentColor = False
-        TabOrder = 1
-      end
-      object TestInfoMemo: TMemo
-        AnchorSideLeft.Control = DisplaysPanel
-        AnchorSideTop.Control = DisplaysPanel
-        AnchorSideRight.Control = DisplaysPanel
-        AnchorSideRight.Side = asrBottom
-        Left = 1
-        Height = 110
-        Top = 1
-        Width = 278
-        Anchors = [akTop, akLeft, akRight]
-        ReadOnly = True
-        ScrollBars = ssVertical
-        TabOrder = 0
-      end
-      object Edit1: TEdit
-        AnchorSideLeft.Control = DisplaysPanel
-        AnchorSideRight.Control = DisplaysPanel
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = StaticText1
-        Left = 1
-        Height = 29
-        Top = 220
-        Width = 278
-        Alignment = taCenter
-        Anchors = [akLeft, akRight, akBottom]
-        AutoSelect = False
-        Font.Color = clRed
-        Font.Height = -16
-        Font.Style = [fsBold]
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 2
-        Text = 'Edit1'
-      end
-    end
+    TabOrder = 7
   end
   object btnRcvRemoteEPRSource: TButton
-    Left = 388
+    Left = 216
     Height = 20
-    Top = 244
+    Top = 336
     Width = 90
     Caption = 'EPR Source'
-    TabOrder = 12
+    TabOrder = 8
     OnClick = btnRcvRemoteEPRSourceClick
   end
   object grpEPRPDOs: TGroupBox
@@ -1384,7 +928,7 @@ object PowerbankMainForm: TPowerbankMainForm
     AnchorSideTop.Control = Owner
     AnchorSideBottom.Control = grpPowerStatus
     AnchorSideBottom.Side = asrBottom
-    Left = 1008
+    Left = 871
     Height = 264
     Top = 8
     Width = 502
@@ -1392,110 +936,175 @@ object PowerbankMainForm: TPowerbankMainForm
     BorderSpacing.Top = 8
     BorderSpacing.InnerBorder = 5
     Caption = 'Available remote EPR PDOs'
+    ChildSizing.LeftRightSpacing = 2
+    ChildSizing.TopBottomSpacing = 2
+    ChildSizing.VerticalSpacing = 4
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+    ChildSizing.ShrinkVertical = crsHomogenousChildResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
     ClientHeight = 244
     ClientWidth = 498
-    TabOrder = 13
-    object gridRemoteSourceEPRPDO: TStringGrid
-      AnchorSideLeft.Control = grpEPRPDOs
-      AnchorSideTop.Control = grpEPRPDOs
-      AnchorSideRight.Control = grpEPRPDOs
+    TabOrder = 9
+    object SourceEPRPDODrawGrid: TDrawGrid
       AnchorSideRight.Side = asrBottom
-      Left = 0
-      Height = 138
-      Top = 0
+      Left = 2
+      Height = 118
+      Top = 2
       Width = 494
-      Anchors = [akTop, akLeft, akRight]
+      AlternateColor = clBtnFace
       AutoEdit = False
       AutoFillColumns = True
-      BorderSpacing.Right = 4
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected]
-      RowCount = 6
-      ScrollBars = ssNone
-      TabOrder = 0
-      OnResize = gridPDOResize
-      ColWidths = (
-        64
-        107
-        107
-        106
-        106
-      )
-    end
-    object gridRemoteSinkEPRPDO: TStringGrid
-      AnchorSideLeft.Control = grpEPRPDOs
-      AnchorSideTop.Control = gridRemoteSourceEPRPDO
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = grpEPRPDOs
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = grpEPRPDOs
-      AnchorSideBottom.Side = asrBottom
-      Left = 0
-      Height = 96
-      Top = 148
-      Width = 494
-      Anchors = [akLeft, akRight, akBottom]
-      AutoEdit = False
-      AutoFillColumns = True
-      BorderSpacing.Top = 8
-      BorderSpacing.Right = 4
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected]
-      RowCount = 4
-      ScrollBars = ssNone
+      ColCount = 6
+      Columns = <      
+        item
+          ButtonStyle = cbsButtonColumn
+          MinSize = 60
+          MaxSize = 60
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Source'
+          Width = 60
+        end      
+        item
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Type'
+          Width = 98
+        end      
+        item
+          ReadOnly = True
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Voltage'
+          Width = 97
+        end      
+        item
+          ReadOnly = True
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Current'
+          Width = 97
+        end      
+        item
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Power'
+          Width = 97
+        end>
+      DefaultColWidth = 24
+      ExtendedSelect = False
+      FocusRectVisible = False
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking, goSmoothScroll, goFixedRowNumbering]
+      ScrollBars = ssVertical
       TabOrder = 1
-      OnResize = gridPDOResize
+      OnDrawCell = SourcePDODrawGridDrawCell
+      OnButtonClick = SourcePDODrawGridButtonClick
       ColWidths = (
-        64
-        107
-        107
-        106
-        106
+        24
+        60
+        98
+        97
+        97
+        97
       )
     end
-  end
-  object Button1: TButton
-    Left = 291
-    Height = 21
-    Top = 243
-    Width = 80
-    Caption = 'Button1'
-    TabOrder = 14
-    OnClick = Button1Click
-  end
-  object btnSetEPRKC003C: TButton
-    AnchorSideTop.Control = grpKC003CPDControl
-    AnchorSideTop.Side = asrBottom
-    Left = 0
-    Height = 19
-    Top = 209
-    Width = 79
-    Caption = 'btnSetEPRKC003C'
-    TabOrder = 16
-  end
-  object btnSetEPRKC003C1: TButton
-    AnchorSideTop.Control = grpKC003CPDControl
-    AnchorSideTop.Side = asrBottom
-    Left = 0
-    Height = 19
-    Top = 209
-    Width = 79
-    Caption = 'btnSetEPRKC003C1'
-    TabOrder = 4
+    object SinkEPRPDODrawGrid: TDrawGrid
+      AnchorSideRight.Side = asrBottom
+      Left = 2
+      Height = 118
+      Top = 124
+      Width = 494
+      AlternateColor = clBtnFace
+      AutoEdit = False
+      AutoFillColumns = True
+      ColCount = 6
+      Columns = <      
+        item
+          ButtonStyle = cbsButtonColumn
+          MinSize = 60
+          MaxSize = 60
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Sink'
+          Width = 60
+        end      
+        item
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Type'
+          Width = 98
+        end      
+        item
+          ReadOnly = True
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Voltage'
+          Width = 97
+        end      
+        item
+          ReadOnly = True
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Current'
+          Width = 97
+        end      
+        item
+          Title.Font.Style = [fsBold]
+          Title.MultiLine = True
+          Title.Caption = 'Power'
+          Width = 97
+        end>
+      DefaultColWidth = 24
+      ExtendedSelect = False
+      FocusRectVisible = False
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goThumbTracking, goSmoothScroll, goFixedRowNumbering]
+      ScrollBars = ssVertical
+      TabOrder = 0
+      OnDrawCell = SourcePDODrawGridDrawCell
+      OnButtonClick = SourcePDODrawGridButtonClick
+      ColWidths = (
+        24
+        60
+        98
+        97
+        97
+        97
+      )
+    end
   end
   object StoreTimer: TTimer
     Enabled = False
-    OnTimer = StoreTimerTimer
     Left = 1029
     Top = 70
   end
   object TestTimer: TTimer
     Enabled = False
-    OnTimer = TestTimerTimer
     Left = 1026
     Top = 138
   end
   object UpdateTimer: TTimer
-    OnTimer = UpdateTimerTimer
     Left = 1094
     Top = 96
+  end
+  object PopupPDMessages: TPopupMenu
+    Left = 1392
+    Top = 24
+    object HidePDGoodCRC: TMenuItem
+      AutoCheck = True
+      Caption = 'Hide GoodCRC'
+      Checked = True
+    end
+    object HidePDCtrl: TMenuItem
+      AutoCheck = True
+      Caption = 'Hide PDCtrl'
+      Checked = True
+    end
+    object ClearPDMessages: TMenuItem
+      Caption = 'Clear'
+      OnClick = ClearPDMessagesClick
+    end
   end
 end

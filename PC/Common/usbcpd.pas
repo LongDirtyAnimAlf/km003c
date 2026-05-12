@@ -5,7 +5,7 @@ unit usbcpd;
 interface
 
 uses
-  Classes, SysUtils, Types, Bits;
+  Classes, SysUtils, Types, Graphics, Bits;
 
 type
   TSUPPLY_TYPES = (Fixed,Battery,Variable,APDO);
@@ -13,8 +13,9 @@ type
 
 const
   SUPPLY_TYPES : array[TSUPPLY_TYPES] of string = ('Fixed','Battery','Variable','Augmented');
-  APDO_TYPES : array[TAPDO_TYPES] of string = ('SPR Programmable Power Supply','EPR Adjustable Power Supply');
-  MAXPDO = 7;
+  APDO_TYPES : array[TAPDO_TYPES] of string = ('Standard Programmable Power Supply','Extended Adjustable Power Supply');
+  MAXPDO = 7;    // 1-4 FPDO, 5-7 APDO
+  MAXEPRPDO = 4; // 3 FPDO, 1 APDO
 
 type
   TSOURCEPDO = bitpacked record
@@ -46,7 +47,7 @@ type
                    VariableSupportNonBattery : T2BITS;
                  end
               );
-          4 : (  SPRPowerSupplyApdo : record
+          4 : (  SPRPowerSupplyApdo : record // Standard Power Range
                    MaximumCurrentIn50mA         : T7BITS;
                    Reserved1                    : T1BITS;
                    MinimumVoltageIn100mV        : T8BITS;
@@ -58,7 +59,7 @@ type
                    AugmentedPowerDataObject     : T2BITS;
                  end
               );
-          5 : (  EPRPowerSupplyApdo : record
+          5 : (  EPRPowerSupplyApdo : record // Extended Power Range
                    PDPInW                       : T8BITS;
                    MinimumVoltageIn100mV        : T8BITS;
                    Reserved                     : T1BITS;
@@ -539,7 +540,7 @@ type
                      Message_Type              : T5BITS;
                      Port_Data_Role            : T1BITS;
                      Specification_Revision    : T2BITS;
-                     Port_Power_Role_or_Plug   : T1BITS;
+                     Port_Power_Role           : T1BITS;
                      MessageID                 : T3BITS;
                      Number_of_Data_Objects    : T3BITS;
                      Extended                  : T1BITS;
@@ -560,11 +561,11 @@ type
       case integer of
           1 : (
                Data : record
-                   Chunked                  : T1BITS;
-                   Chunk_Number             : T4BITS;
-                   Request_Chunk            : T1BITS;
-                   Reserved                 : T1BITS;
                    Data_Size                : T9BITS;
+                   Reserved                 : T1BITS;
+                   Request_Chunk            : T1BITS;
+                   Chunk_Number             : T4BITS;
+                   Chunked                  : T1BITS;
                  end;
               );
           2 : (
@@ -677,7 +678,50 @@ type
           2 : (
                Bytes           : bitpacked array[0..3] of byte;
                );
+          3 : (
+               Raw             : DWord;
+              );
   end;
+
+  TEPRMDO = packed record
+      case integer of
+          1 : (
+               Data : record
+                     Action    : T8BITS;
+                     Data      : T8BITS;
+                     Reserved  : T16BITS;
+                 end;
+              );
+          2 : (
+               Bits            : bitpacked array[0..31] of T1BITS;
+               );
+          3 : (
+               Bytes           : bitpacked array[0..3] of byte;
+               );
+          4 : (
+               Raw             : DWord;
+              );
+  end;
+
+  TECDB = packed record
+       case integer of
+           1 : (
+                Data : record
+                      MessageType  : T8BITS;
+                      Data         : T8BITS;
+                  end;
+               );
+           2 : (
+                Bits            : bitpacked array[0..15] of T1BITS;
+                );
+           3 : (
+                Bytes           : bitpacked array[0..1] of byte;
+                );
+           4 : (
+                Raw             : Word;
+               );
+   end;
+
 
   TUSBPD_CONTROLMSG =
   (
@@ -762,31 +806,63 @@ type
     USBPD_EXTMSG_RESERVED29,
     USBPD_EXTMSG_VENDOR_DEFINED_EXTENDED,
     USBPD_EXTMSG_RESERVED31
-    );
+  );
 
  TVDMCommands =
  (
-  Reserved,
-  DiscoverIdentity,
-  DiscoverSVIDs,
-  DiscoverModes,
-  EnterMode,
-  ExitMode,
-  Attention
+    Reserved,
+    DiscoverIdentity,
+    DiscoverSVIDs,
+    DiscoverModes,
+    EnterMode,
+    ExitMode,
+    Attention
  );
 
+ TUSBPD_CONTROLMSG_DATA = record
+   Name:string;
+   Color:TColor;
+ end;
+
+ TUSBPD_SOPTYPE =
+ (
+   //PD_SOP_PRIME
+   SOP,
+   SOP1,
+   SOP2,
+   SOP1_DEBUG,
+   SOP2_DEBUG,
+   HARD_RESET,
+   CABLE_RESET,
+   BIST_MODE_2,
+   INVALID = $FF
+ );
+
+ TUSBPD_ECMTYPE =
+ (
+   ECM_RESERVED,
+   GETSOURCECAP,
+   GETSINKCAP,
+   KEEPALIVESINK,
+   KEEPALIVEACK
+ );
+
+ TDataBuffer = record
+    Data: array[0..511] of Byte;  // enough for max extended message
+    TotalSize: Integer;
+    ReceivedBytes: Integer;
+    NextChunkNum: Integer;
+    IsComplete: Boolean;
+  end;
+
+ TSopData = record
+   SOPTYPE       : TUSBPD_SOPTYPE;
+   HEADER        : TPDHEADER;
+   EXTHEADER     : TPDHEADEREXTENDED;
+   DATA          : TDataBuffer;
+ end;
 
 const
-  USBPD_SOPTYPE_SOP           = 0;
-  USBPD_SOPTYPE_SOP1          = 1;
-  USBPD_SOPTYPE_SOP2          = 2;
-  USBPD_SOPTYPE_SOP1_DEBUG    = 3;
-  USBPD_SOPTYPE_SOP2_DEBUG    = 4;
-  USBPD_SOPTYPE_HARD_RESET    = 5;
-  USBPD_SOPTYPE_CABLE_RESET   = 6;
-  USBPD_SOPTYPE_BIST_MODE_2   = 7;
-  USBPD_SOPTYPE_INVALID       = $FF;
-
   CCNONE                          = 0;
   CC1                             = 1;
   CC2                             = 2;
@@ -795,6 +871,101 @@ const
   USBPD_PORTPOWERROLE_SNK         = USBPD_CABLEPLUG_FROMDFPUFP;
   USBPD_CABLEPLUG_FROMCABLEPLUG   = 1;
   USBPD_PORTPOWERROLE_SRC         = USBPD_CABLEPLUG_FROMCABLEPLUG;
+
+  USBPD_EPRMDO_ACTION_ENTERSINK        = 1;
+  USBPD_EPRMDO_ACTION_ENTERACK         = 2;
+  USBPD_EPRMDO_ACTION_ENTERSUCCESS     = 3;
+  USBPD_EPRMDO_ACTION_ENTERFAILED      = 4;
+  USBPD_EPRMDO_ACTION_EXITSINKSOURCE   = 5;
+
+
+
+  //https://github.com/JohnScotttt/witrn_pd_sniffer/blob/main/witrn_pd_sniffer.py
+
+  TUSBPD_CONTROLMSG_DATAS : array[TUSBPD_CONTROLMSG] of TUSBPD_CONTROLMSG_DATA =
+  (
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'GoodCRC'; Color : $fffde4),
+    (Name : 'GotoMin'; Color : $e8a8ee),
+    (Name : 'Accept'; Color : $bfffca),
+    (Name : 'Reject'; Color : $7777ec),
+    (Name : 'Ping'; Color : $78c1ad),
+    (Name : 'PS_RDY'; Color : $d4f0ff),
+    (Name : 'Get_Source_Cap'; Color : $f19a94),
+    (Name : 'Get_Sink_Cap'; Color : $ffb6a0),
+    (Name : 'DR_Swap'; Color : $ffbf00),
+    (Name : 'PR_Swap'; Color : $e49342),
+    (Name : 'VCONN_Swap'; Color : $ffa7ff),
+    (Name : 'Wait'; Color : $ab8fff),
+    (Name : 'Soft_Reset'; Color : $ac96da),
+    (Name : 'Data_Reset'; Color : $eeeeaf),
+    (Name : 'Data_Reset_Complete'; Color : $79a2db),
+    (Name : 'Not_Supported'; Color : $a9a9a9),
+    (Name : 'Get_Source_Cap_Extended'; Color : $6bb7bd),
+    (Name : 'Get_Status'; Color : $d884d8),
+    (Name : 'FR_Swap'; Color : $2f6b55),
+    (Name : 'Get_PPS_Status'; Color : $008cff),
+    (Name : 'Get_Country_Codes'; Color : $f1addb),
+    (Name : 'Get_Sink_Cap_Extended'; Color : $7676eb),
+    (Name : 'Get_Source_Info'; Color : $7a96e9),
+    (Name : 'Get_Revision'; Color : $8fbc8f)
+  );
+
+  TUSBPD_DATAMSG_DATAS : array[TUSBPD_DATAMSG] of TUSBPD_CONTROLMSG_DATA =
+  (
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Source_Capabilities'; Color : $ffc4ab),
+    (Name : 'Request'; Color : $ffc6ff),
+    (Name : 'BIST'; Color : $56DABD),
+    (Name : 'Sink_Capabilities'; Color : $aab220),
+    (Name : 'Battery_Status'; Color : $c0b6ff),
+    (Name : 'Alert'; Color : $eeeeaf),
+    (Name : 'Get_Country_Info'; Color : $e0ffff),
+    (Name : 'Enter_USB'; Color : $92ba92),
+    (Name : 'EPR_Request'; Color : $ffc6ff),
+    (Name : 'EPR_Mode'; Color : $92ba92),
+    (Name : 'Source_Info'; Color : $d4f0ff),
+    (Name : 'Revision'; Color : $d2eaf0),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Vendor_Defined'; Color : $ffb2bd)
+  );
+
+  TUSBPD_EXTENDEDMSG_DATAS : array[TUSBPD_EXTENDEDMSG] of TUSBPD_CONTROLMSG_DATA =
+  (
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Source_Capabilities_Extended'; Color : $d4e0b8),
+    (Name : 'Status'; Color : $d8bfd8),
+    (Name : 'Get_Battery_Cap'; Color : $7f90f3),
+    (Name : 'Get_Battery_Status'; Color : $d0e040),
+    (Name : 'Battery_Capabilities'; Color : $b4e5dd),
+    (Name : 'Get_Manufacturer_Info'; Color : $b3def5),
+    (Name : 'Manufacturer_Info'; Color : $c0c0c0),
+    (Name : 'Security_Request'; Color : $32cd9a),
+    (Name : 'Security_Response'; Color : $d670da),
+    (Name : 'Firmware_Update_Request'; Color : $8cb4d2),
+    (Name : 'Firmware_Update_Response'; Color : $7fff00),
+    (Name : 'PPS_Status'; Color : $7CE97C),
+    (Name : 'Country_Info'; Color : $cd5a6a),
+    (Name : 'Country_Codes'; Color : $ebce87),
+    (Name : 'Sink_Capabilities_Extended'; Color : $ee82ee),
+    (Name : 'Extended_Control'; Color : $7197e9),
+    (Name : 'EPR_Source_Capabilities'; Color : $d19981),
+    (Name : 'EPR_Sink_Capabilities'; Color : $60a4f4),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Reserved'; Color : $7280fa),
+    (Name : 'Vendor_Defined_Extended'; Color : $ffb2bd),
+    (Name : 'Reserved'; Color : $7280fa)
+  );
 
 
 type
@@ -811,8 +982,8 @@ type
     SourcePDOs: array[1..MAXPDO] of TSOURCEPDO;
     SinkPDOs: array[1..MAXPDO] of TSINKPDO;
 
-    SourceEPRPDOs: array[8..11] of TSOURCEPDO;
-    SinkEPRPDOs: array[8..11] of TSINKPDO;
+    SourceEPRPDOs: array[1..MAXEPRPDO] of TSOURCEPDO;
+    SinkEPRPDOs: array[1..MAXEPRPDO] of TSINKPDO;
 
     RDO:TPDREQUEST;
 
@@ -823,8 +994,8 @@ type
     BatteryStatus:TBATTSTATS;
     NBBatteries:dword;
 
-    GBCDB  : TGBDB;
-    GBSDB  : TGBDB;
+    //GBCDB  : TGBDB;
+    //GBSDB  : TGBDB;
     SDB    : TSDB;
 
     EPRMODE: TEPRMODE;
@@ -873,7 +1044,7 @@ type
 
     function GetVID(aVID:word):string;
 
-    function ProcessExtendedMessage(aMSG:TUSBPD_EXTENDEDMSG; data:PByteArray):boolean;
+    function ProcessExtendedMessage(aMSG:TUSBPD_EXTENDEDMSG; NumberOfBytes:byte; data:PByteArray):boolean;
     function ProcessDataMessage(aMSG:TUSBPD_DATAMSG; NumberOfDataObjects:byte; data:PByteArray):boolean;
 
     procedure Cleanup;
@@ -931,7 +1102,7 @@ begin
     end;
   end;
 
-  case aSOPHeader.Data.Port_Power_Role_or_Plug of
+  case aSOPHeader.Data.Port_Power_Role of
     0:s:=s+'Sink.'+#13#10;
     1:s:=s+'Source.'+#13#10;
   end;
@@ -1165,8 +1336,8 @@ begin
   for i:=1 to MAXPDO do SourcePDOs[i].Raw:=0;
   for i:=1 to MAXPDO do SinkPDOs[i].Raw:=0;
 
-  for i:=8 to 11 do SourceEPRPDOs[i].Raw:=0;
-  for i:=8 to 11 do SinkEPRPDOs[i].Raw:=0;
+  for i:=1 to MAXEPRPDO do SourceEPRPDOs[i].Raw:=0;
+  for i:=1 to MAXEPRPDO do SinkEPRPDOs[i].Raw:=0;
 
   RDO.Raw:=0;
 
@@ -1178,12 +1349,12 @@ begin
 
   NBBatteries:=0;
 
-  GBCDB.Raw:=0;
-  GBSDB.Raw:=0;
+  //GBCDB.Raw:=0;
+  //GBSDB.Raw:=0;
   for i:=0 to Pred(Length(SDB.Bytes)) do SDB.Bytes[i]:=0;
   SIDO.Raw:=0;
 
-  for i:=0 to Pred(Length(PPSSDB.Bytes)) do PPSSDB.Bytes[i]:=0;
+  PPSSDB.Raw:=0;
 
   Cable.Raw:=0;
 
@@ -1223,9 +1394,11 @@ begin
   end;
 end;
 
-function TUSBPD.ProcessExtendedMessage(aMSG:TUSBPD_EXTENDEDMSG; data:PByteArray):boolean;
+function TUSBPD.ProcessExtendedMessage(aMSG:TUSBPD_EXTENDEDMSG; NumberOfBytes:byte; data:PByteArray):boolean;
 var
   i,j:integer;
+  aPDO: TDWordData;
+  enumname:string;
 begin
   result:=true;
   case aMSG of
@@ -1243,51 +1416,67 @@ begin
     end;
     USBPD_EXTMSG_BATTERY_CAPABILITIES:
     begin
-      for j:=0 to Pred(Length(BatteryCaps.Bytes)) do BatteryCaps.Bytes[j]:=data^[j];
-    end;
-    USBPD_EXTMSG_GET_BATTERY_CAP:
-    begin
-      GBCDB.Raw:=data^[0];
-    end;
-    USBPD_EXTMSG_GET_BATTERY_STATUS:
-    begin
-      GBSDB.Raw:=data^[0];
+      for j:=0 to Pred(NumberOfBytes) do BatteryCaps.Bytes[j]:=data^[j];
     end;
     USBPD_EXTMSG_PPS_STATUS:
     begin
-      for j:=0 to Pred(Length(PPSSDB.Bytes)) do PPSSDB.Bytes[j]:=data^[j];
+      for j:=0 to 3 do PPSSDB.Bytes[j]:=data^[j];
     end;
     USBPD_EXTMSG_EPR_SOURCE_CAPABILITIES:
     begin
       NumberSRCPDO:=0;
-      for i:=1 to 7 do
-      begin
-        for j:=0 to 3 do SourcePDOs[i].Bytes[j]:=data^[j+(i-1)*4];
-        if SourcePDOs[i].Raw>0 then Inc(NumberSRCPDO);
-      end;
       NumberEPRSRCPDO:=0;
-      for i:=8 to 11 do
+      for i:=1 to MAXPDO do SourcePDOs[i].Raw:=0;
+      for i:=1 to MAXEPRPDO do SourceEPRPDOs[i].Raw:=0;
+      i:=0;
+      while (i<(NumberOfBytes DIV 4)) do
       begin
-        for j:=0 to 3 do SourceEPRPDOs[i].Bytes[j]:=data^[j+(i-1)*4];
-        if SourceEPRPDOs[i].Raw>0 then Inc(NumberEPRSRCPDO);
+        Inc(i);
+        for j:=0 to 3 do aPDO.Bytes[j]:=data^[j+(i-1)*4];
+        if NumberSRCPDO=7 then
+        begin
+          // We have received all SPRs, so now receive the EPRs !!
+          Inc(NumberEPRSRCPDO);
+          SourceEPRPDOs[NumberEPRSRCPDO].Raw:=aPDO.Raw;
+        end
+        else
+        begin
+          // Receive the SPRs
+          Inc(NumberSRCPDO);
+          SourcePDOs[NumberSRCPDO].Raw:=aPDO.Raw;
+        end;
       end;
     end;
     USBPD_EXTMSG_EPR_SINK_CAPABILITIES:
     begin
       NumberSNKPDO:=0;
-      for i:=1 to 7 do
-      begin
-        for j:=0 to 3 do SinkPDOs[i].Bytes[j]:=data^[j+(i-1)*4];
-        if SinkPDOs[i].Raw>0 then Inc(NumberSNKPDO);
-      end;
       NumberEPRSNKPDO:=0;
-      for i:=8 to 11 do
+      for i:=1 to MAXPDO do SinkPDOs[i].Raw:=0;
+      for i:=1 to MAXEPRPDO do SinkEPRPDOs[i].Raw:=0;
+      i:=0;
+      while (i<(NumberOfBytes DIV 4)) do
       begin
-        for j:=0 to 3 do SinkEPRPDOs[i].Bytes[j]:=data^[j+(i-1)*4];
-        if SinkEPRPDOs[i].Raw>0 then Inc(NumberEPRSNKPDO);
+        Inc(i);
+        for j:=0 to 3 do aPDO.Bytes[j]:=data^[j+(i-1)*4];
+        if NumberSNKPDO=7 then
+        begin
+          // We have received all SPRs, so now receive the EPRs !!
+          Inc(NumberEPRSNKPDO);
+          SinkEPRPDOs[NumberEPRSNKPDO].Raw:=aPDO.Raw;
+        end
+        else
+        begin
+          // Receive the SPRs
+          Inc(NumberSNKPDO);
+          SinkPDOs[NumberSNKPDO].Raw:=aPDO.Raw;
+        end;
       end;
     end;
-
+    USBPD_EXTMSG_GET_BATTERY_STATUS,USBPD_EXTMSG_EXTENDED_CONTROL,USBPD_EXTMSG_GET_BATTERY_CAP:
+    begin
+      // Prevent unhandled errors
+      // We send these messages by ourselves.
+    end;
     else
     begin
       result:=false;
@@ -1297,7 +1486,7 @@ end;
 
 function TUSBPD.ProcessDataMessage(aMSG:TUSBPD_DATAMSG; NumberOfDataObjects:byte; data:PByteArray):boolean;
 var
-  i,j:integer;
+  i,j:word;
   DWordData:TDWordData;
 begin
   result:=true;
@@ -1305,20 +1494,33 @@ begin
     USBPD_DATAMSG_SRC_CAPABILITIES:
     begin
       NumberSRCPDO:=NumberOfDataObjects;
-      for i:=1 to NumberSRCPDO do
+      for i:=1 to MAXPDO do
       begin
-        for j:=0 to 3 do SourcePDOs[i].Bytes[j]:=data^[j+(i-1)*4];
+        if i<=NumberSRCPDO then
+        begin
+          for j:=0 to 3 do SourcePDOs[i].Bytes[j]:=data^[j+(i-1)*4];
+        end
+        else SourcePDOs[i].Raw:=0;
       end;
     end;
     USBPD_DATAMSG_SNK_CAPABILITIES:
     begin
       NumberSNKPDO:=NumberOfDataObjects;
-      for i:=1 to NumberSNKPDO do
+      for i:=1 to MAXPDO do
       begin
-        for j:=0 to 3 do SinkPDOs[i].Bytes[j]:=data^[j+(i-1)*4];
+        if i<=NumberSNKPDO then
+        begin
+          for j:=0 to 3 do SinkPDOs[i].Bytes[j]:=data^[j+(i-1)*4];
+        end
+        else SinkPDOs[i].Raw:=0;
       end;
     end;
     USBPD_DATAMSG_REQUEST:
+    begin
+      for j:=0 to 3 do RDO.Bytes[j]:=data^[j];
+      // followed by a copy of the PDO
+    end;
+    USBPD_DATAMSG_EPR_REQUEST:
     begin
       for j:=0 to 3 do RDO.Bytes[j]:=data^[j];
     end;

@@ -2,6 +2,35 @@ unit km003c;
 
 {$mode ObjFPC}{$H+}
 
+(*
+https://nl.aliexpress.com/item/1005005629494532.html?spm=a2g0o.detail.pcDetailTopMoreOtherSeller.1.536fuGv0uGv0Uf&gps-id=pcDetailTopMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=bd142f29-bb8f-4ed4-a2f0-02a1a69a78da&_t=gps-id%3ApcDetailTopMoreOtherSeller%2Cscm-url%3A1007.40050.354490.0%2Cpvid%3Abd142f29-bb8f-4ed4-a2f0-02a1a69a78da%2Ctpp_buckets%3A668%232846%238109%231935&pdp_ext_f=%7B%22order%22%3A%22592%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2230050%22%2C%22fromPage%22%3A%22recommend%22%7D&pdp_npi=6%40dis%21EUR%2188.36%2170.69%21%21%21689.24%21551.41%21%402103847817775523398318245e1e11%2112000033809720257%21rec%21NL%21%21ABXZ%211%210%21n_tag%3A-29910%3Bd%3A19b16f31%3Bm03_new_user%3A-29895&utparam-url=scene%3ApcDetailTopMoreOtherSeller%7Cquery_from%3A%7Cx_object_id%3A1005005629494532%7C_p_origin_prod%3A
+
+
+
+https://github.com/nevetssf/powerz/blob/master/src/powerz/device/protocol.py
+
+HID commands:
+# Additional command attributes (sent as ATT field, shifted left 1 bit in wire format)
+ATT_ADC = 0x001
+ATT_PD_PACKET = 0x010
+ATT_SETTINGS = 0x008
+
+# ADC request command bytes: CMD_GET_DATA (0xC) with ATT_ADC (0x1)
+# MsgHeader_TypeDef packed as little-endian: 0xC020 -> [0x0C, 0x00, 0x02, 0x00]
+ADC_REQUEST = bytes([0x0C, 0x00, 0x02, 0x00])
+
+# PD packet request: CMD_GET_DATA (0xC) with ATT_PD_PACKET (0x010)
+# att=0x010, shifted left 1 = 0x020, LE bytes: 20 00
+PD_PACKET_REQUEST = bytes([0x0C, 0x00, 0x20, 0x00])
+
+# PD + ADC combined request
+PD_ADC_REQUEST = bytes([0x0C, 0x00, 0x22, 0x00])
+
+
+
+*)
+
+
 interface
 
 uses
@@ -127,38 +156,91 @@ type
   TKM003CPacketHeader = bitpacked record
       case integer of
           1 : (
-               Data : packed record
-                 Size      : TByteData;
-                 Time      : TDWordData;
-                 SOP       : byte;
+               Status : packed record
+                 type_id                 : byte;
+                 TimeStamp               : packed array [0..2] of byte; // ~40ms/tick
+                 vbus_mV                 : word;
+                 ibus_mA                 : word;
+                 cc1_mV                  : word;
+                 cc2_mV                  : word;
                end;
           );
           2 : (
-               Bytes           : packed array[0..5] of byte;
+               Preamble : packed record
+                 TimeStamp               : dword; // ms
+                 vbus_mV                 : word;
+                 ibus_mA                 : word;
+                 cc1_mV                  : word;
+                 cc2_mV                  : word;
+               end;
+          );
+          3 : (
+               Bytes           : packed array[0..11] of byte;
           );
   end;
 
 
+  TKM003CEventHeader = bitpacked record
+      case integer of
+          1 : (
+               PDData : packed record
+                 Size        : TByteData;
+                 TimeStamp   : TDWordData;
+                 SOP         : byte;
+               end;
+          );
+          2 : (
+               EventData : packed record
+                 Marker      : byte; // 0x45
+                 TimeStamp   : packed array [0..2] of byte; // ~40ms/tick
+                 Reserved    : byte;
+                 EventCode   : byte; // 0x21 - Connect (33 decimal) ; 0x22 - Disconnect (34 decimal)
+               end;
+          );
+          3 : (
+               Bytes         : packed array[0..5] of byte;
+          );
+  end;
+
   TKM003CSensorData = packed record
-    header:TKM003CMsgHeader;
-    header_ext:TKM003CMsgHeader;
-    V_bus:dword;
-    I_bus:dword;
-    V_bus_avg:dword;
-    I_bus_avg:dword;
-    V_bus_ori_avg:dword;
-    I_bus_ori_avg:dword;
-    temp: packed array [0..1] of byte;
-    V_cc1:word;
-    V_cc2:word;
-    V_dp:word;
-    V_dm:word;
-    V_dd:word;
-    Rate:byte; // 0 = 2/s; 1 = 10/s 2 = 50/s; 3 = 1000/s
-    Unknown1:byte;
-    V_cc2_avg:word;
-    V_dp_avg:word;
-    V_dm_avg:word;
+    header             : TKM003CMsgHeader;
+    header_ext         : TKM003CMsgHeader;
+    V_bus              : dword;
+    I_bus              : dword;
+    V_bus_avg          : dword;
+    I_bus_avg          : dword;
+    V_bus_ori_avg      : dword;
+    I_bus_ori_avg      : dword;
+    temp               : packed array [0..1] of byte;
+    V_cc1              : word;
+    V_cc2              : word;
+    V_dp               : word;
+    V_dm               : word;
+    V_dd               : word;
+    Rate               : byte; // 0 = 2/s; 1 = 10/s 2 = 50/s; 3 = 1000/s
+    Flags              : byte; // Status flags
+    V_cc2_avg          : word;
+    V_dp_avg           : word;
+    V_dm_avg           : word;
+  end;
+
+  TKM003CSettingsData = packed record
+    header                  : TKM003CMsgHeader;
+    header_ext              : TKM003CMsgHeader;
+    flags                   : dword;
+    reserved01              : dword;
+    sample_interval         : word; // in us
+    display_brightness      : byte;
+    reserved02              : byte;
+    reserved03              : dword;
+    thresholds              : packed array [0..7] of dword; // -1=disabled, -6=enabled
+    calibration             : packed array [0..9] of dword;
+    counter                 : dword;
+    timestamp               : dword;
+    mode_flags              : byte;
+    reserved04              : packed array [0..14] of byte;
+    device_name             : packed array [0..63] of char;
+    checksum                : dword;
   end;
 
   TKM003CHeaderCommand =
@@ -176,12 +258,44 @@ type
     CMD_GET_STATUS,
     CMD_ERROR,
     CMD_GET_DATA,
-    CMD_GET_FILE
+    CMD_GET_FILE,
+    CMD_START_GRAPH,
+    CMD_STOP_GRAPH,
+    CMD_ENABLE_PDMONITOR,
+    CMD_DISABLE_PDMONITOR,
+    CMD_PUTDATA = $41,
+    CMD_MEMORY_READ = $44,
+    CMD_STREAMING_AUTH = $4C
   );
 
 const
-  TKM003C_CMD_HEAD            = 64;
-  TKM003C_CMD_PUT_DATA        = 65;
+  TKM003C_CMD_CONNECT          = $02;
+  TKM003C_CMD_DISCONNECT       = $03;
+  TKM003C_CMD_HARDRESET        = $04;
+  TKM003C_CMD_ACCEPT           = $05;
+  TKM003C_CMD_REJECT           = $06;
+  TKM003C_CMD_GETDATA          = $0C;
+  TKM003C_CMD_STARTGRAPH       = $0E;
+  TKM003C_CMD_STOPGRAPH        = $0F;
+  TKM003C_CMD_ENPDMON          = $10;
+  TKM003C_CMD_DISPDMON         = $11;
+  TKM003C_CMD_ATTACHCC1        = $11;
+  TKM003C_CMD_DETACHCC1        = $12;
+  TKM003C_CMD_CONN_CONNECT     = $21;
+  TKM003C_CMD_CONN_DISCONNECT  = $22;
+  TKM003C_CMD_HEAD             = $40;
+  TKM003C_CMD_PUT_DATA         = $41;
+  TKM003C_CMD_CONN_EVENT       = $45;
+  TKM003C_CMD_SOPERROR         = $46;
+  TKM003C_CMD_EOPERROR         = $56;
+  TKM003C_CMD_CRCERROR         = $66;
+  TKM003C_CMD_DATACOUNTERROR   = $76;
+  TKM003C_CMD_UNKNOWNERROR     = $86;
+  TKM003C_CMD_RETRIESERROR     = $96;
+
+
+
+  TKM003C_CMD_SIZE_OFFSET     = 5;
 
   TKM003C_ATT_ADC             = $001;
   TKM003C_ATT_ADC_QUEUE       = $002;
