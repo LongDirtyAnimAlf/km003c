@@ -280,20 +280,21 @@ object PowerbankMainForm: TPowerbankMainForm
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 8
-    Height = 288
+    Height = 468
     Top = 408
     Width = 1152
     ActivePage = TabSheet3
+    Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Around = 8
     TabIndex = 0
     TabOrder = 3
     object TabSheet3: TTabSheet
       Caption = 'PD logger'
-      ClientHeight = 260
+      ClientHeight = 440
       ClientWidth = 1144
       object ListView1: TListView
         Left = 0
-        Height = 260
+        Height = 440
         Top = 0
         Width = 1144
         Align = alClient
@@ -312,7 +313,7 @@ object PowerbankMainForm: TPowerbankMainForm
           end        
           item
             Caption = 'PD Data'
-            Width = 840
+            Width = 790
           end>
         ColumnClick = False
         Font.CharSet = ANSI_CHARSET
@@ -337,7 +338,7 @@ object PowerbankMainForm: TPowerbankMainForm
     end
     object TabSheet1: TTabSheet
       Caption = 'PD sweets'
-      ClientHeight = 260
+      ClientHeight = 440
       ClientWidth = 1144
       object GroupBattery: TGroupBox
         AnchorSideLeft.Control = TabSheet1
@@ -415,7 +416,7 @@ object PowerbankMainForm: TPowerbankMainForm
           )
           ColWidths = (
             64
-            116
+            99
           )
         end
       end
@@ -619,7 +620,7 @@ object PowerbankMainForm: TPowerbankMainForm
           )
           ColWidths = (
             100
-            112
+            95
           )
         end
         object btnGetPPSStatus: TButton
@@ -680,7 +681,7 @@ object PowerbankMainForm: TPowerbankMainForm
           )
           ColWidths = (
             120
-            92
+            75
           )
         end
         object btnGetStatus: TButton
@@ -701,11 +702,11 @@ object PowerbankMainForm: TPowerbankMainForm
     end
     object TabSheet2: TTabSheet
       Caption = 'PD debug'
-      ClientHeight = 260
+      ClientHeight = 440
       ClientWidth = 1144
       object GroupLogs: TGroupBox
         Left = 216
-        Height = 252
+        Height = 432
         Top = 0
         Width = 920
         Align = alClient
@@ -720,13 +721,13 @@ object PowerbankMainForm: TPowerbankMainForm
         ChildSizing.ShrinkVertical = crsHomogenousChildResize
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 3
-        ClientHeight = 232
+        ClientHeight = 412
         ClientWidth = 916
         TabOrder = 0
         object USBComLog: TMemo
           AnchorSideBottom.Side = asrBottom
           Left = 0
-          Height = 232
+          Height = 412
           Top = 0
           Width = 305
           ScrollBars = ssAutoVertical
@@ -736,7 +737,7 @@ object PowerbankMainForm: TPowerbankMainForm
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Side = asrBottom
           Left = 305
-          Height = 232
+          Height = 412
           Top = 0
           Width = 306
           ScrollBars = ssAutoVertical
@@ -745,7 +746,7 @@ object PowerbankMainForm: TPowerbankMainForm
         object USBDebugLog: TMemo
           AnchorSideBottom.Side = asrBottom
           Left = 611
-          Height = 232
+          Height = 412
           Top = 0
           Width = 305
           ScrollBars = ssAutoVertical
@@ -754,7 +755,7 @@ object PowerbankMainForm: TPowerbankMainForm
       end
       object ListBox1: TListBox
         Left = 4
-        Height = 244
+        Height = 424
         Top = 8
         Width = 204
         Align = alLeft
@@ -903,10 +904,9 @@ object PowerbankMainForm: TPowerbankMainForm
     AnchorSideBottom.Control = PageControl1
     AnchorSideBottom.Side = asrBottom
     Left = 1168
-    Height = 288
+    Height = 292
     Top = 408
     Width = 200
-    Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 4
     Caption = 'Control Line Voltages'
     Constraints.MinHeight = 270

@@ -1371,7 +1371,7 @@ var
   ListItem : TListItem;
 begin
   result:=true;
-  ListBox1.AddItem('Data: '+TUSBPD_DATAMSG_DATAS[aMSG].Name,TObject(TUSBPD_DATAMSG_DATAS[aMSG].Color));
+  ListBox1.AddItem('Data: '+TUSBPD_DATAMSG_DATAS[aMSG].Name,TObject(PtrInt(TUSBPD_DATAMSG_DATAS[aMSG].Color)));
 
   //ListView1.BeginUpdate;
   //ListView1.Items.BeginUpdate;
@@ -1460,7 +1460,7 @@ begin
 
   if (NOT (HidePDCtrl.Checked AND (aMSG=TUSBPD_EXTENDEDMSG.USBPD_EXTMSG_EXTENDED_CONTROL))) then
   begin
-    ListBox1.AddItem('Ext: '+TUSBPD_EXTENDEDMSG_DATAS[aMSG].Name,TObject(TUSBPD_EXTENDEDMSG_DATAS[aMSG].Color));
+    ListBox1.AddItem('Ext: '+TUSBPD_EXTENDEDMSG_DATAS[aMSG].Name,TObject(PtrInt(TUSBPD_EXTENDEDMSG_DATAS[aMSG].Color)));
 
     //ListView1.BeginUpdate;
     //ListView1.Items.BeginUpdate;

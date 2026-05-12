@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="win64"/>
     <Units>
       <Unit>
         <Filename Value="Powerbank.lpr"/>
@@ -20,8 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="486"/>
-        <CursorPos X="28" Y="491"/>
+        <TopLine Value="1449"/>
+        <CursorPos X="80" Y="1463"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -128,6 +128,7 @@
         <TopLine Value="59"/>
         <CursorPos X="24" Y="76"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Drivers\BSP\P-NUCLEO-USB002\p-nucleo-usb002.h"/>
@@ -135,6 +136,7 @@
         <TopLine Value="131"/>
         <CursorPos X="13" Y="148"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Ac6\USB\Drivers\BSP\P-NUCLEO-USB002\p-nucleo-usb002.h"/>
@@ -142,6 +144,7 @@
         <TopLine Value="462"/>
         <CursorPos Y="479"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Ac6\USB\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY\Inc\stm32f0xx_hal_conf.h"/>
@@ -149,6 +152,7 @@
         <TopLine Value="271"/>
         <CursorPos X="12" Y="288"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Ac6\USB\Drivers\BSP\P-NUCLEO-USB002\stm32f0xx_it.c"/>
@@ -156,6 +160,7 @@
         <TopLine Value="212"/>
         <CursorPos X="2" Y="235"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Ac6\USB\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_uart.c"/>
@@ -163,12 +168,14 @@
         <TopLine Value="2216"/>
         <CursorPos X="6" Y="2233"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Ac6\USB\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_uart.h"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="34" Y="3"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Projects\STM32F072RB-Nucleo\Applications\USB_PD\Consumer_CLI_RTOS\Inc\stm32f0xx_hal_conf.h"/>
@@ -176,6 +183,7 @@
         <TopLine Value="260"/>
         <CursorPos X="31" Y="276"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_hal_conf_template.h"/>
@@ -183,6 +191,7 @@
         <TopLine Value="43"/>
         <CursorPos X="9" Y="75"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Projects\STM32F072RB-Nucleo\Applications\USB_PD\Consumer_CLI_RTOS\Inc\FreeRTOSConfig.h"/>
@@ -190,6 +199,7 @@
         <TopLine Value="140"/>
         <CursorPos Y="172"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Drivers\BSP\STM32F0xx-Nucleo\stm32f0xx_nucleo.c"/>
@@ -197,6 +207,7 @@
         <TopLine Value="929"/>
         <CursorPos X="58" Y="979"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Ac6\USB\Drivers\BSP\P-NUCLEO-USB002\p-nucleo-usb002.c"/>
@@ -204,6 +215,7 @@
         <TopLine Value="9"/>
         <CursorPos X="9" Y="26"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Projects\STM32F072RB-Nucleo\Applications\USB_PD\Consumer_DRP_RTOS\Inc\stm32f0xx_it.h"/>
@@ -211,6 +223,7 @@
         <TopLine Value="42"/>
         <CursorPos X="10" Y="71"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Drivers\BSP\STM32F0xx-Nucleo\stm32f0xx_nucleo.h"/>
@@ -218,6 +231,7 @@
         <TopLine Value="247"/>
         <CursorPos Y="266"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Utilities\CLI_USER\cli_user.c"/>
@@ -225,6 +239,7 @@
         <TopLine Value="50"/>
         <CursorPos X="14" Y="60"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Projects\STM32F072RB-Nucleo\Applications\USB_PD\Consumer_CLI_RTOS\Src\usbpd_dpm_user.c"/>
@@ -232,6 +247,7 @@
         <TopLine Value="213"/>
         <CursorPos X="18" Y="223"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Projects\STM32F072RB-Nucleo\Applications\USB_PD\Provider_CLI_RTOS\Src\usbpd_dpm_user.c"/>
@@ -239,6 +255,7 @@
         <TopLine Value="789"/>
         <CursorPos Y="941"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\HBS\Projects\2021\211163 VU Powerbanks\Software\OldSoftware\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Projects\STM32F072RB-Nucleo\Applications\USB_PD\Provider_CLI_RTOS\Inc\usbpd_dpm_user.h"/>
@@ -246,6 +263,7 @@
         <TopLine Value="172"/>
         <CursorPos X="53" Y="182"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Ac6\USB\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_SRCING_DEVICE\Src\main.c"/>
@@ -253,12 +271,14 @@
         <TopLine Value="512"/>
         <CursorPos X="7" Y="529"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Ac6\USB\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Inc\stm32f0xx_hal_conf.h"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="35" Y="3"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Drivers\BSP\P-NUCLEO-USB002\p-nucleo-usb002.c"/>
@@ -266,6 +286,7 @@
         <TopLine Value="48"/>
         <CursorPos X="22" Y="56"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Src\usbpd_dpm_user.c.new"/>
@@ -281,6 +302,7 @@
         <TopLine Value="1053"/>
         <CursorPos Y="1071"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Projects\STM32G071B-DISCO\Demonstrations\USBPD_Analyzer\Inc\usbpd_dpm_user.h"/>
@@ -288,6 +310,7 @@
         <TopLine Value="198"/>
         <CursorPos X="21" Y="215"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Consumer_1port\Src\usbpd_dpm_user.c"/>
@@ -295,6 +318,7 @@
         <TopLine Value="97"/>
         <CursorPos X="28" Y="114"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_dpm_user.c"/>
@@ -302,6 +326,7 @@
         <TopLine Value="275"/>
         <CursorPos X="10" Y="292"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Projects\STM32G0C1E-EV\Applications\USB-PD\USB-PD_Consumer_1port\Src\usbpd_dpm_user.c"/>
@@ -309,6 +334,7 @@
         <TopLine Value="668"/>
         <CursorPos X="21" Y="685"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Projects\STM32G0C1E-EV\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_dpm_user.c"/>
@@ -316,6 +342,7 @@
         <TopLine Value="668"/>
         <CursorPos X="21" Y="685"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Projects\STM32G0C1E-EV\Applications\USB-PD\USBPD_SINK_MSC\USBPD\Src\usbpd_dpm_user.c"/>
@@ -323,6 +350,7 @@
         <TopLine Value="700"/>
         <CursorPos X="21" Y="717"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Projects\STM32G0C1E-EV\Applications\USB-PD\USBPD_SOURCE_HID\USBPD\Src\usbpd_dpm_user.c"/>
@@ -330,6 +358,7 @@
         <TopLine Value="704"/>
         <CursorPos X="21" Y="721"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY_noRTOS\Src\usbpd_dpm_user.c"/>
@@ -337,6 +366,7 @@
         <TopLine Value="1592"/>
         <CursorPos X="38" Y="1609"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_def.h"/>
@@ -344,6 +374,7 @@
         <TopLine Value="127"/>
         <CursorPos X="18" Y="144"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_dpm_core.c"/>
@@ -351,6 +382,7 @@
         <TopLine Value="377"/>
         <CursorPos X="29" Y="394"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_Stusb_Dpm_if.c"/>
@@ -358,6 +390,7 @@
         <TopLine Value="976"/>
         <CursorPos X="24" Y="993"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Inc\usbpd_pwr_if.h"/>
@@ -365,6 +398,7 @@
         <TopLine Value="128"/>
         <CursorPos X="21" Y="145"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Src\usbpd_pwr_if.c"/>
@@ -372,6 +406,7 @@
         <TopLine Value="305"/>
         <CursorPos X="17" Y="445"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY\Inc\usbpd_pwr_if.h"/>
@@ -379,6 +414,7 @@
         <TopLine Value="128"/>
         <CursorPos X="21" Y="145"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SRC_VDM\Src\usbpd_pwr_if.c"/>
@@ -386,6 +422,7 @@
         <TopLine Value="662"/>
         <CursorPos X="27" Y="679"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SRC_ONLY_noRTOS\Src\usbpd_pwr_if.c"/>
@@ -393,6 +430,7 @@
         <TopLine Value="662"/>
         <CursorPos X="27" Y="679"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SRC_ONLY\Src\usbpd_pwr_if.c"/>
@@ -400,6 +438,7 @@
         <TopLine Value="662"/>
         <CursorPos X="27" Y="679"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SNK_VDM\Src\usbpd_pwr_if.c"/>
@@ -407,6 +446,7 @@
         <TopLine Value="333"/>
         <CursorPos X="27" Y="350"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SNK_ONLY_noRTOS\Src\usbpd_pwr_if.c"/>
@@ -414,6 +454,7 @@
         <TopLine Value="328"/>
         <CursorPos X="27" Y="345"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SNK_ONLY\Src\usbpd_pwr_if.c"/>
@@ -421,6 +462,7 @@
         <TopLine Value="328"/>
         <CursorPos X="27" Y="345"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_VDM\Src\usbpd_pwr_if.c"/>
@@ -428,6 +470,7 @@
         <TopLine Value="422"/>
         <CursorPos X="17" Y="445"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_SRCING_DEVICE\Src\usbpd_pwr_if.c"/>
@@ -435,6 +478,7 @@
         <TopLine Value="715"/>
         <CursorPos X="27" Y="732"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY_noRTOS\Src\usbpd_pwr_if.c"/>
@@ -442,6 +486,7 @@
         <TopLine Value="326"/>
         <CursorPos X="18" Y="247"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY\Src\usbpd_pwr_if.c"/>
@@ -449,6 +494,7 @@
         <TopLine Value="715"/>
         <CursorPos X="27" Y="732"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Src\usbpd_pwr_if.c"/>
@@ -456,6 +502,7 @@
         <TopLine Value="685"/>
         <CursorPos X="58" Y="712"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\Coincell\VoltageVerifier\Serial\synaser.pas"/>
@@ -549,6 +596,7 @@
         <TopLine Value="719"/>
         <CursorPos X="24" Y="729"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_stusb_dpm_if.h"/>
@@ -556,6 +604,7 @@
         <TopLine Value="50"/>
         <CursorPos Y="67"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB015-v1_v1.0.0\STSW-STUSB015-v1.0.0\STSW_STUSB015_v1.0\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_stusb_dpm_if.h"/>
@@ -563,6 +612,7 @@
         <TopLine Value="50"/>
         <CursorPos Y="67"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Projects\STM32F072RB-Nucleo\Applications\USB_PD\MB1303_Consumer_RTOS\Src\usbpd_dpm_user.c"/>
@@ -570,6 +620,7 @@
         <TopLine Value="306"/>
         <CursorPos X="5" Y="323"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB015-v1_v1.0.0\STSW-STUSB015-v1.0.0\STSW_STUSB015_v1.0\Projects\STM32L4R5ZI-Nucleo\Appli\usbpd\STM32L4R5_MB1303_DRP_2PORTS\Src\usbpd_pwr_if.c"/>
@@ -577,6 +628,7 @@
         <TopLine Value="414"/>
         <CursorPos X="8" Y="269"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB015-v1_v1.0.0\STSW-STUSB015-v1.0.0\STSW_STUSB015_v1.0\Projects\STM32L4R5ZI-Nucleo\Appli\usbpd\STM32L4R5_MB1303_DRP_VDM\Src\usbpd_pwr_if.c"/>
@@ -584,6 +636,7 @@
         <TopLine Value="312"/>
         <CursorPos X="8" Y="269"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB015-v1_v1.0.0\STSW-STUSB015-v1.0.0\STSW_STUSB015_v1.0\Projects\STM32L4R5ZI-Nucleo\Appli\usbpd\STM32L4R5_MB1303_DRP_ONLY\Src\usbpd_pwr_if.c"/>
@@ -591,6 +644,7 @@
         <TopLine Value="222"/>
         <CursorPos X="44" Y="236"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_pwr_if.c"/>
@@ -598,6 +652,7 @@
         <TopLine Value="146"/>
         <CursorPos X="50" Y="164"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Drivers\BSP\STM32G071B-Discovery\stm32g071b_discovery_usbpd_pwr.c"/>
@@ -605,6 +660,7 @@
         <TopLine Value="280"/>
         <CursorPos X="19" Y="285"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Drivers\BSP\STM32G081B_EVAL\stm32g081b_eval_pwr.c"/>
@@ -612,6 +668,7 @@
         <TopLine Value="2682"/>
         <CursorPos X="26" Y="2630"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY\Src\usbpd_dpm_user.c"/>
@@ -619,6 +676,7 @@
         <TopLine Value="2670"/>
         <CursorPos X="55" Y="2687"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SRC_VDM\Inc\usbpd_dpm_user.h"/>
@@ -626,6 +684,7 @@
         <TopLine Value="189"/>
         <CursorPos X="21" Y="206"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB015-v1_v1.0.0\STSW-STUSB015-v1.0.0\STSW_STUSB015_v1.0\Projects\STM32L4R5ZI-Nucleo\Appli\usbpd\STM32L4R5_MB1303_DRP_2PORTS\Inc\usbpd_dpm_user.h"/>
@@ -633,6 +692,7 @@
         <TopLine Value="206"/>
         <CursorPos X="21" Y="223"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Inc\usbpd_dpm_user.h"/>
@@ -640,6 +700,7 @@
         <TopLine Value="86"/>
         <CursorPos X="52" Y="96"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SRC_VDM\Inc\usbpd_dpm_user.h"/>
@@ -647,6 +708,7 @@
         <TopLine Value="131"/>
         <CursorPos X="33" Y="88"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB015-v1_v1.0.0\STSW-STUSB015-v1.0.0\STSW_STUSB015_v1.0\Projects\STM32L4R5ZI-Nucleo\Appli\usbpd\STM32L4R5_MB1303_DRP_ONLY_noRTOS\Src\usbpd_pwr_if.c"/>
@@ -654,6 +716,7 @@
         <TopLine Value="292"/>
         <CursorPos X="13" Y="309"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_cad_hw_if.h"/>
@@ -661,6 +724,7 @@
         <TopLine Value="71"/>
         <CursorPos X="3" Y="88"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB015-v1_v1.0.0\STSW-STUSB015-v1.0.0\STSW_STUSB015_v1.0\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_cad_hw_if.h"/>
@@ -668,6 +732,7 @@
         <TopLine Value="71"/>
         <CursorPos X="3" Y="88"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_cad_hw_if.h"/>
@@ -675,6 +740,7 @@
         <TopLine Value="71"/>
         <CursorPos X="3" Y="88"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_cad_hw_if.h"/>
@@ -682,6 +748,7 @@
         <TopLine Value="80"/>
         <CursorPos X="3" Y="88"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\STM32CubeG0-master\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_cad_hw_if.c"/>
@@ -689,6 +756,7 @@
         <TopLine Value="731"/>
         <CursorPos X="8" Y="799"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Attick\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_cad_hw_if.c"/>
@@ -696,6 +764,7 @@
         <TopLine Value="782"/>
         <CursorPos X="8" Y="799"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\fpcupsystems\stable\fpcsrc\rtl\objpas\classes\classesh.inc"/>
@@ -710,6 +779,7 @@
         <TopLine Value="173"/>
         <CursorPos X="79" Y="193"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY\Inc\usbpd_pdo_defs.h"/>
@@ -717,6 +787,7 @@
         <TopLine Value="73"/>
         <CursorPos X="24" Y="91"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Inc\usbpd_pdo_defs.h"/>
@@ -724,6 +795,7 @@
         <TopLine Value="74"/>
         <CursorPos X="9" Y="91"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\en.STSW-STUSB015-v1_v1.0.0\STSW-STUSB015-v1.0.0\STSW_STUSB015_v1.0\Projects\STM32L4R5ZI-Nucleo\Appli\usbpd\STM32L4R5_MB1303_DRP_2PORTS\Src\usbpd_dpm_user.c"/>
@@ -731,6 +803,7 @@
         <TopLine Value="2028"/>
         <CursorPos Y="1958"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\STM32CubeG0-master\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Src\usbpd_dpm_user.c"/>
@@ -738,6 +811,7 @@
         <TopLine Value="1092"/>
         <CursorPos Y="1091"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\STM32CubeG0-master\Projects\STM32G0C1E-EV\Demonstrations\Modules\ucpd\usbpd_dpm_user.c"/>
@@ -745,6 +819,7 @@
         <TopLine Value="1144"/>
         <CursorPos Y="1140"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Projects\STM32F072RB-Nucleo\Applications\USB_PD\Consumer_DRP_RTOS\Src\usbpd_dpm_user.c"/>
@@ -752,6 +827,7 @@
         <TopLine Value="787"/>
         <CursorPos Y="795"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Projects\STM32F072RB-Nucleo\Applications\USB_PD\DUAL_PORT_RTOS\Src\usbpd_dpm_user.c"/>
@@ -759,6 +835,7 @@
         <TopLine Value="825"/>
         <CursorPos Y="830"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Projects\STM32F072RB-Nucleo\Applications\USB_PD\EVAL_FUSB307_DRP\Src\usbpd_dpm_user.c"/>
@@ -766,6 +843,7 @@
         <TopLine Value="910"/>
         <CursorPos Y="918"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SRC_VDM\Src\usbpd_dpm_user.c"/>
@@ -773,6 +851,7 @@
         <TopLine Value="1021"/>
         <CursorPos X="7" Y="1025"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Utilities\GUI_INTERFACE\gui_api.c"/>
@@ -780,6 +859,7 @@
         <TopLine Value="1259"/>
         <CursorPos X="61" Y="1276"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="share\bits.pas"/>
@@ -814,6 +894,7 @@
         <TopLine Value="748"/>
         <CursorPos X="64" Y="771"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\New folder\Utilities\CLI_USER\cli_commands.c"/>
@@ -821,6 +902,7 @@
         <TopLine Value="737"/>
         <CursorPos X="64" Y="772"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\New folder (2)\Utilities\CLI_USER\cli_commands.c"/>
@@ -828,6 +910,7 @@
         <TopLine Value="755"/>
         <CursorPos X="64" Y="772"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY_noRTOS\Src\usbpd_pwr_if.c"/>
@@ -835,6 +918,7 @@
         <TopLine Value="676"/>
         <CursorPos X="73" Y="700"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\en.STSW-STUSB010_v1.3.0\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_SRCING_DEVICE\Src\usbpd_pwr_if.c"/>
@@ -842,6 +926,7 @@
         <TopLine Value="673"/>
         <CursorPos X="27" Y="684"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\en.STSW-STUSB015-v1_v1.0.0\STSW-STUSB015-v1.0.0\STSW_STUSB015_v1.0\Projects\STM32L4R5ZI-Nucleo\Appli\usbpd\STM32L4R5_MB1303_DRP_ONLY\Src\usbpd_pwr_if.c"/>
@@ -849,6 +934,7 @@
         <TopLine Value="673"/>
         <CursorPos X="27" Y="684"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\STM32CubeG0-master\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Src\usbpd_pwr_if.c"/>
@@ -856,6 +942,7 @@
         <TopLine Value="415"/>
         <CursorPos X="21" Y="426"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_pwr_hw_if.c"/>
@@ -863,6 +950,7 @@
         <TopLine Value="61"/>
         <CursorPos X="14" Y="89"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\x-cube-tcpp-main\Drivers\BSP\X-NUCLEO-DRP1M1\drp1m1_usbpd_pwr.c"/>
@@ -870,6 +958,7 @@
         <TopLine Value="704"/>
         <CursorPos X="9" Y="715"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_pwr_user.c"/>
@@ -877,6 +966,7 @@
         <TopLine Value="619"/>
         <CursorPos X="16" Y="636"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\x-cube-tcpp-main\Projects\NUCLEO-G474RE\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_pwr_user.c"/>
@@ -884,6 +974,7 @@
         <TopLine Value="221"/>
         <CursorPos X="16" Y="232"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\x-cube-tcpp-main\Projects\NUCLEO-G474RE\Applications\USB_PD\SNK1M1_Sink\Src\usbpd_pwr_user.c"/>
@@ -891,6 +982,7 @@
         <TopLine Value="214"/>
         <CursorPos X="16" Y="234"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_phy.c"/>
@@ -898,6 +990,7 @@
         <TopLine Value="560"/>
         <CursorPos X="6" Y="577"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\fpcupsystems\stable\fpcsrc\rtl\objpas\sysutils\sysstrh.inc"/>
@@ -912,6 +1005,7 @@
         <TopLine Value="130"/>
         <CursorPos X="22" Y="156"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_trace.h"/>
@@ -919,6 +1013,7 @@
         <TopLine Value="45"/>
         <CursorPos X="31" Y="62"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\STMUSBC\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_phy.h"/>
@@ -926,6 +1021,7 @@
         <TopLine Value="130"/>
         <CursorPos X="21" Y="135"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\STM32CubeG0-master\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_phy.c"/>
@@ -933,6 +1029,7 @@
         <TopLine Value="310"/>
         <CursorPos X="44" Y="338"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\en.STSW-STUSB015-v1_v1.0.0\STSW-STUSB015-v1.0.0\STSW_STUSB015_v1.0\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_porthandle.h"/>
@@ -940,6 +1037,7 @@
         <TopLine Value="67"/>
         <CursorPos X="21" Y="84"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\Attick\X-CUBE-USB-PD-master\STM32CubeExpansion_USBPD_F0\Middlewares\ST\STM32_USBPD_Library\Devices\STM32F072\src\usbpd_pwr_hw_if.c"/>
@@ -947,6 +1045,7 @@
         <TopLine Value="204"/>
         <CursorPos Y="205"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="share\tools.pas"/>
@@ -1020,6 +1119,7 @@
         <TopLine Value="157"/>
         <CursorPos Y="172"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Utilities\GUI_INTERFACE\gui_api.c"/>
@@ -1027,6 +1127,7 @@
         <TopLine Value="19"/>
         <CursorPos Y="32"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="share\dsLeds.pas"/>
@@ -1041,6 +1142,7 @@
         <TopLine Value="58"/>
         <CursorPos X="46" Y="71"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="db_mormot1\client\dddmormotunit.pas"/>
@@ -1137,6 +1239,7 @@
         <TopLine Value="30"/>
         <CursorPos X="53" Y="62"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\GitHub\mORMot\SynSQLite3.pas"/>
@@ -1461,6 +1564,7 @@
         <TopLine Value="94"/>
         <CursorPos X="20" Y="106"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G071B-DISCO\Demonstrations\USBPD_Analyzer\Inc\usbpd_vdm_user.h"/>
@@ -1468,6 +1572,7 @@
         <TopLine Value="104"/>
         <CursorPos Y="120"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_dpm_core.c"/>
@@ -1475,6 +1580,7 @@
         <TopLine Value="615"/>
         <CursorPos X="11" Y="629"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_dpm_core.c"/>
@@ -1482,6 +1588,7 @@
         <TopLine Value="414"/>
         <CursorPos X="27" Y="428"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_Sink_PPS\Src\usbpd_dpm_core.c"/>
@@ -1489,6 +1596,7 @@
         <TopLine Value="172"/>
         <CursorPos X="29" Y="183"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\SNK1M1_Sink\Src\usbpd_dpm_core.c"/>
@@ -1496,6 +1604,7 @@
         <TopLine Value="398"/>
         <CursorPos X="27" Y="412"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE_nearlyworking_v1\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_dpm_user.c"/>
@@ -1503,6 +1612,7 @@
         <TopLine Value="787"/>
         <CursorPos X="29" Y="801"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G474RE\Applications\USB_PD\USBPDM1_Sink\Src\usbpd_dpm_core.c"/>
@@ -1510,6 +1620,7 @@
         <TopLine Value="438"/>
         <CursorPos X="27" Y="452"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Drivers\STM32G0xx_HAL_Driver\Inc\stm32g0xx_ll_ucpd.h"/>
@@ -1517,6 +1628,7 @@
         <TopLine Value="1780"/>
         <CursorPos X="27" Y="1781"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_core.h"/>
@@ -1524,6 +1636,7 @@
         <TopLine Value="364"/>
         <CursorPos X="49" Y="379"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_def.h"/>
@@ -1531,6 +1644,7 @@
         <TopLine Value="2763"/>
         <CursorPos X="25" Y="2786"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_desc_template.c"/>
@@ -1538,6 +1652,7 @@
         <TopLine Value="168"/>
         <CursorPos X="42" Y="182"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_Sink_PPS\Src\usbpd_dpm_user.c"/>
@@ -1545,6 +1660,7 @@
         <TopLine Value="978"/>
         <CursorPos X="52" Y="992"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE_nearlyworking_v2\Applications\USB_PD\USBPDM1_Sink_PPS\Inc\usbpd_pdo_defs.h"/>
@@ -1552,6 +1668,7 @@
         <TopLine Value="79"/>
         <CursorPos X="43" Y="99"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G474RE\Applications\USB_PD\SNK1M1_Sink\Inc\usbpd_pdo_defs.h"/>
@@ -1559,6 +1676,7 @@
         <TopLine Value="71"/>
         <CursorPos X="9" Y="79"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE_working_v1\Applications\USB_PD\SNK1M1_Sink\Inc\usbpd_pdo_defs.h"/>
@@ -1566,6 +1684,7 @@
         <TopLine Value="158"/>
         <CursorPos X="9" Y="79"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G474RE\Applications\USB_PD\USBPDM1_Sink\Inc\usbpd_pdo_defs.h"/>
@@ -1573,6 +1692,7 @@
         <TopLine Value="65"/>
         <CursorPos Y="173"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP - Copy\Inc\usbpd_vdm_user.h"/>
@@ -1580,6 +1700,7 @@
         <TopLine Value="33"/>
         <CursorPos X="2" Y="47"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_vdm_user.c"/>
@@ -1587,6 +1708,7 @@
         <TopLine Value="99"/>
         <CursorPos X="20" Y="113"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_gui_memmap.h"/>
@@ -1594,6 +1716,7 @@
         <TopLine Value="65"/>
         <CursorPos X="24" Y="79"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Src\usbpd_vdm_user.c"/>
@@ -1601,6 +1724,7 @@
         <TopLine Value="162"/>
         <CursorPos X="75" Y="1294"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Consumer_1port\Src\usbpd_vdm_user.c"/>
@@ -1608,6 +1732,7 @@
         <TopLine Value="396"/>
         <CursorPos X="20" Y="410"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_vdm_user.c"/>
@@ -1615,6 +1740,7 @@
         <TopLine Value="396"/>
         <CursorPos X="20" Y="410"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_Sink_PPS\Src\usbpd_vdm_user.c"/>
@@ -1622,6 +1748,7 @@
         <TopLine Value="97"/>
         <CursorPos X="28" Y="111"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\SNK1M1_Sink\Src\usbpd_vdm_user.c"/>
@@ -1629,6 +1756,7 @@
         <TopLine Value="340"/>
         <CursorPos X="3" Y="354"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\USBPDM1_Sink_LPM\Src\usbpd_vdm_user.c"/>
@@ -1636,6 +1764,7 @@
         <TopLine Value="99"/>
         <CursorPos X="20" Y="113"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\USBPDM1_Sink_PPS\Src\usbpd_vdm_user.c"/>
@@ -1643,6 +1772,7 @@
         <TopLine Value="99"/>
         <CursorPos X="20" Y="113"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_vdm_user.c"/>
@@ -1650,6 +1780,7 @@
         <TopLine Value="213"/>
         <CursorPos X="8" Y="227"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP - Copy\Src\usbpd_vdm_user.c"/>
@@ -1657,6 +1788,7 @@
         <TopLine Value="97"/>
         <CursorPos X="28" Y="111"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_Sink_PPS\Src\usbpd_vdm_user.c"/>
@@ -1664,6 +1796,7 @@
         <TopLine Value="97"/>
         <CursorPos X="28" Y="111"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\SNK1M1_Sink\Src\usbpd_vdm_user.c"/>
@@ -1671,6 +1804,7 @@
         <TopLine Value="97"/>
         <CursorPos X="28" Y="111"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\USBPDM1_Sink_LPM\Src\usbpd_vdm_user.c"/>
@@ -1678,6 +1812,7 @@
         <TopLine Value="97"/>
         <CursorPos X="28" Y="111"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\USBPDM1_Sink_PPS\Src\usbpd_vdm_user.c"/>
@@ -1685,6 +1820,7 @@
         <TopLine Value="97"/>
         <CursorPos X="28" Y="111"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G474RE\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_vdm_user.c"/>
@@ -1692,6 +1828,7 @@
         <TopLine Value="97"/>
         <CursorPos X="28" Y="111"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G474RE\Applications\USB_PD\SNK1M1_Sink\Src\usbpd_vdm_user.c"/>
@@ -1699,6 +1836,7 @@
         <TopLine Value="97"/>
         <CursorPos X="28" Y="111"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G474RE\Applications\USB_PD\USBPDM1_Sink\Src\usbpd_vdm_user.c"/>
@@ -1706,6 +1844,7 @@
         <TopLine Value="340"/>
         <CursorPos X="3" Y="354"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G0C1E-EV\Demonstrations\Modules\ucpd\usbpd_vdm_user.c"/>
@@ -1713,6 +1852,7 @@
         <TopLine Value="515"/>
         <CursorPos X="59" Y="529"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G0C1E-EV\Demonstrations\Modules\ucpd\usbpd_vdm_user.h"/>
@@ -1720,6 +1860,7 @@
         <TopLine Value="102"/>
         <CursorPos X="16" Y="65"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Drivers\BSP\STM32G081B_EVAL\stm32g081b_eval_mux.c"/>
@@ -1727,6 +1868,7 @@
         <TopLine Value="370"/>
         <CursorPos Y="536"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Drivers\BSP\STM32G0C1E-EV\stm32g0c1e_eval_mux.c"/>
@@ -1734,6 +1876,7 @@
         <TopLine Value="228"/>
         <CursorPos X="19" Y="515"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G0C1E-EV\Applications\USB-PD\USB-PD_Consumer_1port\Src\usbpd_vdm_user.c"/>
@@ -1741,6 +1884,7 @@
         <TopLine Value="193"/>
         <CursorPos X="13" Y="207"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Inc\usbpd_dpm_user.h"/>
@@ -1748,6 +1892,7 @@
         <TopLine Value="199"/>
         <CursorPos X="21" Y="213"/>
         <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_dpm_user.h"/>
@@ -1755,6 +1900,7 @@
         <TopLine Value="102"/>
         <CursorPos X="23" Y="112"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Utilities\GUI_INTERFACE\gui_api.c"/>
@@ -1762,6 +1908,7 @@
         <TopLine Value="2813"/>
         <CursorPos X="59" Y="2827"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_dpm_user.c"/>
@@ -1769,6 +1916,7 @@
         <TopLine Value="1208"/>
         <CursorPos X="38" Y="1216"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_vdm_user.h"/>
@@ -1776,6 +1924,7 @@
         <TopLine Value="107"/>
         <CursorPos X="33" Y="121"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G071B-DISCO\Demonstrations\USBPD_Analyzer\Src\usbpd_vdm_user.c"/>
@@ -1783,6 +1932,7 @@
         <TopLine Value="465"/>
         <CursorPos X="3" Y="479"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_dpm_conf.h"/>
@@ -1790,6 +1940,7 @@
         <TopLine Value="59"/>
         <CursorPos X="38" Y="74"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G071B-DISCO\Demonstrations\USBPD_Analyzer\Inc\usbpd_dpm_conf.h"/>
@@ -1797,6 +1948,7 @@
         <TopLine Value="116"/>
         <CursorPos X="14" Y="171"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\USBPDM1_Sink_LPM\Inc\usbpd_dpm_conf.h"/>
@@ -1804,6 +1956,7 @@
         <TopLine Value="170"/>
         <CursorPos X="71" Y="171"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G071B-DISCO\Demonstrations\USBPD_Analyzer\Src\usbpd_dpm_user.c"/>
@@ -1811,6 +1964,7 @@
         <TopLine Value="383"/>
         <CursorPos X="17" Y="397"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Src\usbpd_dpm_user.c"/>
@@ -1818,6 +1972,7 @@
         <TopLine Value="1497"/>
         <CursorPos X="25" Y="1508"/>
         <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G0C1E-EV\Demonstrations\Modules\ucpd\usbpd_dpm_user.c"/>
@@ -1825,6 +1980,7 @@
         <TopLine Value="455"/>
         <CursorPos X="15" Y="469"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G474RE\Applications\USB_PD\SNK1M1_Sink\Src\usbpd_dpm_core.c"/>
@@ -1832,6 +1988,7 @@
         <TopLine Value="314"/>
         <CursorPos X="15" Y="328"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_dpm_core.c"/>
@@ -1839,6 +1996,7 @@
         <TopLine Value="293"/>
         <CursorPos X="29" Y="358"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_dpm_core.c"/>
@@ -1846,6 +2004,7 @@
         <TopLine Value="420"/>
         <CursorPos X="27" Y="370"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Inc\usbpd_dpm_conf.h"/>
@@ -1853,6 +2012,7 @@
         <TopLine Value="210"/>
         <CursorPos Y="232"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\SNK1M1_Sink\Src\stm32g0xx_hal_msp.c"/>
@@ -1860,6 +2020,7 @@
         <TopLine Value="65"/>
         <CursorPos X="22" Y="88"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Utilities\TRACER_EMB\tracer_emb.c"/>
@@ -1867,6 +2028,7 @@
         <TopLine Value="366"/>
         <CursorPos X="14" Y="3"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Drivers\STM32G0xx_HAL_Driver\Inc\stm32g0xx_hal_dma.h"/>
@@ -1874,6 +2036,7 @@
         <TopLine Value="189"/>
         <CursorPos X="31" Y="204"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Drivers\STM32G0xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h"/>
@@ -1881,6 +2044,7 @@
         <TopLine Value="335"/>
         <CursorPos X="35" Y="349"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\NUCLEO-G071RB\Examples\UART\LPUART_WakeUpFromStop\Src\stm32g0xx_hal_msp.c"/>
@@ -1888,6 +2052,7 @@
         <TopLine Value="133"/>
         <CursorPos X="21" Y="126"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\NUCLEO-G0B1RE\Examples_LL\LPUART\LPUART_WakeUpFromStop_Init\Src\main.c"/>
@@ -1895,6 +2060,7 @@
         <TopLine Value="167"/>
         <CursorPos X="20" Y="223"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\NUCLEO-G0B1RE\Examples_LL\LPUART\LPUART_WakeUpFromStop_Init\Src\stm32g0xx_it.c"/>
@@ -1902,6 +2068,7 @@
         <TopLine Value="150"/>
         <CursorPos X="43" Y="148"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G0C1E-EV\Applications\USB-PD\USB-PD_Consumer_1port\Src\stm32g0xx_it.c"/>
@@ -1909,6 +2076,7 @@
         <TopLine Value="195"/>
         <CursorPos X="25" Y="210"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_core.h"/>
@@ -1916,6 +2084,7 @@
         <TopLine Value="830"/>
         <CursorPos X="6" Y="844"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP - Copy\Inc\usbpd_dpm_conf.h"/>
@@ -1923,6 +2092,7 @@
         <TopLine Value="59"/>
         <CursorPos X="6" Y="73"/>
         <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE_working_v1_002\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_vdm_user.c"/>
@@ -1930,6 +2100,7 @@
         <TopLine Value="133"/>
         <CursorPos Y="151"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE_working_v1_001\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_vdm_user.c"/>
@@ -1937,6 +2108,7 @@
         <TopLine Value="66"/>
         <CursorPos X="22" Y="45"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE_working_v1_002\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_vdm_user.h"/>
@@ -1944,6 +2116,7 @@
         <TopLine Value="83"/>
         <CursorPos Y="104"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Inc\usbpd_vdm_user.h"/>
@@ -1951,6 +2124,7 @@
         <TopLine Value="58"/>
         <CursorPos Y="115"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G0B1RE_working_v1_001\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_dpm_user.h"/>
@@ -1958,6 +2132,7 @@
         <TopLine Value="98"/>
         <CursorPos Y="122"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Src\main.c"/>
@@ -1965,6 +2140,7 @@
         <TopLine Value="87"/>
         <CursorPos X="19" Y="110"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Src\demo_application.c"/>
@@ -1972,6 +2148,7 @@
         <TopLine Value="162"/>
         <CursorPos Y="332"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G474RE\Applications\USB_PD\USBPDM1_Sink\Inc\usbpd_dpm_conf.h"/>
@@ -1979,6 +2156,7 @@
         <TopLine Value="110"/>
         <CursorPos X="6" Y="79"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Drivers\BSP\Components\tcpp0203\tcpp0203.c"/>
@@ -1986,6 +2164,7 @@
         <TopLine Value="303"/>
         <CursorPos X="9" Y="317"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Drivers\BSP\STM32G071B-Discovery\stm32g071b_discovery_usbpd_pwr.c"/>
@@ -1993,6 +2172,7 @@
         <TopLine Value="221"/>
         <CursorPos X="22" Y="234"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Drivers\BSP\STM32G081B_EVAL\stm32g081b_eval_pwr.c"/>
@@ -2000,6 +2180,7 @@
         <TopLine Value="1214"/>
         <CursorPos X="9" Y="1162"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Drivers\BSP\STM32G0C1E-EV\stm32g0c1e_eval_pwr.c"/>
@@ -2007,6 +2188,7 @@
         <TopLine Value="1231"/>
         <CursorPos X="9" Y="1185"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Consumer_1port\Src\usbpd_pwr_user.c"/>
@@ -2014,6 +2196,7 @@
         <TopLine Value="1495"/>
         <CursorPos X="16" Y="1473"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_pwr_user.c"/>
@@ -2021,6 +2204,7 @@
         <TopLine Value="1520"/>
         <CursorPos X="20" Y="1543"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G0C1E-EV\Applications\USB-PD\USB-PD_Consumer_1port\Src\usbpd_pwr_user.c"/>
@@ -2028,6 +2212,7 @@
         <TopLine Value="708"/>
         <CursorPos X="16" Y="710"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\STM32G0C1E-EV\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_pwr_user.c"/>
@@ -2035,6 +2220,7 @@
         <TopLine Value="707"/>
         <CursorPos X="22" Y="712"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Drivers\STM32G0xx_HAL_Driver\Inc\stm32g0xx_ll_system.h"/>
@@ -2042,6 +2228,7 @@
         <TopLine Value="495"/>
         <CursorPos X="44" Y="509"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\STM32Cube_FW_G0_V1.5.0\Projects\NUCLEO-G070RB\Applications\FatFs\FatFs_uSD_Standalone\Core\Src\stm32g0xx_hal_msp.c"/>
@@ -2049,6 +2236,7 @@
         <TopLine Value="63"/>
         <CursorPos X="24" Y="77"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Projects\NUCLEO-G071RB\Applications\USB_PD\SNK1M1_Sink\Src\stm32g0xx_hal_msp.c"/>
@@ -2056,6 +2244,7 @@
         <TopLine Value="29"/>
         <CursorPos X="3" Y="79"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\x-cube-tcpp-3_1_0\Drivers\BSP\X-NUCLEO-DRP1M1\drp1m1_conf_template.h"/>
@@ -2063,6 +2252,7 @@
         <TopLine Value="63"/>
         <CursorPos X="9" Y="77"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\fpcupsystems\trunk\fpcsrc\rtl\objpas\math.pp"/>
@@ -2210,6 +2400,7 @@
         <TopLine Value="131"/>
         <CursorPos X="53" Y="150"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS_V001\Src\usbpd_dpm_user.c"/>
@@ -2217,6 +2408,7 @@
         <TopLine Value="1515"/>
         <CursorPos X="3" Y="1528"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_def.h"/>
@@ -2224,6 +2416,7 @@
         <TopLine Value="1067"/>
         <CursorPos X="17" Y="1078"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Utilities\GUI_INTERFACE\gui_api.h"/>
@@ -2231,6 +2424,7 @@
         <TopLine Value="159"/>
         <CursorPos X="3" Y="172"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Drivers\BSP\P-NUCLEO-USB002\p-nucleo-usb002.c"/>
@@ -2238,6 +2432,7 @@
         <TopLine Value="21"/>
         <CursorPos X="23" Y="31"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Drivers\BSP\P-NUCLEO-USB002\stm32f0xx_it.c"/>
@@ -2245,6 +2440,7 @@
         <TopLine Value="37"/>
         <CursorPos X="10" Y="52"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_dpm_core.c"/>
@@ -2252,6 +2448,7 @@
         <TopLine Value="28"/>
         <CursorPos X="11" Y="41"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Inc\usbpd_dpm_conf.h"/>
@@ -2259,6 +2456,7 @@
         <TopLine Value="33"/>
         <CursorPos X="9" Y="46"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G070RB\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_dpm_conf.h"/>
@@ -2266,12 +2464,14 @@
         <TopLine Value="48"/>
         <CursorPos X="8" Y="63"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G474RE\Applications\USB_PD\SRC1M1_Source\Src\usbpd_dpm_core.c"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="22"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G070RB\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_dpm_user.h"/>
@@ -2279,6 +2479,7 @@
         <TopLine Value="140"/>
         <CursorPos X="14" Y="152"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G474RE\Applications\USB_PD\SRC1M1_Source\Inc\usbpd_dpm_user.h"/>
@@ -2286,6 +2487,7 @@
         <TopLine Value="69"/>
         <CursorPos Y="82"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G474RE\Applications\USB_PD\SNK1M1_Sink\Src\usbpd_dpm_user.c"/>
@@ -2293,6 +2495,7 @@
         <TopLine Value="106"/>
         <CursorPos Y="119"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\SNK1M1_Sink_PPS\Src\usbpd_dpm_user.c"/>
@@ -2300,6 +2503,7 @@
         <TopLine Value="132"/>
         <CursorPos X="12" Y="144"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\SNK1M1_Sink_PPS\Src\usbpd_dpm_user.c"/>
@@ -2307,6 +2511,7 @@
         <TopLine Value="135"/>
         <CursorPos Y="145"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY\Inc\usbpd_dpm_user.h"/>
@@ -2314,6 +2519,7 @@
         <TopLine Value="171"/>
         <CursorPos Y="184"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SRC_ONLY_noRTOS\Inc\usbpd_dpm_user.h"/>
@@ -2321,6 +2527,7 @@
         <TopLine Value="154"/>
         <CursorPos Y="167"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SNK_ONLY\Inc\usbpd_dpm_user.h"/>
@@ -2328,6 +2535,7 @@
         <TopLine Value="164"/>
         <CursorPos Y="177"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SNK_ONLY_noRTOS\Inc\usbpd_dpm_user.h"/>
@@ -2335,6 +2543,7 @@
         <TopLine Value="164"/>
         <CursorPos X="30" Y="176"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Src\usbpd_dpm_user.c"/>
@@ -2342,6 +2551,7 @@
         <TopLine Value="143"/>
         <CursorPos X="17" Y="156"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Inc\usbpd_dpm_user.h"/>
@@ -2349,6 +2559,7 @@
         <TopLine Value="157"/>
         <CursorPos X="14" Y="183"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G474RE\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_dpm_user.h"/>
@@ -2356,6 +2567,7 @@
         <TopLine Value="219"/>
         <CursorPos X="14" Y="152"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G474RE\Applications\USB_PD\SRC1M1_Source\Inc\usbpd_dpm_conf.h"/>
@@ -2363,6 +2575,7 @@
         <TopLine Value="48"/>
         <CursorPos X="8" Y="61"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G474RE\Applications\USB_PD\SNK1M1_Sink\Inc\usbpd_dpm_conf.h"/>
@@ -2370,6 +2583,7 @@
         <TopLine Value="48"/>
         <CursorPos X="8" Y="61"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\SNK1M1_Sink_LPM\Inc\usbpd_dpm_user.h"/>
@@ -2377,6 +2591,7 @@
         <TopLine Value="51"/>
         <CursorPos X="29" Y="71"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G070RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd.c"/>
@@ -2384,6 +2599,7 @@
         <TopLine Value="46"/>
         <CursorPos X="31" Y="53"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Src\main.c"/>
@@ -2391,6 +2607,7 @@
         <TopLine Value="91"/>
         <CursorPos X="76" Y="104"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Utilities\GUI_INTERFACE\gui_api.c"/>
@@ -2398,6 +2615,7 @@
         <TopLine Value="25"/>
         <CursorPos X="9" Y="38"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Utilities\GUI_INTERFACE\gui_api.c"/>
@@ -2405,6 +2623,7 @@
         <TopLine Value="1897"/>
         <CursorPos X="49" Y="1912"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Drivers\BSP\P-NUCLEO-USB002\p-nucleo-usb002.c"/>
@@ -2412,6 +2631,7 @@
         <TopLine Value="573"/>
         <CursorPos X="41" Y="581"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Drivers\BSP\P-NUCLEO-USB002\p-nucleo-usb002.h"/>
@@ -2419,6 +2639,7 @@
         <TopLine Value="568"/>
         <CursorPos X="9" Y="579"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Drivers\BSP\P-NUCLEO-USB002\stm32f0xx_it.c"/>
@@ -2426,6 +2647,7 @@
         <TopLine Value="111"/>
         <CursorPos X="59" Y="117"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY\Src\usbpd_dpm_user.c"/>
@@ -2433,6 +2655,7 @@
         <TopLine Value="297"/>
         <CursorPos X="22" Y="310"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Utilities\GUI_INTERFACE\bsp_gui.c"/>
@@ -2440,6 +2663,7 @@
         <TopLine Value="288"/>
         <CursorPos X="29" Y="309"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_def.h"/>
@@ -2447,6 +2671,7 @@
         <TopLine Value="71"/>
         <CursorPos X="9" Y="84"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ex.h"/>
@@ -2454,6 +2679,7 @@
         <TopLine Value="712"/>
         <CursorPos X="19" Y="725"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Utilities\GUI_INTERFACE\bsp_gui.c"/>
@@ -2461,6 +2687,7 @@
         <TopLine Value="195"/>
         <CursorPos X="43" Y="198"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Utilities\GUI_INTERFACE\bsp_gui.h"/>
@@ -2468,6 +2695,7 @@
         <TopLine Value="37"/>
         <CursorPos X="19" Y="53"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Utilities\GUI_INTERFACE\bsp_gui.c"/>
@@ -2475,12 +2703,14 @@
         <TopLine Value="233"/>
         <CursorPos X="22" Y="244"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_hal_flash_ex.c"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="36" Y="3"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Drivers\STM32G0xx_HAL_Driver\Inc\stm32g0xx_hal_flash.h"/>
@@ -2488,6 +2718,7 @@
         <TopLine Value="794"/>
         <CursorPos X="28" Y="809"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_phy.c"/>
@@ -2495,6 +2726,7 @@
         <TopLine Value="571"/>
         <CursorPos X="3" Y="584"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY\Src\usbpd_pwr_if.c"/>
@@ -2502,6 +2734,7 @@
         <TopLine Value="302"/>
         <CursorPos X="13" Y="315"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY_noRTOS\Src\usbpd_pwr_if.c"/>
@@ -2509,6 +2742,7 @@
         <TopLine Value="554"/>
         <CursorPos X="11" Y="567"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_SRCING_DEVICE\Src\usbpd_dpm_user.c"/>
@@ -2516,6 +2750,7 @@
         <TopLine Value="623"/>
         <CursorPos X="9" Y="636"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_SRCING_DEVICE\Src\usbpd_pwr_if.c"/>
@@ -2523,6 +2758,7 @@
         <TopLine Value="302"/>
         <CursorPos X="13" Y="315"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Drivers\BSP\X-NUCLEO-DRP1M1\drp1m1_usbpd_pwr.c"/>
@@ -2530,6 +2766,7 @@
         <TopLine Value="289"/>
         <CursorPos X="12" Y="338"/>
         <UsageCount Value="22"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Utilities\GUI_INTERFACE\gui_api.h"/>
@@ -2537,6 +2774,7 @@
         <TopLine Value="218"/>
         <CursorPos X="23" Y="240"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G070RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_dpm_user.c"/>
@@ -2544,6 +2782,7 @@
         <TopLine Value="438"/>
         <CursorPos X="9" Y="453"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP_V001\Src\usbpd_dpm_user.c"/>
@@ -2551,6 +2790,7 @@
         <TopLine Value="810"/>
         <CursorPos X="19" Y="827"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\SRC1M1_Source\Src\usbpd_dpm_user.c"/>
@@ -2558,6 +2798,7 @@
         <TopLine Value="284"/>
         <CursorPos X="36" Y="299"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_def.h"/>
@@ -2565,6 +2806,7 @@
         <TopLine Value="3197"/>
         <CursorPos X="3" Y="3210"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_cad_hw_if.h"/>
@@ -2572,6 +2814,7 @@
         <TopLine Value="114"/>
         <CursorPos X="60" Y="127"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Utilities\GUI_INTERFACE\gui_api.h"/>
@@ -2579,6 +2822,7 @@
         <TopLine Value="159"/>
         <CursorPos X="3" Y="172"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_cad_hw_if.c"/>
@@ -2586,6 +2830,7 @@
         <TopLine Value="120"/>
         <CursorPos X="42" Y="133"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\dev\usbc\st\STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_pwr_hw_if.c"/>
@@ -2593,6 +2838,7 @@
         <TopLine Value="220"/>
         <CursorPos X="12" Y="211"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Drivers\BSP\X-NUCLEO-DRP1M1-new\drp1m1_usbpd_pwr.c"/>
@@ -2600,6 +2846,7 @@
         <TopLine Value="324"/>
         <CursorPos X="37" Y="336"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Drivers\BSP\Components\STUSB1602\STUSB1602_Registers_if.h"/>
@@ -2607,6 +2854,7 @@
         <TopLine Value="556"/>
         <CursorPos X="10" Y="486"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\SNK1M1_Sink\Inc\usbpd_pwr_user.h"/>
@@ -2614,6 +2862,7 @@
         <TopLine Value="70"/>
         <CursorPos X="3" Y="83"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\SRC1M1_Source\Src\usbpd_pwr_user.c"/>
@@ -2621,6 +2870,7 @@
         <TopLine Value="562"/>
         <CursorPos X="47" Y="575"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\SRC1M1_Source\Inc\usbpd_pwr_user.h"/>
@@ -2628,6 +2878,7 @@
         <TopLine Value="331"/>
         <CursorPos X="9" Y="344"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\SNK1M1_Sink_PPS\Src\usbpd_pwr_user.c"/>
@@ -2635,6 +2886,7 @@
         <TopLine Value="563"/>
         <CursorPos X="43" Y="563"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Drivers\BSP\X-NUCLEO-DRP1M1\drp1m1_usbpd_pwr.h"/>
@@ -2642,6 +2894,7 @@
         <TopLine Value="62"/>
         <CursorPos X="18" Y="73"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G4XX\src\usbpd_phy_hw_if.c"/>
@@ -2649,6 +2902,7 @@
         <TopLine Value="143"/>
         <CursorPos X="44" Y="178"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_phy_hw_if.h"/>
@@ -2656,6 +2910,7 @@
         <TopLine Value="181"/>
         <CursorPos X="6" Y="193"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\src\usbpd_Stusb_Dpm_if.c"/>
@@ -2663,6 +2918,7 @@
         <TopLine Value="833"/>
         <CursorPos X="84" Y="846"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_cad_hw_if.c"/>
@@ -2670,6 +2926,7 @@
         <TopLine Value="809"/>
         <CursorPos X="30" Y="816"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_dpm_user.c"/>
@@ -2677,6 +2934,7 @@
         <TopLine Value="2088"/>
         <CursorPos X="17" Y="2101"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_dpm_user.c"/>
@@ -2684,6 +2942,7 @@
         <TopLine Value="801"/>
         <CursorPos X="11" Y="823"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP_V002\Src\usbpd_dpm_user.c"/>
@@ -2691,6 +2950,7 @@
         <TopLine Value="2080"/>
         <CursorPos X="21" Y="2093"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Src\usbpd_pwr_if.c"/>
@@ -2698,6 +2958,7 @@
         <TopLine Value="708"/>
         <CursorPos X="70" Y="721"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_ONLY\Src\usbpd_pwr_if.c"/>
@@ -2705,6 +2966,7 @@
         <TopLine Value="706"/>
         <CursorPos X="70" Y="719"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_SRCING_DEVICE\Src\usbpd_pwr_if.c"/>
@@ -2712,6 +2974,7 @@
         <TopLine Value="706"/>
         <CursorPos X="70" Y="719"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_VDM\Src\usbpd_pwr_if.c"/>
@@ -2719,6 +2982,7 @@
         <TopLine Value="706"/>
         <CursorPos X="70" Y="719"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SNK_ONLY\Src\usbpd_pwr_if.c"/>
@@ -2726,6 +2990,7 @@
         <TopLine Value="319"/>
         <CursorPos X="70" Y="332"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SNK_VDM\Src\usbpd_pwr_if.c"/>
@@ -2733,6 +2998,7 @@
         <TopLine Value="324"/>
         <CursorPos X="70" Y="337"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SRC_ONLY\Src\usbpd_pwr_if.c"/>
@@ -2740,6 +3006,7 @@
         <TopLine Value="653"/>
         <CursorPos X="70" Y="666"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_SRC_VDM\Src\usbpd_pwr_if.c"/>
@@ -2747,6 +3014,7 @@
         <TopLine Value="653"/>
         <CursorPos X="70" Y="666"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Drivers\BSP\X-NUCLEO-DRP1M1-new\drp1m1_usbpd_pwr.h"/>
@@ -2754,6 +3022,7 @@
         <TopLine Value="61"/>
         <CursorPos X="3" Y="74"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\SRC1M1_Source\Inc\usbpd_pwr_user.h"/>
@@ -2761,6 +3030,7 @@
         <TopLine Value="70"/>
         <CursorPos X="3" Y="83"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\SNK1M1_Sink_PPS\Inc\usbpd_pwr_user.h"/>
@@ -2768,6 +3038,7 @@
         <TopLine Value="70"/>
         <CursorPos X="3" Y="83"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\SNK1M1_Sink_LPM\Inc\usbpd_pwr_user.h"/>
@@ -2775,6 +3046,7 @@
         <TopLine Value="70"/>
         <CursorPos X="3" Y="83"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Drivers\BSP\X-NUCLEO-DRP1M1-orig\drp1m1_usbpd_pwr.c"/>
@@ -2782,6 +3054,7 @@
         <TopLine Value="196"/>
         <CursorPos X="52" Y="203"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_core.h"/>
@@ -2789,6 +3062,7 @@
         <TopLine Value="122"/>
         <CursorPos X="35" Y="135"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Devices\STM32G0XX\src\usbpd_phy_hw_if.c"/>
@@ -2796,6 +3070,7 @@
         <TopLine Value="189"/>
         <CursorPos X="14" Y="190"/>
         <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Drivers\BSP\STM32G0xx_Nucleo\stm32g0xx_nucleo.c"/>
@@ -2803,6 +3078,7 @@
         <TopLine Value="40"/>
         <CursorPos X="38" Y="53"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd.c"/>
@@ -2810,6 +3086,7 @@
         <TopLine Value="21"/>
         <CursorPos X="48" Y="34"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_dpm_core.c"/>
@@ -2817,6 +3094,7 @@
         <TopLine Value="423"/>
         <CursorPos X="11" Y="436"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_dpm_core.h"/>
@@ -2824,6 +3102,7 @@
         <TopLine Value="26"/>
         <CursorPos X="11" Y="41"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_dpm_core.h"/>
@@ -2831,6 +3110,7 @@
         <TopLine Value="27"/>
         <CursorPos X="11" Y="42"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\STSW-STUSB010\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Devices\STUSB1602\inc\usbpd_cad_hw_if.h"/>
@@ -2838,6 +3118,7 @@
         <TopLine Value="114"/>
         <CursorPos X="3" Y="127"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\USB_new\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\SNK1M1_Sink_LPM\Inc\usbpd_dpm_conf.h"/>
@@ -2845,6 +3126,7 @@
         <TopLine Value="106"/>
         <CursorPos Y="172"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\share\tools.pas"/>
@@ -2912,6 +3194,7 @@
         <TopLine Value="1973"/>
         <CursorPos X="10" Y="1986"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_dpm_conf.h"/>
@@ -2919,6 +3202,7 @@
         <TopLine Value="81"/>
         <CursorPos X="8" Y="94"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_pwr_user.h"/>
@@ -2926,6 +3210,7 @@
         <TopLine Value="277"/>
         <CursorPos X="28" Y="294"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_pwr_if.c"/>
@@ -2933,6 +3218,7 @@
         <TopLine Value="351"/>
         <CursorPos X="17" Y="382"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="C:\fpcupsystems\stable324\fpcsrc\rtl\objpas\sysutils\sysstrh.inc"/>
@@ -3034,6 +3320,7 @@
         <TopLine Value="1445"/>
         <CursorPos X="21" Y="1460"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\SNK1M1_Sink\Src\usbpd_dpm_core.c"/>
@@ -3041,6 +3328,7 @@
         <TopLine Value="345"/>
         <CursorPos X="35" Y="365"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\SNK1M1_Sink_LPM\Src\usbpd_dpm_core.c"/>
@@ -3048,6 +3336,7 @@
         <TopLine Value="345"/>
         <CursorPos X="10" Y="360"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\SNK1M1_Sink_PPS\Src\usbpd_dpm_user.c"/>
@@ -3055,6 +3344,7 @@
         <TopLine Value="289"/>
         <CursorPos X="8" Y="304"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\SRC1M1_Source\Src\usbpd_dpm_user.c"/>
@@ -3062,6 +3352,7 @@
         <TopLine Value="203"/>
         <CursorPos X="8" Y="218"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_dpm_core.c"/>
@@ -3069,6 +3360,7 @@
         <TopLine Value="141"/>
         <CursorPos X="5" Y="156"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STM32CubeG4-master\Utilities\GUI_INTERFACE\gui_api.c"/>
@@ -3076,6 +3368,7 @@
         <TopLine Value="449"/>
         <CursorPos X="37" Y="470"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STM32CubeG4-master\Projects\STM32G474E-EVAL\Demonstrations\Modules\ucpd\usbpd_dpm_user.h"/>
@@ -3083,6 +3376,7 @@
         <TopLine Value="21"/>
         <CursorPos Y="33"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STM32CubeG4-master\Projects\STM32G474E-EVAL\Demonstrations\Modules\ucpd\usbpd_vdm_user.c"/>
@@ -3090,6 +3384,7 @@
         <TopLine Value="1278"/>
         <CursorPos X="13" Y="1317"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP_V002\Inc\usbpd_dpm_user.h"/>
@@ -3097,6 +3392,7 @@
         <TopLine Value="150"/>
         <CursorPos Y="177"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STM32CubeG4-master\Projects\B-G474E-DPOW1\Applications\USB-PD\USB-PD_Consumer_1port\Src\usbpd_vdm_user.c"/>
@@ -3104,6 +3400,7 @@
         <TopLine Value="443"/>
         <CursorPos X="21" Y="458"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STM32CubeG4-master\Projects\STM32G474E-EVAL\Applications\USB-PD\USB-PD_Consumer_1port\Src\usbpd_vdm_user.c"/>
@@ -3111,6 +3408,7 @@
         <TopLine Value="108"/>
         <CursorPos X="28" Y="123"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STM32CubeG4-master\Projects\STM32G474E-EVAL\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_vdm_user.c"/>
@@ -3118,6 +3416,7 @@
         <TopLine Value="95"/>
         <CursorPos X="28" Y="110"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STM32CubeG4-master\Projects\STM32G474E-EVAL\Demonstrations\Modules\ucpd\usbpd_dpm_user.c"/>
@@ -3125,6 +3424,7 @@
         <TopLine Value="371"/>
         <CursorPos Y="389"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Inc\usbpd_dpm_conf.h"/>
@@ -3132,6 +3432,7 @@
         <TopLine Value="98"/>
         <CursorPos X="5" Y="104"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Src\usbpd_vdm_user.c"/>
@@ -3139,12 +3440,14 @@
         <TopLine Value="1323"/>
         <CursorPos X="5" Y="1338"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Consumer_1port\Inc\usbpd_vdm_user.h"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="51"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_vdm_user.c"/>
@@ -3152,6 +3455,7 @@
         <TopLine Value="395"/>
         <CursorPos X="33" Y="419"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Consumer_1port\Inc\usbpd_dpm_user.h"/>
@@ -3159,6 +3463,7 @@
         <TopLine Value="147"/>
         <CursorPos X="46" Y="149"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Consumer_1port\Src\usbpd_dpm_user.c"/>
@@ -3166,6 +3471,7 @@
         <TopLine Value="614"/>
         <CursorPos X="71" Y="627"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_dpm_user.c"/>
@@ -3173,6 +3479,7 @@
         <TopLine Value="633"/>
         <CursorPos X="71" Y="646"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Src\usbpd_dpm_user.c"/>
@@ -3180,6 +3487,7 @@
         <TopLine Value="1391"/>
         <CursorPos X="54" Y="1401"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STSW-STUSB010\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_core.h"/>
@@ -3187,6 +3495,7 @@
         <TopLine Value="912"/>
         <CursorPos X="27" Y="931"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Src\usbpd_vdm_user.c"/>
@@ -3194,6 +3503,7 @@
         <TopLine Value="418"/>
         <CursorPos X="5" Y="433"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STSW-STUSB010\STSW_STUSB010_v1.3\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_def.h"/>
@@ -3201,6 +3511,7 @@
         <TopLine Value="2522"/>
         <CursorPos X="44" Y="2545"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Inc\usbpd_dpm_user.h"/>
@@ -3208,6 +3519,7 @@
         <TopLine Value="304"/>
         <CursorPos X="21" Y="317"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Src\usbpd_dpm_user.c"/>
@@ -3215,6 +3527,7 @@
         <TopLine Value="246"/>
         <CursorPos X="5" Y="261"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_2PORTS\Inc\usbpd_dpm_conf.h"/>
@@ -3222,6 +3535,7 @@
         <TopLine Value="88"/>
         <CursorPos X="55" Y="86"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Consumer_1port\Src\usbpd_dpm_core.c"/>
@@ -3229,6 +3543,7 @@
         <TopLine Value="383"/>
         <CursorPos X="8" Y="403"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Applications\USB-PD\USB-PD_Provider_1port\Src\usbpd_dpm_core.c"/>
@@ -3236,6 +3551,7 @@
         <TopLine Value="117"/>
         <CursorPos X="13" Y="132"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Inc\usbpd_pwr_if.h"/>
@@ -3243,6 +3559,7 @@
         <TopLine Value="137"/>
         <CursorPos X="28" Y="165"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Src\usbpd_dpm_core.c"/>
@@ -3250,6 +3567,7 @@
         <TopLine Value="920"/>
         <CursorPos X="8" Y="935"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Src\usbpd_pwr_if.c"/>
@@ -3257,6 +3575,7 @@
         <TopLine Value="59"/>
         <CursorPos X="26" Y="68"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Core\inc\usbpd_def.h"/>
@@ -3264,6 +3583,7 @@
         <TopLine Value="341"/>
         <CursorPos X="9" Y="354"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STSW-STUSB010\STSW_STUSB010_v1.3\Projects\STM32F072RB-Nucleo\Appli\usbpd\STM32F072_MB1303_DRP_SRCING_DEVICE\MAKEFILE\Makefile"/>
@@ -3287,6 +3607,7 @@
         <TopLine Value="1101"/>
         <CursorPos X="23" Y="1116"/>
         <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\STSW-STUSB010\STSW_STUSB010_v1.3\Utilities\GUI_INTERFACE\gui_api.c"/>
@@ -3294,6 +3615,7 @@
         <TopLine Value="2012"/>
         <CursorPos X="10" Y="2025"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_dpm_core.c"/>
@@ -3301,6 +3623,7 @@
         <TopLine Value="464"/>
         <CursorPos X="9" Y="479"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_dpm_core.c"/>
@@ -3308,6 +3631,7 @@
         <TopLine Value="293"/>
         <CursorPos X="5" Y="308"/>
         <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Middlewares\ST\STM32_USBPD_Library\Core\src\usbpd_trace.c"/>
@@ -3315,6 +3639,7 @@
         <TopLine Value="103"/>
         <CursorPos X="9" Y="118"/>
         <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Utilities\TRACER_EMB\tracer_emb.c"/>
@@ -3322,6 +3647,7 @@
         <TopLine Value="288"/>
         <CursorPos X="7" Y="303"/>
         <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Utilities\TRACER_EMB\tracer_emb_hw.c"/>
@@ -3329,6 +3655,7 @@
         <TopLine Value="598"/>
         <CursorPos X="30" Y="621"/>
         <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Utilities\TRACER_EMB\tracer_emb_hw.h"/>
@@ -3336,6 +3663,7 @@
         <TopLine Value="16"/>
         <CursorPos X="7" Y="38"/>
         <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\share\usbcpd.pas"/>
@@ -3393,8 +3721,8 @@
       <Unit>
         <Filename Value="..\Common\usbcpd.pas"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="943"/>
-        <CursorPos X="20" Y="900"/>
+        <TopLine Value="810"/>
+        <CursorPos X="12" Y="824"/>
         <UsageCount Value="76"/>
         <Loaded Value="True"/>
       </Unit>
@@ -3429,10 +3757,11 @@
       <Unit>
         <Filename Value="C:\fpcupsystems\stable324\lazarus\lcl\graphics.pp"/>
         <UnitName Value="Graphics"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="270"/>
-        <CursorPos X="12" Y="291"/>
-        <UsageCount Value="7"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="45"/>
+        <CursorPos X="19" Y="59"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="C:\fpcupsystems\stable324\lazarus\lcl\stdctrls.pp"/>
@@ -3471,6 +3800,7 @@
         <TopLine Value="138"/>
         <CursorPos Y="150"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G0B1RE\Applications\USB_PD\DRP1M1_DRP\Inc\usbpd_dpm_user.h"/>
@@ -3478,6 +3808,7 @@
         <TopLine Value="81"/>
         <CursorPos Y="126"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\STM32G081B-EVAL\Demonstrations\DemoUCPD\Inc\usbpd_dpm_user.h"/>
@@ -3485,6 +3816,7 @@
         <TopLine Value="267"/>
         <CursorPos X="82" Y="280"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Utilities\GUI_INTERFACE_ORIG\gui_api.c"/>
@@ -3492,6 +3824,7 @@
         <TopLine Value="1973"/>
         <CursorPos X="10" Y="1986"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\STM_firmware\x-cube-tcpp-main\Projects\NUCLEO-G071RB\Applications\USB_PD\DRP1M1_DRP\Src\usbpd_dpm_user.c"/>
@@ -3499,6 +3832,7 @@
         <TopLine Value="1325"/>
         <CursorPos X="21" Y="1338"/>
         <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="C_2B_2B"/>
       </Unit>
       <Unit>
         <Filename Value="..\Common\HP66332.pas"/>
@@ -3530,7 +3864,7 @@
       </Unit>
       <Unit>
         <Filename Value="..\Common\bits.pas"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="52"/>
         <CursorPos X="21" Y="75"/>
         <UsageCount Value="31"/>
@@ -3750,39 +4084,29 @@
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="C:\fpcupsystems\stable324\lazarus\components\lazutils\graphtype.pp"/>
+        <UnitName Value="GraphType"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="30"/>
+        <CursorPos X="62" Y="44"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\fpcupsystems\stable324\fpcsrc\packages\rtl-objpas\src\inc\system.uitypes.pp"/>
+        <UnitName Value="System.UITypes"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="10"/>
+        <CursorPos X="25" Y="25"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
     <Debugger>
       <Backend Value="{162CE507-2F2C-4990-A8FE-4E98280B79D4}"/>
     </Debugger>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="852" TopLine="838"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1221" TopLine="1209"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1234" TopLine="1222"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1279" TopLine="1271"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1963" Column="27" TopLine="1942"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2088" TopLine="2067"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2104" TopLine="2096"/>
-      </Position>
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="104" TopLine="88"/>
@@ -3874,6 +4198,34 @@
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="500" Column="54" TopLine="488"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="491" Column="28" TopLine="486"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="1374" Column="99" TopLine="1360"/>
+      </Position>
+      <Position>
+        <Filename Value="..\Common\usbcpd.pas"/>
+        <Caret Line="824" Column="12" TopLine="810"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\fpcupsystems\stable324\lazarus\lcl\graphics.pp"/>
+        <Caret Line="59" Column="19" TopLine="45"/>
+      </Position>
+      <Position>
+        <Filename Value="C:\fpcupsystems\stable324\lazarus\components\lazutils\graphtype.pp"/>
+        <Caret Line="44" Column="62" TopLine="30"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="1374" Column="75" TopLine="1360"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="1463" Column="120" TopLine="1449"/>
       </Position>
     </JumpHistory>
     <RunParams>
