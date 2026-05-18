@@ -10,7 +10,6 @@ uses
 
 type
   TUSBPDDevice = class(TUSBPD)
-    SopData : TSopData;
   end;
 
 implementation

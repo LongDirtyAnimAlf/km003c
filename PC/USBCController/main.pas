@@ -30,6 +30,7 @@ type
   TPowerbankMainForm = class(TForm)
     btnBatteryCapabilities: TButton;
     btnBatteryStatus: TButton;
+    btnCleanLogs: TButton;
     btnConnectKC003C: TButton;
     btnGetPPSStatus: TButton;
     btnGetStatus: TButton;
@@ -39,12 +40,10 @@ type
     btnKC003CEnterCommandMode: TButton;
     btnRcvRemoteSinkExt: TButton;
     btnRcvRemoteSourceExt: TButton;
-    btnHardReset: TButton;
-    btnCleanLogs: TButton;
     btnGetSourceInfo: TButton;
     btnRcvRemoteEPRSource: TButton;
-    chkgrpPDOFLags: TCheckGroup;
     cmboSerialPorts: TComboBox;
+    DrawGrid1: TDrawGrid;
     GroupBattery: TGroupBox;
     grpEPRPDOs: TGroupBox;
     GroupExtendedSink: TGroupBox;
@@ -100,8 +99,14 @@ type
     procedure btnGetSourceInfoClick({%H-}Sender: TObject);
     procedure btnGetPPSStatusClick({%H-}Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure CheckListBox1DrawItem(Control: TWinControl; Index: Integer;
+      ARect: TRect; State: TOwnerDrawState);
     procedure ClearPDMessagesClick(Sender: TObject);
     procedure DataEditKeyPress(Sender: TObject; var Key: char);
+    procedure DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
+      aRect: TRect; aState: TGridDrawState);
+    procedure DrawGrid1GetCheckboxState(Sender: TObject; ACol, ARow: Integer;
+      var Value: TCheckboxState);
     procedure gridPDOResize(Sender: TObject);
     procedure grpVADataResize(Sender: TObject);
     procedure ListBox1DrawItem(Control: TWinControl; Index: Integer;
@@ -110,11 +115,10 @@ type
       State: TCustomDrawState; var DefaultDraw: Boolean);
     procedure ListView1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure SourcePDODrawGridButtonClick(Sender: TObject; aCol, aRow: Integer
+    procedure PDODrawGridButtonClick(Sender: TObject; aCol, aRow: Integer
       );
-    procedure SourcePDODrawGridDrawCell(Sender: TObject; aCol, aRow: Integer;
+    procedure PDODrawGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
-
     procedure FormCreate({%H-}Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -123,8 +127,6 @@ type
 
     FMessageConfirmed   : boolean;
 
-    FSTM32BoardSerial   : string;
-
     RealVoltageDisplay  : TdsSevenSegmentMultiDisplay;
     RealCurrentDisplay  : TdsSevenSegmentMultiDisplay;
 
@@ -132,7 +134,10 @@ type
     Vcc2VoltageDisplay  : TdsSevenSegmentMultiDisplay;
     VdpVoltageDisplay   : TdsSevenSegmentMultiDisplay;
     VdmVoltageDisplay   : TdsSevenSegmentMultiDisplay;
+
     TemperatureDisplay  : TdsSevenSegmentMultiDisplay;
+
+    Led                 : TShape;
 
     FSystemActive       : boolean;
 
@@ -156,12 +161,7 @@ type
     OutEndPoint         : TLibUsbBulkOutEndpoint;
     InEndPoint          : TLibUsbBulkInEndpoint;
 
-    TestTypes           : array of TTestType;
-    ActiveTestType      : TTestType;
-    BatteryDataFile     : string;
-
     procedure AllStop(Sender: TObject);
-    procedure Measure;
 
     function  CorrectVoltage(value:double):double;
     function  CorrectCurrent(value:double):double;
@@ -188,6 +188,14 @@ type
     procedure CheckTimerTimer({%H-}Sender: TObject);
 
     procedure KM003CStartCommandMode(em:byte);
+
+    procedure ProcessPDMessage(
+      const SOPTYPE               : TUSBPD_SOPTYPE;
+      const HEADER                : TPDHEADER;
+      const EXTHEADER             : TPDHEADEREXTENDED;
+      const PDDATA                : PByteArray
+    );
+
   public
     Capacity                     : double;
 
@@ -196,8 +204,6 @@ type
     property Voltage             : double read GetVoltage write SetVoltage;
     property Current             : double read GetCurrent write SetCurrent;
     property Temperature         : double read GetTemperature write SetTemperature;
-
-    property STM32BoardSerial    : string read FSTM32BoardSerial;
   end;
 
 var
@@ -262,7 +268,7 @@ begin
 
   DUT:=TUSBPDDevice.Create;
   DUT.Cleanup;
-  DUT.SopData:=Default(TSopData);
+
 
   {$ifdef DEBUG}
   USBComLog.Visible:=false;
@@ -351,62 +357,12 @@ begin
     Anchors := [akTop, akLeft, akRight];
   end;
 
-  chkgrpPDOFLags.ControlStyle := chkgrpPDOFLags.ControlStyle - [csClickEvents];
-  chkgrpPDOFLags.Items.Append('DRS');
-  TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).Hint:='DataRoleSwap';
-  TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).ShowHint:=True;
-  //TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).Enabled:=False;
-  chkgrpPDOFLags.Items.Append('UCC');
-  TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).Hint:='UsbCommunicationCapable';
-  TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).ShowHint:=True;
-  //TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).Enabled:=False;
-  chkgrpPDOFLags.Items.Append('EP');
-  TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).Hint:='ExternallyPowered';
-  TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).ShowHint:=True;
-  //TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).Enabled:=False;
-  chkgrpPDOFLags.Items.Append('USS');
-  TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).Hint:='UsbSuspendSupported';
-  TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).ShowHint:=True;
-  //TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).Enabled:=False;
-  chkgrpPDOFLags.Items.Append('DRP');
-  TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).Hint:='DualRolePower';
-  TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).ShowHint:=True;
-  //TCheckBox(chkgrpPDOFLags.Controls[Pred(chkgrpPDOFLags.Items.Count)]).Enabled:=False;
-
   Ini := TIniFile.Create( ChangeFileExt( Application.ExeName, '.ini' ) );
   try
     Self.Top          := ini.ReadInteger(Self.Name,'Top',Self.Top);
     Self.Left         := ini.ReadInteger(Self.Name,'Left',Self.Left);
     Self.Width        := ini.ReadInteger(Self.Name,'Width',Self.Width);
     Self.Height       := ini.ReadInteger(Self.Name,'Height',Self.Height);
-
-    i:=1;
-    while (i<MaxInt) do
-    begin
-      if (NOT Ini.SectionExists('Test'+InttoStr(i))) then break;
-      Inc(i);
-    end;
-    Dec(i);
-
-    if (i=0) then
-    begin
-      i:=1;
-      Ini.WriteString('Test'+InttoStr(i), 'Name', 'Default');
-      Ini.WriteInteger('Test'+InttoStr(i), 'Voltage', 5000);
-      Ini.WriteInteger('Test'+InttoStr(i), 'Current', 1500);
-    end;
-
-    if (i>0) then
-    begin
-      SetLength(TestTypes,i);
-      for i:=Low(TestTypes) to High(TestTypes) do
-      begin
-        TestTypes[i].Name:=Ini.ReadString('Test'+InttoStr(i+1), 'Name', '');
-        TestTypes[i].Voltage:=Ini.ReadInteger('Test'+InttoStr(i+1), 'Voltage', 0);
-        TestTypes[i].Current:=Ini.ReadInteger('Test'+InttoStr(i+1), 'Current', 0);
-      end;
-    end;
-
   finally
     Ini.Free;
   end;
@@ -445,6 +401,7 @@ begin
               s:=CListDetails[4];
               if (Pos('POWER-Z',s)=1) then KM003CComport:=CListDetails[3];
               if (Pos('APP',s)=1) then KM003CComport:=CListDetails[3];
+              if (Pos('FNB-58',s)=1) then KM003CComport:=CListDetails[3];
             end;
           end;
         end;
@@ -456,7 +413,6 @@ begin
     end;
   end;
 
-  FSTM32BoardSerial        := 'UNKNOWN';
 
   Ini := TIniFile.Create( ChangeFileExt( Application.ExeName, '.ini' ) );
   try
@@ -553,7 +509,7 @@ begin
   end;
 end;
 
-procedure TPowerbankMainForm.SourcePDODrawGridButtonClick(Sender: TObject;
+procedure TPowerbankMainForm.PDODrawGridButtonClick(Sender: TObject;
   aCol, aRow: Integer);
 var
   PDOVoltage      : integer;
@@ -561,7 +517,6 @@ var
   PDONumber       : byte;
   index           : integer;
   aButton         : TButton;
-  Buffer          : array[0..255] of byte;
   aSourcePDO      : TSOURCEPDO;
   aSinkPDO        : TSINKPDO;
   aPDOType        : TSUPPLY_TYPES;
@@ -582,8 +537,7 @@ begin
   begin
     if aSourcePDO.Raw>0 then
     begin
-      aPDOType:=TSUPPLY_TYPES(aSourcePDO.GenericPdo.Supply);
-
+      aPDOType:=TSUPPLY_TYPES(aSourcePDO.GenericPdo.SupplyType);
 
       if (aPDOType=TSUPPLY_TYPES.Fixed) then
       begin
@@ -605,7 +559,7 @@ begin
       else
       if (aPDOType=TSUPPLY_TYPES.APDO) then
       begin
-        with aSourcePDO.SPRPowerSupplyApdo do
+        with aSourcePDO.SPRPPSPDO do
         begin
           PDOCurrent:=(MaximumCurrentIn50mA*50);
           PDOVoltage:=(MaximumVoltageIn100mV*100);
@@ -618,13 +572,12 @@ begin
 
       //KM003CSerial.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDREQSIMPLE].Command,[PDONumber]));
       KM003CSerial.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDREQEXT].Command,[PDONumber,PDOVoltage,PDOCurrent]));
-
     end;
   end;
 
 end;
 
-procedure TPowerbankMainForm.SourcePDODrawGridDrawCell(Sender: TObject; aCol,
+procedure TPowerbankMainForm.PDODrawGridDrawCell(Sender: TObject; aCol,
   aRow: Integer; aRect: TRect; aState: TGridDrawState);
 var
   aDrawGrid      : TDrawGrid;
@@ -632,6 +585,7 @@ var
   aSourcePDO     : TSOURCEPDO;
   aSinkPDO       : TSINKPDO;
   aPDOType       : TSUPPLY_TYPES;
+  aAPDOType      : TAPDO_TYPES;
 
 begin
   if ((aRow>0) AND (aCol>0)) then
@@ -654,8 +608,16 @@ begin
         if (Sender=SourceEPRPDODrawGrid) then aSourcePDO:=DUT.SourceEPRPDOs[aRow];
         if (aSourcePDO.Raw>0) then
         begin
-          aPDOType:=TSUPPLY_TYPES(aSourcePDO.GenericPdo.Supply);
-          if (aCol=2) then s:=SUPPLY_TYPES[aPDOType];
+          aPDOType:=TSUPPLY_TYPES(aSourcePDO.GenericPdo.SupplyType);
+          if aPDOType=TSUPPLY_TYPES.APDO then aAPDOType := TAPDO_TYPES(aSourcePDO.GenericAPdo.APOType);
+          if (aCol=2) then
+          begin
+            s:=SUPPLY_TYPES[aPDOType];
+            if aPDOType=TSUPPLY_TYPES.APDO then
+            begin
+              s:=APDO_TYPES[aAPDOType];
+            end;
+          end;
         end;
       end;
 
@@ -669,6 +631,7 @@ begin
           if (aCol=2) then s:=SUPPLY_TYPES[aPDOType];
         end;
       end;
+
 
       if Sender=SinkPDODrawGrid then
       begin
@@ -736,7 +699,7 @@ begin
           else
           if (aPDOType=TSUPPLY_TYPES.APDO) then
           begin
-            with aSourcePDO.SPRPowerSupplyApdo do
+            with aSourcePDO.SPRPPSPDO do
             begin
               if aCol=4 then s:=InttoStr(MaximumCurrentIn50mA*50)+ 'mA';
               if aCol=3 then s:=
@@ -766,9 +729,9 @@ begin
 
           if (aPDOType=TSUPPLY_TYPES.APDO) then
           begin
-            if (TAPDO_TYPES(aSourcePDO.GenericAPdo.APO)=TAPDO_TYPES.SPR) then
+            if (TAPDO_TYPES(aSourcePDO.GenericAPdo.APOType)=TAPDO_TYPES.SPRPPS) then
             begin
-              with aSourcePDO.SPRPowerSupplyApdo do
+              with aSourcePDO.SPRPPSPDO do
               begin
                 if aCol=4 then s:=InttoStr(MaximumCurrentIn50mA*50)+ ' mA';
                 if aCol=3 then s:=
@@ -779,9 +742,9 @@ begin
               end;
             end;
 
-            if (TAPDO_TYPES(aSourcePDO.GenericAPdo.APO)=TAPDO_TYPES.EPR) then
+            if (TAPDO_TYPES(aSourcePDO.GenericAPdo.APOType)=TAPDO_TYPES.EPRAVS) then
             begin
-              with aSourcePDO.EPRPowerSupplyApdo do
+              with aSourcePDO.EPRAVSPDO do
               begin
                 if aCol=4 then s:=
                    FloattoStrF(MinimumVoltageIn100mV*0.1,ffFixed,8,1)+
@@ -1128,13 +1091,30 @@ end;
 
 procedure TPowerbankMainForm.btnGetPPSStatusClick(Sender: TObject);
 begin
+  vlePPS.Values['Output Voltage']:='';
+  vlePPS.Values['Output Current']:='';
   KM003CSerial.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDCMD].Command,[USBPD_CONTROLMSG_GET_PPS_STATUS]));
 end;
 
-
 procedure TPowerbankMainForm.Button1Click(Sender: TObject);
 begin
-  KM003CSerial.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDMSETTYPE].Command,[0,2,1]));
+  KM003CSerial.WriteString(Format(KC003CCommand[TKC003CCOMMAND.PDMSETTYPE].Command,[{PD 3.1=}2,{50V5A-EPRAVS=}2]));
+end;
+
+procedure TPowerbankMainForm.CheckListBox1DrawItem(Control: TWinControl;
+  Index: Integer; ARect: TRect; State: TOwnerDrawState);
+var
+  lb: TListBox absolute Control;
+  ts: TTextStyle;
+begin
+  lb.Canvas.Brush.Color := clRed;
+  lb.Canvas.FillRect(ARect);
+
+  ts := lb.Canvas.TextStyle;
+  ts.Alignment := taLeftJustify;
+  ts.Layout := tlCenter;
+  lb.Canvas.Pen.Color := clBlack;
+  lb.Canvas.TextRect(ARect, ARect.Left+2, ARect.Top, 'yolo', ts);
 end;
 
 procedure TPowerbankMainForm.ClearPDMessagesClick(Sender: TObject);
@@ -1164,8 +1144,65 @@ begin
   }
 end;
 
+procedure TPowerbankMainForm.DrawGrid1DrawCell(Sender: TObject; aCol,
+  aRow: Integer; aRect: TRect; aState: TGridDrawState);
+var
+  s:string;
+begin
+  if aCol=1 then
+  begin
+    case aRow of
+      0: s:='DRS';
+      1: s:='UCC';
+      2: s:='UP';
+      3: s:='EPR';
+      4: s:='DRP';
+    end;
+  end;
+  if aCol=2 then
+  begin
+    case aRow of
+      0: s:='Data Role Swap';
+      1: s:='Usb Communication Capable';
+      2: s:='Unconstrained Power';
+      3: s:='EPRMode Capable';
+      4: s:='Dual Role Power';
+    end;
+  end;
+
+  if aCol in [1,2] then
+  begin
+    InflateRect(ARect, -constCellpadding, -constCellPadding);
+    TDrawGrid(Sender).Canvas.TextRect(ARect, ARect.Left, ARect.Top, s);
+  end;
+
+end;
+
+procedure TPowerbankMainForm.DrawGrid1GetCheckboxState(Sender: TObject; ACol,
+  ARow: Integer; var Value: TCheckboxState);
+var
+  aPDO:TSOURCEPDO;
+  state:boolean;
+begin
+  if aCol=0 then
+  begin
+    state:=false;
+    aPDO:=DUT.GetFixed5VSRCPDO;
+    case aRow of
+      0: state:=(aPDO.FixedSupplyPdo.DataRoleSwap=1);
+      1: state:=(aPDO.FixedSupplyPdo.UsbCommunicationCapable=1);
+      2: state:=(aPDO.FixedSupplyPdo.UnconstrainedPower=1);
+      3: state:=(aPDO.FixedSupplyPdo.EPRModeCapable=1);
+      4: state:=(aPDO.FixedSupplyPdo.DualRolePower=1);
+    end;
+    if state then Value:=TCheckboxState.cbChecked else Value:=TCheckboxState.cbUnchecked;
+  end;
+
+end;
+
 procedure TPowerbankMainForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
+  Buffer:array[0..255] of byte;
   Ini : TIniFile;
 begin
     if (false) then
@@ -1194,6 +1231,8 @@ begin
 end;
 
 procedure TPowerbankMainForm.FormDestroy(Sender: TObject);
+var
+  i:integer;
 begin
   DisConnect(Sender);
   DUT.Free;
@@ -1206,7 +1245,6 @@ begin
   aGrid:=TStringGrid(Sender);
   aGrid.Height:=aGrid.DefaultRowHeight*aGrid.RowCount+4;
 end;
-
 
 function TPowerbankMainForm.CorrectVoltage(value:double):double;
 begin
@@ -1346,7 +1384,7 @@ begin
     ListItem := ListView1.Items.Add;
     ListItem.Data:={%H-}Pointer(TUSBPD_CONTROLMSG_DATAS[aMSG].Color);
     ListItem.Caption := InttoStr(ListItem.Index);
-    ListItem.SubItems.Add('Ctrl: '+TUSBPD_CONTROLMSG_DATAS[aMSG].Name);
+    ListItem.SubItems.Add('Ctrl : '+TUSBPD_CONTROLMSG_DATAS[aMSG].Name);
     Str(aSOP,enumname);
     ListItem.SubItems.Add(enumname);
     ListItem.SubItems.Add(PDData);
@@ -1373,6 +1411,7 @@ begin
   result:=true;
   ListBox1.AddItem('Data: '+TUSBPD_DATAMSG_DATAS[aMSG].Name,TObject(PtrInt(TUSBPD_DATAMSG_DATAS[aMSG].Color)));
 
+  (*
   //ListView1.BeginUpdate;
   //ListView1.Items.BeginUpdate;
   ListItem := ListView1.Items.Add;
@@ -1394,6 +1433,7 @@ begin
 
   //ListView1.Items.EndUpdate;
   //ListView1.EndUpdate;
+  *)
 
   case aMSG of
     USBPD_DATAMSG_SRC_CAPABILITIES:
@@ -1462,6 +1502,8 @@ begin
   begin
     ListBox1.AddItem('Ext: '+TUSBPD_EXTENDEDMSG_DATAS[aMSG].Name,TObject(PtrInt(TUSBPD_EXTENDEDMSG_DATAS[aMSG].Color)));
 
+    (*
+
     //ListView1.BeginUpdate;
     //ListView1.Items.BeginUpdate;
     ListItem := ListView1.Items.Add;
@@ -1484,6 +1526,7 @@ begin
 
     //ListView1.Items.EndUpdate;
     //ListView1.EndUpdate;
+    *)
   end;
 
   case aMSG of
@@ -1591,12 +1634,10 @@ end;
 
 procedure TPowerbankMainForm.CheckTimerTimer(Sender: TObject);
 var
-  header                : TKM003CMsgHeader;
-  header_ext            : TKM003CMsgHeader;
-  PacketHeader          : TKM003CPacketHeader;
-  EventHeader           : TKM003CEventHeader;
-
-  HexResult             : ansistring;
+  KM003C_header         : TKM003CMsgHeader;
+  KM003C_header_ext     : TKM003CMsgHeader;
+  KM003C_packet_header  : TKM003CPacketHeader;
+  KM003C_event_header   : TKM003CEventHeader;
 
   avalue                : double;
   signed                : ^int16;
@@ -1610,9 +1651,9 @@ var
   SOPPacket             : boolean;
   ChunkPayloadLen       : byte;
 
-  PDControlMessage      : TUSBPD_CONTROLMSG;
-  PDDataMessage         : TUSBPD_DATAMSG;
-  PDExtendedMessage     : TUSBPD_EXTENDEDMSG;
+  SOPTYPE               : TUSBPD_SOPTYPE;
+  HEADER                : TPDHEADER;
+  EXTHEADER             : TPDHEADEREXTENDED;
 
   enumname              : ansistring;
   ListItem              : TListItem;
@@ -1621,10 +1662,10 @@ begin
   begin
     // Send command to get PD data
 
-    header.Raw:=0;
-    header.Ctrl.typ:=Ord(TKM003CHeaderCommand.CMD_GET_DATA);
-    header.Ctrl.att:=TKM003C_ATT_PD_PACKET;
-    result_code := OutEndPoint.Send(header.Bytes , 4 ,10);
+    KM003C_header.Raw:=0;
+    KM003C_header.Ctrl.typ:=Ord(TKM003CHeaderCommand.CMD_GET_DATA);
+    KM003C_header.Ctrl.att:=TKM003C_ATT_PD_PACKET;
+    result_code := OutEndPoint.Send(KM003C_header.Bytes , 4 ,10);
 
     if (result_code>0) then
     begin
@@ -1636,18 +1677,18 @@ begin
       begin
         dataindexer:=0;
 
-        for j:=0 to 3 do header.Bytes[j]:=newdata[dataindexer+j];
+        for j:=0 to 3 do KM003C_header.Bytes[j]:=newdata[dataindexer+j];
         Inc(dataindexer,4);
-        for j:=0 to 3 do header_ext.Bytes[j]:=newdata[dataindexer+j];
+        for j:=0 to 3 do KM003C_header_ext.Bytes[j]:=newdata[dataindexer+j];
         Inc(dataindexer,4);
 
         // Did we receive a packet from our command ?
-        if ((header.Data.typ=TKM003C_CMD_PUT_DATA) AND (header_ext.Header.att=TKM003C_ATT_PD_PACKET)) then
+        if ((KM003C_header.Data.typ=TKM003C_CMD_PUT_DATA) AND (KM003C_header_ext.Header.att=TKM003C_ATT_PD_PACKET)) then
         begin
-          datasize:=header_ext.Header.size;
+          datasize:=KM003C_header_ext.Header.size;
 
           // Get packet header
-          for j:=0 to 11 do PacketHeader.Bytes[j]:=newdata[dataindexer+j];
+          for j:=0 to 11 do KM003C_packet_header.Bytes[j]:=newdata[dataindexer+j];
           Inc(dataindexer,12);
           Dec(datasize,12);
 
@@ -1660,30 +1701,30 @@ begin
             // We received the PD preamble
           end;
 
-          avalue:=PacketHeader.Status.vbus_mV/1000;
+          avalue:=KM003C_packet_header.Status.vbus_mV/1000;
           RealVoltageDisplay.Value:=avalue;
 
           {$push}
           {$R-}
-          normal:=(PacketHeader.Status.ibus_mA);
+          normal:=(KM003C_packet_header.Status.ibus_mA);
           {$pop}
           signed:=@normal;
           avalue:=signed^/1000;
           RealCurrentDisplay.Value:=avalue;
 
-          avalue:=(PacketHeader.Status.cc1_mV)/1000;
+          avalue:=(KM003C_packet_header.Status.cc1_mV)/1000;
           Vcc1VoltageDisplay.Value:=(avalue);
-          avalue:=(PacketHeader.Status.cc2_mV)/1000;
+          avalue:=(KM003C_packet_header.Status.cc2_mV)/1000;
           Vcc2VoltageDisplay.Value:=(avalue);
 
           while (datasize>0) do
           begin
             // Now an event header of 6 bytes
-            for j:=0 to 5 do EventHeader.Bytes[j]:=newdata[dataindexer+j];
+            for j:=0 to 5 do KM003C_event_header.Bytes[j]:=newdata[dataindexer+j];
             Inc(dataindexer,6);
             Dec(datasize,6);
 
-            //EventHeader.
+            //KM003C_event_header.
             //454f3c000012
 
 
@@ -1693,45 +1734,45 @@ begin
               // Give some info about it.
               enumname:='';
 
-              if (EventHeader.EventData.EventCode=TKM003C_CMD_CRCERROR) then
+              if (KM003C_event_header.EventData.EventCode=TKM003C_CMD_CRCERROR) then
               begin
-                if EventHeader.EventData.Marker=$05 then enumname:='Receive Error Code: CRC Check';
+                if KM003C_event_header.EventData.Marker=$05 then enumname:='Receive Error Code: CRC Check';
               end
               else
-              if (EventHeader.EventData.EventCode=TKM003C_CMD_RETRIESERROR) then
+              if (KM003C_event_header.EventData.EventCode=TKM003C_CMD_RETRIESERROR) then
               begin
-                if EventHeader.EventData.Marker=$05 then enumname:='Receive Error Code: Retries';
+                if KM003C_event_header.EventData.Marker=$05 then enumname:='Receive Error Code: Retries';
               end
               else
-              if (EventHeader.EventData.EventCode=TKM003C_CMD_DATACOUNTERROR) then
+              if (KM003C_event_header.EventData.EventCode=TKM003C_CMD_DATACOUNTERROR) then
               begin
-                if EventHeader.EventData.Marker=$05 then enumname:='Receive Error Code: DataCount';
+                if KM003C_event_header.EventData.Marker=$05 then enumname:='Receive Error Code: DataCount';
               end
               else
-              if (EventHeader.EventData.EventCode=TKM003C_CMD_SOPERROR) then
+              if (KM003C_event_header.EventData.EventCode=TKM003C_CMD_SOPERROR) then
               begin
-                if EventHeader.EventData.Marker=$05 then enumname:='Receive Error Code: SOP';
+                if KM003C_event_header.EventData.Marker=$05 then enumname:='Receive Error Code: SOP';
               end
               else
-              if (EventHeader.EventData.EventCode=TKM003C_CMD_EOPERROR) then
+              if (KM003C_event_header.EventData.EventCode=TKM003C_CMD_EOPERROR) then
               begin
-                if EventHeader.EventData.Marker=$05 then enumname:='Receive Error Code: EOP';
+                if KM003C_event_header.EventData.Marker=$05 then enumname:='Receive Error Code: EOP';
               end
               else
-              if (EventHeader.EventData.EventCode=TKM003C_CMD_HARDRESET) then
+              if (KM003C_event_header.EventData.EventCode=TKM003C_CMD_HARDRESET) then
               begin
-                if EventHeader.EventData.Marker=$45 then enumname:='Send Hard Reset';
-                if EventHeader.EventData.Marker=$05 then enumname:='Receive Hard Reset';
+                if KM003C_event_header.EventData.Marker=$45 then enumname:='Send Hard Reset';
+                if KM003C_event_header.EventData.Marker=$05 then enumname:='Receive Hard Reset';
               end
               else
-              if (EventHeader.EventData.EventCode=TKM003C_CMD_DETACHCC1) then
+              if (KM003C_event_header.EventData.EventCode=TKM003C_CMD_DETACHCC1) then
                 enumname:='Detach: CC1'
               else
-              if (EventHeader.EventData.EventCode=TKM003C_CMD_ATTACHCC1) then
+              if (KM003C_event_header.EventData.EventCode=TKM003C_CMD_ATTACHCC1) then
                 enumname:='Attach: CC1'
               else
-                //USBDebugLog.Lines.Append('Empty data. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(Int64(EventHeader.PDData.TimeStamp.Raw)))));
-                enumname:='Empty event data. Event:0x'+InttoHex(EventHeader.EventData.EventCode,2);
+                //USBDebugLog.Lines.Append('Empty data. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(Int64(KM003C_event_header.PDData.TimeStamp.Raw)))));
+                enumname:='Empty event data. Event:0x'+InttoHex(KM003C_event_header.EventData.EventCode,2);
 
               if (Length(enumname)>0) then
               begin
@@ -1753,202 +1794,67 @@ begin
               break;
             end;
 
-            if EventHeader.EventData.Marker=TKM003C_CMD_CONN_EVENT then
+            if KM003C_event_header.EventData.Marker=TKM003C_CMD_CONN_EVENT then
             begin
               // Might be for HID only
               //continue;
             end;
 
             // If bit8 is set, we seem to have a valid SOP packet.
-            SOPPacket:=(EventHeader.PDData.Size.Bits[7]=1);
+            SOPPacket:=(KM003C_event_header.PDData.Size.Bits[7]=1);
             // This might also be a valid marker
-            //SOPPacket:=((EventHeader.PDData.Size.Bits[7]=1) AND (EventHeader.PDData.Size.Bits[6]=0));
+            //SOPPacket:=((KM003C_event_header.PDData.Size.Bits[7]=1) AND (KM003C_event_header.PDData.Size.Bits[6]=0));
             // This might also be a valid marker
-            //SOPPacket:=(($80<EventHeader.PDData.Size.Raw) AND (EventHeader.PDData.Size.Raw<$9F));
+            //SOPPacket:=(($80<KM003C_event_header.PDData.Size.Raw) AND (KM003C_event_header.PDData.Size.Raw<$9F));
 
             // Get/set packet size by resetting SOP-bits
-            EventHeader.PDData.Size.Bits[7]:=0;
-            EventHeader.PDData.Size.Bits[6]:=0;
+            KM003C_event_header.PDData.Size.Bits[7]:=0;
+            KM003C_event_header.PDData.Size.Bits[6]:=0;
 
-            if EventHeader.PDData.Size.Raw=0 then
+            if KM003C_event_header.PDData.Size.Raw=0 then
             begin
               USBDebugLog.Lines.Append('Very empty PD data !!');
               break;
             end;
 
-
-            DUT.SopData.SOPTYPE:=TUSBPD_SOPTYPE(EventHeader.PDData.SOP);
+            SOPTYPE:=TUSBPD_SOPTYPE(KM003C_event_header.PDData.SOP);
 
             if (NOT SOPPacket) then
             begin
-              //USBDebugLog.Lines.Append('Non SOP data ['+InttoStr(datasize)+']. Data size: '+InttoStr(EventHeader.PDData.Size.Raw)+'. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(EventHeader.PDData.TimeStamp.Raw))));
+              //USBDebugLog.Lines.Append('Non SOP data ['+InttoStr(datasize)+']. Data size: '+InttoStr(KM003C_event_header.PDData.Size.Raw)+'. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(KM003C_event_header.PDData.TimeStamp.Raw))));
             end;
 
             if SOPPacket then
             begin
-              EventHeader.PDData.Size.Raw:=(EventHeader.PDData.Size.Raw-TKM003C_CMD_SIZE_OFFSET);
-              // EventHeader.PDData.Size.Raw is now SOP packet in bytes
+              KM003C_event_header.PDData.Size.Raw:=(KM003C_event_header.PDData.Size.Raw-TKM003C_CMD_SIZE_OFFSET);
+              // KM003C_event_header.PDData.Size.Raw is now SOP packet in bytes
 
-              //USBDebugLog.Lines.Append('Data size: '+InttoStr(EventHeader.PDData.Size.Raw)+'. SOP: '+InttoStr(EventHeader.PDData.SOP)+'. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(EventHeader.PDData.TimeStamp.Raw))));
+              //USBDebugLog.Lines.Append('Data size: '+InttoStr(KM003C_event_header.PDData.Size.Raw)+'. SOP: '+InttoStr(KM003C_event_header.PDData.SOP)+'. Time: '+FormatDateTime('hh:nn:ss.zzz', TimeStampToDateTime(MSecsToTimeStamp(KM003C_event_header.PDData.TimeStamp.Raw))));
 
               // Now a 2 byte SOP header
-              for j:=0 to 1 do DUT.SopData.HEADER.Bytes[j]:=newdata[dataindexer+j];
+              for j:=0 to 1 do HEADER.Bytes[j]:=newdata[dataindexer+j];
               Inc(dataindexer,2);
               Dec(datasize,2);
               //USBDebugLog.Lines.Append('SOP: '+GetSOPInfo(aSOPDHEADER));
 
-              PDControlMessage:=USBPD_CONTROLMSG_RESERVED0;
-              PDDataMessage:=USBPD_DATAMSG_RESERVED0;
-              PDExtendedMessage:=USBPD_EXTMSG_RESERVED0;
-
-              if ((DUT.SopData.HEADER.Data.Number_of_Data_Objects=0) AND (DUT.SopData.HEADER.Data.Extended=0)) then
+              EXTHEADER.Raw:=0;
+              if ((HEADER.Data.Number_of_Data_Objects>0) AND (HEADER.Data.Extended=1)) then
               begin
-                PDControlMessage:=TUSBPD_CONTROLMSG(DUT.SopData.HEADER.Data.Message_Type);
-                DUT.SopData.EXTHEADER.Raw:=0;
-              end
-              else
-              begin
-                if (DUT.SopData.HEADER.Data.Extended=0) then
-                begin
-                  PDDataMessage:=TUSBPD_DATAMSG(DUT.SopData.HEADER.Data.Message_Type);
-                  DUT.SopData.EXTHEADER.Raw:=0;
-                end
-                else
-                begin
-                  PDExtendedMessage:=TUSBPD_EXTENDEDMSG(DUT.SopData.HEADER.Data.Message_Type);
-                  for j:=0 to 1 do DUT.SopData.EXTHEADER.Bytes[j]:=newdata[dataindexer+j];
-                  Inc(dataindexer,2);
-                  Dec(datasize,2);
-                end;
-
-                if DUT.SopData.EXTHEADER.Data.Chunked=0 then // will handle both unchunked and non-extended data
-                begin
-                  // Single chunk message or not extended data - easy
-                  if (DUT.SopData.HEADER.Data.Extended=1) then
-                    DUT.SopData.DATA.TotalSize := DUT.SopData.EXTHEADER.Data.Data_Size
-                  else
-                    DUT.SopData.DATA.TotalSize := DUT.SopData.HEADER.Data.Number_of_Data_Objects*4;
-                  Move(newdata[dataindexer], DUT.SopData.DATA.Data[0], DUT.SopData.DATA.TotalSize);
-                  DUT.SopData.DATA.ReceivedBytes := DUT.SopData.DATA.TotalSize;
-                  DUT.SopData.DATA.IsComplete := True;
-                end
-                else
-                begin
-                  // Handle chuncked data
-                  if DUT.SopData.EXTHEADER.Data.Request_Chunk=0 then
-                  begin
-                    // Handle only chunk data after a chunk request
-
-                    // First chunk sets the size
-                    if (DUT.SopData.EXTHEADER.Data.Chunk_Number=0) then DUT.SopData.DATA.TotalSize:=DUT.SopData.EXTHEADER.Data.Data_Size;
-                    // Check out of order or missing chunk → error handling
-                    if (DUT.SopData.EXTHEADER.Data.Chunk_Number<>DUT.SopData.DATA.NextChunkNum) then
-                    begin
-                    end;
-
-                    ChunkPayloadLen := DUT.SopData.HEADER.Data.Number_of_Data_Objects * 4 - 2;   // subtract 2 bytes of Extended Header
-
-                    // Copy only what we still need
-                    if DUT.SopData.DATA.ReceivedBytes + ChunkPayloadLen > DUT.SopData.DATA.TotalSize then
-                      ChunkPayloadLen := DUT.SopData.DATA.TotalSize - DUT.SopData.DATA.ReceivedBytes;
-
-                    Move(newdata[dataindexer],
-                         DUT.SopData.DATA.Data[DUT.SopData.DATA.ReceivedBytes],
-                         ChunkPayloadLen);
-
-                    Inc(DUT.SopData.DATA.ReceivedBytes, ChunkPayloadLen);
-                    Inc(DUT.SopData.DATA.NextChunkNum);
-
-                    if DUT.SopData.DATA.ReceivedBytes >= DUT.SopData.DATA.TotalSize then
-                    begin
-                      DUT.SopData.DATA.IsComplete := True;
-                    end;
-
-                  end
-                  else
-                  begin
-                    // Handle chuck requests
-                    //DUT.SopData.DATA.TotalSize := 2; // Always 2 bytes ??!!
-                  end;
-
-                end;
+                for j:=0 to 1 do EXTHEADER.Bytes[j]:=newdata[dataindexer+j];
+                Inc(dataindexer,2);
+                Dec(datasize,2);
               end;
 
-              if PDControlMessage<>USBPD_CONTROLMSG_RESERVED0 then
-              begin
-                SetLength({%H-}HexResult, 2*2);
-                BinToHex(@DUT.SopData.HEADER.Bytes, PAnsiChar(HexResult), 2);
-                enumname:='0x'+HexResult;
-                ProcessControlMessageGUI(PDControlMessage,DUT.SopData.SOPTYPE,enumname);
-              end;
-
-              if ((PDExtendedMessage<>USBPD_EXTMSG_RESERVED0) OR (PDDataMessage<>USBPD_DATAMSG_RESERVED0)) then
-              begin
-                if DUT.SopData.DATA.IsComplete then
-                begin
-                  try
-                    SetLength({%H-}HexResult, 2*2);
-                    BinToHex(@DUT.SopData.HEADER.Bytes, PAnsiChar(HexResult), 2);
-                    enumname:='0x'+HexResult;
-                    if DUT.SopData.HEADER.Data.Extended=1 then
-                    begin
-                      SetLength({%H-}HexResult, 2*2);
-                      BinToHex(@DUT.SopData.EXTHEADER.Bytes, PAnsiChar(HexResult), 2);
-                      enumname:=enumname+' 0x'+HexResult;
-                    end;
-                    SetLength({%H-}HexResult, DUT.SopData.DATA.TotalSize*2);
-                    BinToHex(@DUT.SopData.DATA.Data, PAnsiChar(HexResult), DUT.SopData.DATA.TotalSize);
-                    enumname:=Concat(enumname,' 0x',HexResult);
-
-                    if PDDataMessage<>USBPD_DATAMSG_RESERVED0 then
-                    begin
-                      if DUT.ProcessDataMessage(PDDataMessage,(DUT.SopData.DATA.TotalSize DIV 4),@DUT.SopData.DATA.Data) then
-                      begin
-                        ProcessDataMessageGUI(PDDataMessage,DUT.SopData.SOPTYPE,enumname);
-                      end
-                      else
-                      begin
-                        Str(PDDataMessage,enumname);
-                        //MemoUnhandled.Lines.Append('UNHANDLED DATA MESSAGE: '+enumname);
-                      end;
-                    end;
-
-                    if (PDExtendedMessage<>USBPD_EXTMSG_RESERVED0) then
-                    begin
-                      if DUT.ProcessExtendedMessage(PDExtendedMessage,DUT.SopData.DATA.TotalSize,@DUT.SopData.DATA.Data) then
-                      begin
-                        ProcessExtendedMessageGUI(PDExtendedMessage,DUT.SopData.SOPTYPE,enumname);
-                      end
-                      else
-                      if PDExtendedMessage=USBPD_EXTMSG_EXTENDED_CONTROL then
-                      begin
-                        Str(TUSBPD_ECMTYPE(DUT.SopData.DATA.Data[0]),enumname);
-                        //USBDebugLog.Lines.Append('USBPD_EXTMSG_EXTENDED_CONTROL: '+enumname);
-                      end
-                      else
-                      begin
-                        Str(PDExtendedMessage,enumname);
-                        //MemoUnhandled.Lines.Append('UNHANDLED EXTENDED MESSAGE: '+enumname);
-                      end;
-                    end;
-
-                  finally
-                    DUT.SopData.DATA:=Default(TDataBuffer);
-                    DUT.SopData.DATA.IsComplete:=False;
-                    DUT.SopData.DATA.NextChunkNum:=0;
-                    DUT.SopData.DATA.ReceivedBytes:=0;
-                    FillChar(DUT.SopData.DATA.Data,SizeOf(DUT.SopData.DATA.Data),0);
-                  end;
-                end;
-
-              end;
+              // We now have a complet PD message
+              // Process its contents
+              ProcessPDMessage(SOPTYPE,HEADER,EXTHEADER,@newdata[dataindexer]);
 
               // Skip to  next data packet
               //USBDebugLog.Lines.Append('TotalSize: '+InttoStr(DUT.SopData.DATA.TotalSize));
-              ChunkPayloadLen := DUT.SopData.HEADER.Data.Number_of_Data_Objects * 4;
+              ChunkPayloadLen := HEADER.Data.Number_of_Data_Objects * 4;
               if (ChunkPayloadLen>0) then
               begin
-                if DUT.SopData.HEADER.Data.Extended=1 then Dec(ChunkPayloadLen,2);
+                if HEADER.Data.Extended=1 then Dec(ChunkPayloadLen,2);
                 Inc(dataindexer,ChunkPayloadLen);
                 Dec(datasize,ChunkPayloadLen);
               end;
@@ -1985,6 +1891,7 @@ end;
 
 procedure TPowerbankMainForm.Connect(Sender: TObject);
 var
+  Buffer                : array[0..255] of byte;
   settingsdata          : TKM003CSettingsData;
   header                : TKM003CMsgHeader;
   result_code           : LongInt;
@@ -2051,14 +1958,8 @@ end;
 
 procedure TPowerbankMainForm.AllStop(Sender: TObject);
 begin
+  StoreTimer.Enabled:=False;
   TestTimer.Enabled:=False;
-  SystemActive:=False;
-end;
-
-procedure TPowerbankMainForm.Measure;
-begin
-  Voltage:=RealVoltageDisplay.Value;
-  Current:=RealCurrentDisplay.Value;
 end;
 
 procedure TPowerbankMainForm.SetActive(value:boolean);
@@ -2066,6 +1967,9 @@ begin
   if value<>FSystemActive then
   begin
     FSystemActive:=value;
+    if value
+       then Led.Brush.Color := clRed
+       else Led.Brush.Color := clLime;
   end;
 end;
 
@@ -2106,6 +2010,148 @@ begin
   end;
 end;
 
+procedure TPowerbankMainForm.ProcessPDMessage(
+  const SOPTYPE               : TUSBPD_SOPTYPE;
+  const HEADER                : TPDHEADER;
+  const EXTHEADER             : TPDHEADEREXTENDED;
+  const PDDATA                : PByteArray
+);
+var
+  HexResult             : ansistring;
+
+  PDControlMessage      : TUSBPD_CONTROLMSG;
+  PDDataMessage         : TUSBPD_DATAMSG;
+  PDExtendedMessage     : TUSBPD_EXTENDEDMSG;
+
+  aPDO:TSOURCEPDO;
+
+  enumname              : ansistring;
+  ListItem              : TListItem;
+begin
+  PDControlMessage:=USBPD_CONTROLMSG_RESERVED0;
+  PDDataMessage:=USBPD_DATAMSG_RESERVED0;
+  PDExtendedMessage:=USBPD_EXTMSG_RESERVED0;
+
+  if ((HEADER.Data.Number_of_Data_Objects=0) AND (HEADER.Data.Extended=0)) then
+  begin
+    PDControlMessage:=TUSBPD_CONTROLMSG(HEADER.Data.Message_Type);
+    if PDControlMessage=USBPD_CONTROLMSG_RESERVED0 then Raise Exception.Create('Wrong control message');
+  end
+  else
+  begin
+    if (HEADER.Data.Extended=0) then
+    begin
+      PDDataMessage:=TUSBPD_DATAMSG(HEADER.Data.Message_Type);
+      if PDDataMessage=USBPD_DATAMSG_RESERVED0 then Raise Exception.Create('Wrong data message');
+    end
+    else
+    begin
+      PDExtendedMessage:=TUSBPD_EXTENDEDMSG(HEADER.Data.Message_Type);
+      if PDExtendedMessage=USBPD_EXTMSG_RESERVED0 then Raise Exception.Create('Wrong extended message');
+    end;
+  end;
+
+  if PDControlMessage<>USBPD_CONTROLMSG_RESERVED0 then
+  begin
+    SetLength({%H-}HexResult, 2*2);
+    BinToHex(@HEADER.Bytes, PAnsiChar(HexResult), 2);
+    enumname:='0x'+HexResult;
+    ProcessControlMessageGUI(PDControlMessage,SOPTYPE,enumname);
+  end;
+
+  if ((PDExtendedMessage<>USBPD_EXTMSG_RESERVED0) OR (PDDataMessage<>USBPD_DATAMSG_RESERVED0)) then
+  begin
+    DUT.ProcessRawPDMessage(HEADER,EXTHEADER,PDDATA);
+
+    if (NOT (HidePDCtrl.Checked AND (PDExtendedMessage=TUSBPD_EXTENDEDMSG.USBPD_EXTMSG_EXTENDED_CONTROL))) then
+    begin
+      ListItem := ListView1.Items.Add;
+      ListItem.Caption := InttoStr(ListItem.Index);
+
+      if PDDataMessage<>USBPD_DATAMSG_RESERVED0 then
+      begin
+        ListItem.Data:={%H-}Pointer(TUSBPD_DATAMSG_DATAS[PDDataMessage].Color);
+        ListItem.SubItems.Add('Data : '+TUSBPD_DATAMSG_DATAS[PDDataMessage].Name);
+      end;
+      if (PDExtendedMessage<>USBPD_EXTMSG_RESERVED0) then
+      begin
+        ListItem.Data:={%H-}Pointer(TUSBPD_EXTENDEDMSG_DATAS[PDExtendedMessage].Color);
+        ListItem.SubItems.Add('Ext  : '+TUSBPD_EXTENDEDMSG_DATAS[PDExtendedMessage].Name);
+      end;
+
+      Str(SOPTYPE,enumname);
+      ListItem.SubItems.Add(enumname);
+
+      SetLength({%H-}HexResult, 2*2);
+      BinToHex(@HEADER.Bytes, PAnsiChar(HexResult), 2);
+      enumname:='0x'+HexResult;
+      if HEADER.Data.Extended=1 then
+      begin
+        SetLength({%H-}HexResult, 2*2);
+        BinToHex(@EXTHEADER.Bytes, PAnsiChar(HexResult), 2);
+        enumname:=enumname+' 0x'+HexResult;
+      end;
+
+      if DUT.PDDATA.ChunkPayloadLen>0 then
+      begin
+        SetLength({%H-}HexResult, DUT.PDDATA.ChunkPayloadLen*2);
+        BinToHex(PChar(PDDATA), PAnsiChar(HexResult), DUT.PDDATA.ChunkPayloadLen);
+        enumname:=Concat(enumname,' 0x',HexResult);
+      end;
+      ListItem.SubItems.Add(enumname);
+
+      {$ifdef Windows}
+      if ListView1.Items.Count > 0 then
+        SendMessage(ListView1.Handle, LVM_ENSUREVISIBLE, ListView1.Items.Count - 1, 0);
+      {$else}
+      if ListView1.Items.Count > 0 then
+        ListView1.Items[ListView1.Items.Count - 1].MakeVisible(False);
+      {$endif}
+    end;
+
+    if DUT.PDDATA.IsComplete then
+    begin
+      DUT.PDDATA.IsComplete:=False;
+
+      if PDDataMessage<>USBPD_DATAMSG_RESERVED0 then
+      begin
+        if DUT.ProcessDataMessage(PDDataMessage,(DUT.PDDATA.TotalSize DIV 4),@DUT.PDDATA.Data) then
+        begin
+          ProcessDataMessageGUI(PDDataMessage,SOPTYPE,enumname);
+        end
+        else
+        begin
+          Str(PDDataMessage,enumname);
+          //MemoUnhandled.Lines.Append('UNHANDLED DATA MESSAGE: '+enumname);
+        end;
+      end;
+
+      if (PDExtendedMessage<>USBPD_EXTMSG_RESERVED0) then
+      begin
+        if DUT.ProcessExtendedMessage(PDExtendedMessage,DUT.PDDATA.TotalSize,@DUT.PDDATA.Data) then
+        begin
+          ProcessExtendedMessageGUI(PDExtendedMessage,SOPTYPE,enumname);
+        end
+        else
+        if PDExtendedMessage=USBPD_EXTMSG_EXTENDED_CONTROL then
+        begin
+          Str(TUSBPD_ECMTYPE(DUT.PDDATA.Data[0]),enumname);
+          //USBDebugLog.Lines.Append('USBPD_EXTMSG_EXTENDED_CONTROL: '+enumname);
+        end
+        else
+        begin
+          Str(PDExtendedMessage,enumname);
+          //MemoUnhandled.Lines.Append('UNHANDLED EXTENDED MESSAGE: '+enumname);
+        end;
+      end;
+    end;
+  end;
+
+  if ((PDExtendedMessage=USBPD_EXTMSG_EPR_SOURCE_CAPABILITIES) OR (PDDataMessage=USBPD_DATAMSG_SRC_CAPABILITIES)) then
+  begin
+    DrawGrid1.Invalidate;
+  end;
+end;
 
 end.
 

@@ -9,11 +9,12 @@ uses
 
 type
   TSUPPLY_TYPES = (Fixed,Battery,Variable,APDO);
-  TAPDO_TYPES = (SPR,EPR);
+  TAPDO_TYPES = (SPRPPS,EPRAVS,SPRAVS);
 
 const
   SUPPLY_TYPES : array[TSUPPLY_TYPES] of string = ('Fixed','Battery','Variable','Augmented');
-  APDO_TYPES : array[TAPDO_TYPES] of string = ('Standard Programmable Power Supply','Extended Adjustable Power Supply');
+  //APDO_TYPES : array[TAPDO_TYPES] of string = ('Standard Programmable Power Supply','Extended Adjustable Voltage Supply','Standard Adjustable Voltage Supply');
+  APDO_TYPES : array[TAPDO_TYPES] of string = ('PPS','EPRAVS','AVS');
   MAXPDO = 7;    // 1-4 FPDO, 5-7 APDO
   MAXEPRPDO = 4; // 3 FPDO, 1 APDO
 
@@ -24,30 +25,32 @@ type
                    MaximumCurrentIn10mA     : T10BITS;
                    VoltageIn50mV            : T10BITS;
                    PeakCurrent              : T2BITS;
-                   Reserved1                : T3BITS;
+                   Reserved1                : T1BITS;
+                   EPRModeCapable           : T1BITS;
+                   UnchunkedMessagesSupport : T1BITS;
                    DataRoleSwap             : T1BITS;
                    UsbCommunicationCapable  : T1BITS;
-                   ExternallyPowered        : T1BITS;
+                   UnconstrainedPower       : T1BITS;
                    UsbSuspendSupported      : T1BITS;
                    DualRolePower            : T1BITS;
-                   FixedSupply              : T2BITS;
+                   FixedSupply              : T2BITS; // 0x00
                  end
               );
           2 : (  BatterySupplyPdo : record
                    MaximumAllowablePowerIn250mW  : T10BITS;
                    MinimumVoltageIn50mV          : T10BITS;
                    MaximumVoltageIn50mV          : T10BITS;
-                   Battery                       : T2BITS;
+                   Battery                       : T2BITS;  // 0x01
                  end
               );
           3 : (  VariableSupplyNonBatteryPdo : record
                    MaximumCurrentIn10mA      : T10BITS;
                    MinimumVoltageIn50mV      : T10BITS;
                    MaximumVoltageIn50mV      : T10BITS;
-                   VariableSupportNonBattery : T2BITS;
+                   VariableSupportNonBattery : T2BITS;  // 0x10
                  end
               );
-          4 : (  SPRPowerSupplyApdo : record // Standard Power Range
+          4 : (  SPRPPSPDO : record // SPRPPS Programmable Power Supply APDO
                    MaximumCurrentIn50mA         : T7BITS;
                    Reserved1                    : T1BITS;
                    MinimumVoltageIn100mV        : T8BITS;
@@ -55,38 +58,53 @@ type
                    MaximumVoltageIn100mV        : T8BITS;
                    Reserved3                    : T2BITS;
                    PpsPowerLimited              : T1BITS;
-                   AugmentedPowerDataObjectType : T2BITS;
-                   AugmentedPowerDataObject     : T2BITS;
+                   AugmentedPowerDataObjectType : T2BITS;  // 0x00=SPRPPS Programmable Power Supply
+                   AugmentedPowerDataObject     : T2BITS;  // 0x11
                  end
               );
-          5 : (  EPRPowerSupplyApdo : record // Extended Power Range
+          5 : (  EPRAVSPDO : record // EPRAVS Adjustable Voltage Supply APDO
                    PDPInW                       : T8BITS;
                    MinimumVoltageIn100mV        : T8BITS;
                    Reserved                     : T1BITS;
                    MaximumVoltageIn100mV        : T9BITS;
                    PeakCurrent                  : T2BITS;
-                   AugmentedPowerDataObjectType : T2BITS;
-                   AugmentedPowerDataObject     : T2BITS;
+                   AugmentedPowerDataObjectType : T2BITS;  // 0x01=EPRAVS Adjustable Voltage Supply
+                   AugmentedPowerDataObject     : T2BITS;  // 0x11
                  end
               );
-          6 : (  GenericPdo : record
+          6 : (  SPRAVSPDO : record // SPRPPS Adjustable Voltage Supply APDO
+                   MaximumCurrentIn10mA15V20V   : T10BITS;
+                   MaximumCurrentIn10mA9V15V    : T10BITS;
+                   Reserved                     : T6BITS;
+                   PeakCurrent                  : T2BITS;
+                   AugmentedPowerDataObjectType : T2BITS;  // 0x10=SPRPPS Adjustable Voltage Supply
+                   AugmentedPowerDataObject     : T2BITS;  // 0x11
+                 end
+              );
+          7 : (  GenericPdo : record
                    PDO                          : T30BITS;
-                   Supply                       : T2BITS;
+                   SupplyType                   : T2BITS;  // 0x00...0x10
                  end
                  );
-          7 : (  GenericAPdo : record
+          8 : (  GenericAPdo : record
                    PDO                          : T28BITS;
-                   APO                          : T2BITS;
-                   Supply                       : T2BITS;
+                   APOType                      : T2BITS;
+                   SupplyType                   : T2BITS;   // 0x11
                  end
                  );
-          8 : (
+          9 : (
                Bits            : bitpacked array[0..31] of T1BITS;
               );
-          9 : (
+         10 : (
                Bytes           : bitpacked array[0..3] of byte;
               );
-         10 : (
+         11 : (
+                NamedWords: packed record
+                   LSW     : word;
+                   HSW     : word;
+                end
+              );
+         11 : (
                Raw             : DWord;
               );
 
@@ -168,7 +186,7 @@ type
                    OperatingCurrentIn10mA        : T10BITS;
                    Reserved1                     : T2BITS;
                    EPRModeCapable                : T1BITS;
-                   UnchunkedMessagesSupported    : T1BITS;
+                   UnchunkedMessagesSupport      : T1BITS;
                    NoUSBsuspend                  : T1BITS;
                    UsbCommunicationCapable       : T1BITS;
                    CapabilityMismatch            : T1BITS;
@@ -220,7 +238,7 @@ type
               );
 
           5 : (  GENERIC : record
-                   PDODATA                            : T28BITS;
+                   RDODATA                            : T28BITS;
                    ObjectPosition                     : T4BITS;
                  end
                  );
@@ -232,6 +250,12 @@ type
                Bytes           : bitpacked array[0..3] of byte;
                );
           8 : (
+                 NamedWords: packed record
+                    LSW     : word;
+                    HSW     : word;
+                 end
+               );
+          9 : (
                Raw             : DWord;
               );
   end;
@@ -851,16 +875,10 @@ type
     Data: array[0..511] of Byte;  // enough for max extended message
     TotalSize: Integer;
     ReceivedBytes: Integer;
+    ChunkPayloadLen: integer;
     NextChunkNum: Integer;
     IsComplete: Boolean;
   end;
-
- TSopData = record
-   SOPTYPE       : TUSBPD_SOPTYPE;
-   HEADER        : TPDHEADER;
-   EXTHEADER     : TPDHEADEREXTENDED;
-   DATA          : TDataBuffer;
- end;
 
 const
   CCNONE                          = 0;
@@ -1025,6 +1043,8 @@ type
     VDO_Product:TVDOPRODUCTHEADER;
     VDO_ProductType:TVDOPRODUCTTYPEHEADER;
 
+    PDDATA  : TDataBuffer;
+
     function GetSRCPDOInfo(aSRCPDO:byte):string;
     function GetSNKPDOInfo(aSNKPDO:byte):string;
 
@@ -1046,6 +1066,7 @@ type
 
     function ProcessExtendedMessage(aMSG:TUSBPD_EXTENDEDMSG; NumberOfBytes:byte; data:PByteArray):boolean;
     function ProcessDataMessage(aMSG:TUSBPD_DATAMSG; NumberOfDataObjects:byte; data:PByteArray):boolean;
+    procedure ProcessRawPDMessage(HEADER: TPDHEADER; EXTHEADER: TPDHEADEREXTENDED; LOCALDATA:PByteArray);
 
     procedure Cleanup;
   end;
@@ -1125,11 +1146,11 @@ var
   aPDOType:TSUPPLY_TYPES;
   s:string;
 begin
-  aPDOType:=TSUPPLY_TYPES(aPDO.GenericPdo.Supply);
+  aPDOType:=TSUPPLY_TYPES(aPDO.GenericPdo.SupplyType);
 
   s:='Source PDO type: '+SUPPLY_TYPES[aPDOType]+'. ';
 
-  case TSUPPLY_TYPES(aPDO.GenericPdo.Supply) of
+  case TSUPPLY_TYPES(aPDO.GenericPdo.SupplyType) of
     TSUPPLY_TYPES.Fixed:
     begin
       with aPDO.FixedSupplyPdo do
@@ -1149,7 +1170,7 @@ begin
     end;
     TSUPPLY_TYPES.APDO:
     begin
-      with aPDO.SPRPowerSupplyApdo do
+      with aPDO.SPRPPSPDO do
       begin
         s:=s+'Operational Current: '+InttoStr(MaximumCurrentIn50mA*50)+'mA. ';
         s:=s+'Min voltage: '+InttoStr(MinimumVoltageIn100mV*100)+'mV';
@@ -1377,6 +1398,8 @@ begin
   VDO_Cert.Raw:=0;
   VDO_Product.Raw:=0;
   VDO_ProductType.Raw:=0;
+
+  PDDATA:=Default(TDataBuffer);
 end;
 
 function TUSBPD.GetVID(aVID:word):string;
@@ -1665,5 +1688,71 @@ begin
 end;
 
 
+procedure TUSBPD.ProcessRawPDMessage(HEADER: TPDHEADER; EXTHEADER: TPDHEADEREXTENDED; LOCALDATA:PByteArray);
+//var
+//  ChunkPayloadLen: integer;
+begin
+  if (EXTHEADER.Data.Chunked=0) OR (HEADER.Data.Number_of_Data_Objects=0) then // will handle both unchunked and non-extended data
+  begin
+    // Single chunk message or not extended data - easy
+    FillChar(PDDATA.Data,SizeOf(PDDATA.Data),0);
+    PDDATA.NextChunkNum:=0;
+    PDDATA.ReceivedBytes:=0;
+    if (HEADER.Data.Extended=1) then
+      PDDATA.TotalSize := EXTHEADER.Data.Data_Size
+    else
+      PDDATA.TotalSize := HEADER.Data.Number_of_Data_Objects*4;
+    if (PDDATA.TotalSize>0) then Move(LOCALDATA^, PDDATA.Data[0], PDDATA.TotalSize);
+    PDDATA.ReceivedBytes := PDDATA.TotalSize;
+    PDDATA.ChunkPayloadLen := PDDATA.TotalSize;
+    PDDATA.IsComplete := True;
+  end
+  else
+  begin
+    // Handle chuncked data
+    PDDATA.ChunkPayloadLen := HEADER.Data.Number_of_Data_Objects * 4 - 2;   // subtract 2 bytes of Extended Header
+
+    if EXTHEADER.Data.Request_Chunk=0 then
+    begin
+      // Handle only chunk data after a chunk request
+
+      // First chunk sets the size and resets other
+      if (EXTHEADER.Data.Chunk_Number=0) then
+      begin
+        PDDATA.TotalSize:=EXTHEADER.Data.Data_Size;
+        FillChar(PDDATA.Data,SizeOf(PDDATA.Data),0);
+        PDDATA.NextChunkNum:=0;
+        PDDATA.ReceivedBytes:=0;
+      end;
+
+      // Check out of order or missing chunk → error handling
+      if (EXTHEADER.Data.Chunk_Number<>PDDATA.NextChunkNum) then
+      begin
+        Raise Exception.Create('Wrong chunk number');
+      end;
+
+      // Copy only what we still need
+      if PDDATA.ReceivedBytes + PDDATA.ChunkPayloadLen > PDDATA.TotalSize then
+        PDDATA.ChunkPayloadLen := PDDATA.TotalSize - PDDATA.ReceivedBytes;
+
+      Move(LOCALDATA^,
+           PDDATA.Data[PDDATA.ReceivedBytes],
+           PDDATA.ChunkPayloadLen);
+
+      Inc(PDDATA.ReceivedBytes, PDDATA.ChunkPayloadLen);
+      Inc(PDDATA.NextChunkNum);
+
+      if PDDATA.ReceivedBytes >= PDDATA.TotalSize then
+      begin
+        PDDATA.IsComplete := True;
+      end;
+    end
+    else
+    begin
+      // Handle next chuck requests
+      PDDATA.ChunkPayloadLen:=0;
+    end;
+  end;
+end;
 
 end.
