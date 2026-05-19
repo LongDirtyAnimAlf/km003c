@@ -36,6 +36,6 @@ Known Issues:
   {$IFDEF SUPPORTS_COMPILETIME_MESSAGES}
     {$MESSAGE FATAL 'This unit is only supported on Windows!'}
   {$ELSE}
-    'This unit is only supported on Windows!'
+    //'This unit is only supported on Windows!'
   {$ENDIF SUPPORTS_COMPILETIME_MESSAGES}
 {$ENDIF !MSWINDOWS}

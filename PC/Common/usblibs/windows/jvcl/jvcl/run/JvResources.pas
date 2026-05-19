@@ -569,7 +569,7 @@ resourcestring
 
 //=== JvDatePickerEdit.pas ===================================================
 resourcestring
-  RsDefaultNoDateShortcut = 'Alt+Del';
+  RsDefaultNoDateShortcut = 'Alt+Del'; // not used anymore in JvDatePickerEdit.pas
 
   RsEMustHaveADate = '%s must have a date!';
 
@@ -587,6 +587,9 @@ resourcestring
   RsDBPosBackward = 'Backward';
   RsDBPosForward = 'Forward';
   RsDBPosPercental = 'Percental';
+  RsDBPosPositionNormal = ' %3d / %3d ';
+  RsDBPosPositionSelected = ' %3d / %3d (%d) ';
+  RsDBPosPositionInactive = ' - / - ';
   RsSRWPostButtonCaption = '&Post';
   RsSRWCancelButtonCaption = '&Cancel';
   RsSRWCloseButtonCaption = 'C&lose';
@@ -792,7 +795,7 @@ resourcestring
 //=== JvFindReplace.pas ======================================================
 resourcestring
   RsNotFound = 'Search string ''%s'' not found';
-  RsXOccurencesReplaced = '%0:d occurence(s) of ''%1:s'' were replaced';
+  RsXOccurrencesReplaced = '%0:d occurrence(s) of ''%1:s'' were replaced';
   RsReplaceCaption = 'Replace';
   RsFindCaption = 'Find';
 
@@ -1111,6 +1114,8 @@ resourcestring
   RsEDeviceCannotBeOpened = 'Device cannot be opened';
   RsEOnlyOneControllerPerProgram = 'Only one TJvHidDeviceController allowed per program';
   RsEHIDBooleanError = 'HID Error: a boolean function failed';
+  RsENoMessageLoopHandle = 'No message window handle (loop) available to hook into';
+
 
 //=== JvHint.pas =============================================================
 resourcestring
@@ -1476,6 +1481,7 @@ resourcestring
   RsEUpdateError = 'Unable to modify the record.';
   // 'No se pudo eliminar el registro.';
   RsEDeleteError = 'Unable to erase the record.';
+  RsEFieldOffsetOverflow = 'Field offset overflow. Index: %0:d';
 
 //=== JvMouseGesture.pas =====================================================
 resourcestring

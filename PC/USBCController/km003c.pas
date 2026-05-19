@@ -26,6 +26,8 @@ PD_PACKET_REQUEST = bytes([0x0C, 0x00, 0x20, 0x00])
 # PD + ADC combined request
 PD_ADC_REQUEST = bytes([0x0C, 0x00, 0x22, 0x00])
 
+[0x0C, 0x00, 0x0A, 0x00] also returns data !!
+
 
 
 *)
@@ -243,7 +245,7 @@ type
     checksum                : dword;
   end;
 
-  TKM003CHeaderCommand =
+  TKM003CCtrlMessage =
   (
     CMD_NONE,
     CMD_SYNC,
@@ -258,7 +260,8 @@ type
     CMD_GET_STATUS,
     CMD_ERROR,
     CMD_GET_DATA,
-    CMD_GET_FILE,
+    CMD_GET_FILE
+    (*
     CMD_START_GRAPH,
     CMD_STOP_GRAPH,
     CMD_ENABLE_PDMONITOR,
@@ -266,44 +269,41 @@ type
     CMD_PUTDATA = $41,
     CMD_MEMORY_READ = $44,
     CMD_STREAMING_AUTH = $4C
+    *)
   );
 
+  TKM003CDataMessage =
+  (
+    DATA_HEAD = $40,
+    DATA_PUTDATA
+  );
+
+
 const
-  TKM003C_CMD_CONNECT          = $02;
-  TKM003C_CMD_DISCONNECT       = $03;
-  TKM003C_CMD_HARDRESET        = $04;
-  TKM003C_CMD_ACCEPT           = $05;
-  TKM003C_CMD_REJECT           = $06;
-  TKM003C_CMD_GETDATA          = $0C;
-  TKM003C_CMD_STARTGRAPH       = $0E;
-  TKM003C_CMD_STOPGRAPH        = $0F;
-  TKM003C_CMD_ENPDMON          = $10;
-  TKM003C_CMD_DISPDMON         = $11;
-  TKM003C_CMD_ATTACHCC1        = $11;
-  TKM003C_CMD_DETACHCC1        = $12;
-  TKM003C_CMD_CONN_CONNECT     = $21;
-  TKM003C_CMD_CONN_DISCONNECT  = $22;
-  TKM003C_CMD_HEAD             = $40;
-  TKM003C_CMD_PUT_DATA         = $41;
-  TKM003C_CMD_CONN_EVENT       = $45;
-  TKM003C_CMD_SOPERROR         = $46;
-  TKM003C_CMD_EOPERROR         = $56;
-  TKM003C_CMD_CRCERROR         = $66;
-  TKM003C_CMD_DATACOUNTERROR   = $76;
-  TKM003C_CMD_UNKNOWNERROR     = $86;
-  TKM003C_CMD_RETRIESERROR     = $96;
+  TKM003C_EVENT_HARDRESET        = $04;
+  TKM003C_EVENT_ATTACHCC1        = $11;
+  TKM003C_EVENT_DETACHCC1        = $12;
+  TKM003C_EVENT_CONN_CONNECT     = $21;
+  TKM003C_EVENT_CONN_DISCONNECT  = $22;
+  TKM003C_EVENT_CONN_EVENT       = $45;
+  TKM003C_EVENT_SOPERROR         = $46;
+  TKM003C_EVENT_EOPERROR         = $56;
+  TKM003C_EVENT_CRCERROR         = $66;
+  TKM003C_EVENT_DATACOUNTERROR   = $76;
+  TKM003C_EVENT_UNKNOWNERROR     = $86;
+  TKM003C_EVENT_RETRIESERROR     = $96;
 
+  TKM003C_ATT_ADC                = $001;
+  TKM003C_ATT_ADC_QUEUE          = $002;
+  TKM003C_ATT_ADC_QUEUE_10K      = $004;
+  TKM003C_ATT_SETTINGS           = $008;
+  TKM003C_ATT_PD_PACKET          = $010;
+  TKM003C_ATT_PD_STATUS          = $020;
+  TKM003C_ATT_QC_PACKET          = $040;
+  TKM003C_ATT_TICK               = $080;
+  TKM003C_ATT_TICK__             = $100;
 
-
-  TKM003C_CMD_SIZE_OFFSET     = 5;
-
-  TKM003C_ATT_ADC             = $001;
-  TKM003C_ATT_ADC_QUEUE       = $002;
-  TKM003C_ATT_ADC_QUEUE_10K   = $004;
-  TKM003C_ATT_SETTINGS        = $008;
-  TKM003C_ATT_PD_PACKET       = $010;
-  TKM003C_ATT_PD_STATUS       = $020;
-  TKM003C_ATT_QC_PACKET       = $040;
+  TKM003C_SIZE_OFFSET            = 5;
 
 implementation
 

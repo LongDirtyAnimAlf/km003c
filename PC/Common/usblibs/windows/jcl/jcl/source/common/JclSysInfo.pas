@@ -2982,7 +2982,11 @@ end;
 
 function IsWindowResponding(Wnd: THandle; Timeout: Integer): Boolean;
 var
+  {$ifdef win64}
+  Res: UInt64;
+  {$else}
   Res: DWORD;
+  {$endif}
 begin
   Res := 0;
   Result := SendMessageTimeout(Wnd, WM_NULL, 0, 0, SMTO_ABORTIFHUNG, Timeout, {$IFDEF RTL230_UP}@{$ENDIF}Res) <> 0;

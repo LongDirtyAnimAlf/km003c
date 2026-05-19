@@ -161,9 +161,9 @@
       <Filename Value="bin\$NameOnly($(ProjFile))-$(TargetCPU)-$(TargetOS)"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir);..\Common\jedi\jvcl\jvcl\common;..\Common\synaser;..\Common\mORMot2"/>
+      <IncludeFiles Value="$(ProjOutDir);..\Common\usblibs\windows\jcl\jcl\source\include;..\Common\usblibs\windows\jvcl\jvcl\common;..\Common\jedi\jvcl\jvcl\common;..\Common\synaser"/>
       <Libraries Value="..\Common\static\$(TargetCPU)-$(TargetOS)"/>
-      <OtherUnitFiles Value="..\Common;..\Common\jedi\jvcl\jvcl\run;..\Common\serial;..\Common\libusb\src;..\Common\synaser;..\Common\mORMot2\src"/>
+      <OtherUnitFiles Value="..\Common;..\Common\serial;..\Common\libusb\src;..\Common\synaser;..\Common\usblibs;..\Common\usblibs\linux;..\Common\usblibs\windows;..\Common\usblibs\windows\jcl\jcl\source\common;..\Common\usblibs\windows\jcl\jcl\source\windows;..\Common\usblibs\windows\jvcl\jvcl\run;..\Common\jedi\jvcl\jvcl\run"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

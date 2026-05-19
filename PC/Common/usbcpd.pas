@@ -122,59 +122,65 @@ type
                    UnconstrainedPower       : T1BITS;
                    HigherCapability         : T1BITS;
                    DualRolePower            : T1BITS;
-                   FixedSupply              : T2BITS;
+                   FixedSupply              : T2BITS;  // 0x00
                  end
               );
           2 : (  BatterySupplyPdo : record
                    MaximumAllowablePowerIn250mW  : T10BITS;
                    MinimumVoltageIn50mV          : T10BITS;
                    MaximumVoltageIn50mV          : T10BITS;
-                   Battery                       : T2BITS;
+                   Battery                       : T2BITS;  // 0x01
                  end
               );
           3 : (  VariableSupplyNonBatteryPdo : record
                    OperationalCurrentIn10mA  : T10BITS;
                    MinimumVoltageIn50mV      : T10BITS;
                    MaximumVoltageIn50mV      : T10BITS;
-                   VariableSupportNonBattery : T2BITS;
+                   VariableSupportNonBattery : T2BITS;  // 0x10
                  end
               );
 
-          4 : (  SPRPdo : record
+          4 : (  SPRPPSPDO : record
                    MaximumCurrentIn50mA         : T7BITS;
                    Reserved1                    : T1BITS;
                    MinimumVoltageIn100mV        : T8BITS;
                    Reserved2                    : T1BITS;
                    MaximumVoltageIn100mV        : T8BITS;
                    Reserved3                    : T3BITS;
-                   AugmentedPowerDataObjectType : T2BITS;
-                   AugmentedPowerDataObject     : T2BITS;
+                   AugmentedPowerDataObjectType : T2BITS;  // 0x00
+                   AugmentedPowerDataObject     : T2BITS;  // 0x11
                  end
               );
 
-          5 : (  EPRPdo : record
+          5 : (  EPRAVSPDO : record
                    PDPInW                       : T8BITS;
                    MinimumVoltageIn100mV        : T8BITS;
                    Reserved1                    : T1BITS;
                    MaximumVoltageIn100mV        : T9BITS;
                    Reserved2                    : T2BITS;
-                   AugmentedPowerDataObjectType : T2BITS;
-                   AugmentedPowerDataObject     : T2BITS;
+                   AugmentedPowerDataObjectType : T2BITS; // 0x01
+                   AugmentedPowerDataObject     : T2BITS; // 0x11
                  end
               );
 
           6 : (  GenericPdo : record
                    PDO                          : T30BITS;
-                   Supply                       : T2BITS;
+                   SupplyType                   : T2BITS;
                  end
                  );
-          7 : (
+          7 : (  GenericAPdo : record
+                   PDO                          : T28BITS;
+                   APOType                      : T2BITS;
+                   SupplyType                   : T2BITS;   // 0x11
+                 end
+                 );
+          8 : (
                Bits            : bitpacked array[0..31] of T1BITS;
                );
-          8 : (
-                Bytes           : bitpacked array[0..3] of byte;
-               );
           9 : (
+                Bytes          : bitpacked array[0..3] of byte;
+               );
+         10 : (
                Raw             : DWord;
               );
   end;
@@ -238,7 +244,13 @@ type
               );
 
           5 : (  GENERIC : record
-                   RDODATA                            : T28BITS;
+                   RDODATA                            : T22BITS;
+                   EPRModeCapable                     : T1BITS;
+                   UnchunkedExtendedMessagesSupported : T1BITS;
+                   NoUSBsuspend                       : T1BITS;
+                   UsbCommunicationCapable            : T1BITS;
+                   CapabilityMismatch                 : T1BITS;
+                   Reserved5                          : T1BITS;
                    ObjectPosition                     : T4BITS;
                  end
                  );
@@ -897,7 +909,6 @@ const
   USBPD_EPRMDO_ACTION_EXITSINKSOURCE   = 5;
 
 
-
   //https://github.com/JohnScotttt/witrn_pd_sniffer/blob/main/witrn_pd_sniffer.py
 
   TUSBPD_CONTROLMSG_DATAS : array[TUSBPD_CONTROLMSG] of TUSBPD_CONTROLMSG_DATA =
@@ -1003,8 +1014,6 @@ type
     SourceEPRPDOs: array[1..MAXEPRPDO] of TSOURCEPDO;
     SinkEPRPDOs: array[1..MAXEPRPDO] of TSINKPDO;
 
-    RDO:TPDREQUEST;
-
     SRCExtended:TSOURCECAPSEXTENDED;
     SNKExtended:TSINKCAPSEXTENDED;
 
@@ -1030,12 +1039,12 @@ type
     Vconn:dword;
     PDSpecRevision:dword;
 
+    RDO:TPDREQUEST;
     RDOPosition:dword;
     RDOPositionPrevious:dword;
-
-    RequestedVoltage:dword;
-    RequestedCurrent:dword;
-    RequestedPower:dword;
+    RV:dword;
+    RI:dword;
+    RP:dword;
 
     VDM_Header:TVDMHEADER;
     VDO_ID:TVDOIDHEADER;
@@ -1187,7 +1196,7 @@ var
   aPDOType:TSUPPLY_TYPES;
   s:string;
 begin
-  aPDOType:=TSUPPLY_TYPES(aPDO.GenericPdo.Supply);
+  aPDOType:=TSUPPLY_TYPES(aPDO.GenericPdo.SupplyType);
 
   s:='Sink PDO type: '+SUPPLY_TYPES[aPDOType]+'. ';
 
@@ -1389,9 +1398,9 @@ begin
   RDOPosition:=0;
   RDOPositionPrevious:=0;
 
-  RequestedVoltage:=0;
-  RequestedCurrent:=0;
-  RequestedPower:=0;
+  RV:=0;
+  RI:=0;
+  RP:=0;
 
   VDM_Header.Raw:=0;
   VDO_ID.Raw:=0;
@@ -1540,12 +1549,16 @@ begin
     end;
     USBPD_DATAMSG_REQUEST:
     begin
+      RDOPositionPrevious:=RDO.GENERIC.ObjectPosition;
       for j:=0 to 3 do RDO.Bytes[j]:=data^[j];
-      // followed by a copy of the PDO
+      RDOPosition:=RDO.GENERIC.ObjectPosition;
     end;
     USBPD_DATAMSG_EPR_REQUEST:
     begin
+      RDOPositionPrevious:=RDO.GENERIC.ObjectPosition;
       for j:=0 to 3 do RDO.Bytes[j]:=data^[j];
+      RDOPosition:=RDO.GENERIC.ObjectPosition;
+      // Might be followed by a copy of the requested PDO
     end;
     USBPD_DATAMSG_BATTERY_STATUS:
     begin

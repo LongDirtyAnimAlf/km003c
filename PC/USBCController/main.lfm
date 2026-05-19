@@ -1,11 +1,11 @@
 object PowerbankMainForm: TPowerbankMainForm
-  Left = 192
-  Height = 884
+  Left = 195
+  Height = 750
   Top = 86
-  Width = 1352
+  Width = 1493
   Caption = 'CONSULAB Powerbank Tester V1.2'
-  ClientHeight = 884
-  ClientWidth = 1352
+  ClientHeight = 750
+  ClientWidth = 1493
   LCLVersion = '4.6.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
@@ -51,6 +51,7 @@ object PowerbankMainForm: TPowerbankMainForm
           ButtonStyle = cbsButtonColumn
           MinSize = 60
           MaxSize = 60
+          Title.Alignment = taCenter
           Title.Font.Style = [fsBold]
           Title.MultiLine = True
           Title.Caption = 'Source'
@@ -105,9 +106,12 @@ object PowerbankMainForm: TPowerbankMainForm
       ColCount = 6
       Columns = <      
         item
-          ButtonStyle = cbsButtonColumn
+          Alignment = taCenter
+          ButtonStyle = cbsEllipsis
           MinSize = 60
           MaxSize = 60
+          ReadOnly = True
+          Title.Alignment = taCenter
           Title.Font.Style = [fsBold]
           Title.MultiLine = True
           Title.Caption = 'Sink'
@@ -164,14 +168,14 @@ object PowerbankMainForm: TPowerbankMainForm
     AnchorSideTop.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 152
-    Height = 190
+    Height = 219
     Top = 8
     Width = 172
     AutoSize = True
     BorderSpacing.Left = 8
     BorderSpacing.Top = 8
     Caption = 'Power Status'
-    ClientHeight = 170
+    ClientHeight = 199
     ClientWidth = 168
     TabOrder = 1
     object editPowerStatusUSBCurrent: TEdit
@@ -206,14 +210,30 @@ object PowerbankMainForm: TPowerbankMainForm
       ReadOnly = True
       TabOrder = 1
     end
-    object DrawGrid1: TDrawGrid
+    object btnHardReset: TButton
+      AnchorSideLeft.Control = dgFlags
+      AnchorSideTop.Control = dgFlags
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = dgFlags
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Side = asrBottom
+      Left = 4
+      Height = 21
+      Top = 178
+      Width = 160
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      Caption = 'Reset'
+      TabOrder = 2
+    end
+    object dgFlags: TDrawGrid
       AnchorSideLeft.Control = editPowerStatusUSBContract
       AnchorSideTop.Control = editPowerStatusUSBContract
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = editPowerStatusUSBContract
       AnchorSideRight.Side = asrBottom
       Left = 4
-      Height = 112
+      Height = 116
       Top = 58
       Width = 160
       Anchors = [akTop, akLeft, akRight]
@@ -232,6 +252,12 @@ object PowerbankMainForm: TPowerbankMainForm
           Width = 24
         end      
         item
+          Font.CharSet = ANSI_CHARSET
+          Font.Height = -13
+          Font.Name = 'Arial Narrow'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsBold]
           MinSize = 32
           MaxSize = 32
           ReadOnly = True
@@ -239,6 +265,11 @@ object PowerbankMainForm: TPowerbankMainForm
           Width = 32
         end      
         item
+          Font.CharSet = ANSI_CHARSET
+          Font.Height = -13
+          Font.Name = 'Bahnschrift Light Condensed'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
           ReadOnly = True
           Title.Caption = 'Title'
           Width = 103
@@ -248,13 +279,19 @@ object PowerbankMainForm: TPowerbankMainForm
       FixedRows = 0
       Flat = True
       FocusRectVisible = False
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -13
+      Font.Name = 'Bernard MT Condensed'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
       Options = [goVertLine, goHorzLine, goThumbTracking]
+      ParentFont = False
       ScrollBars = ssNone
       TabAdvance = aaNone
-      TabOrder = 2
+      TabOrder = 3
       TitleStyle = tsNative
-      OnDrawCell = DrawGrid1DrawCell
-      OnGetCheckboxState = DrawGrid1GetCheckboxState
+      OnDrawCell = dgFlagsDrawCell
+      OnGetCheckboxState = dgFlagsGetCheckboxState
       ColWidths = (
         24
         32
@@ -270,6 +307,23 @@ object PowerbankMainForm: TPowerbankMainForm
     ItemHeight = 15
     TabOrder = 2
   end
+  object btnVDMDiscoIndent: TButton
+    Left = 24
+    Height = 25
+    Top = 304
+    Width = 121
+    AutoSize = True
+    Caption = 'Discover Indentity'
+    TabOrder = 12
+  end
+  object btnVDMDiscoSVID: TButton
+    Left = 24
+    Height = 26
+    Top = 272
+    Width = 84
+    Caption = 'Discover SVID'
+    TabOrder = 3
+  end
   object PageControl1: TPageControl
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = grpPDOs
@@ -278,18 +332,18 @@ object PowerbankMainForm: TPowerbankMainForm
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 8
-    Height = 468
+    Height = 334
     Top = 408
-    Width = 1128
-    ActivePage = TabSheet3
+    Width = 1277
+    ActivePage = TabSheet2
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Around = 8
-    TabIndex = 2
-    TabOrder = 3
+    TabIndex = 1
+    TabOrder = 4
     object TabSheet1: TTabSheet
       Caption = 'TabSheet1'
-      ClientHeight = 440
-      ClientWidth = 1120
+      ClientHeight = 306
+      ClientWidth = 1269
       object GroupBattery: TGroupBox
         AnchorSideLeft.Control = TabSheet1
         AnchorSideTop.Control = TabSheet1
@@ -652,13 +706,13 @@ object PowerbankMainForm: TPowerbankMainForm
     end
     object TabSheet2: TTabSheet
       Caption = 'TabSheet2'
-      ClientHeight = 440
-      ClientWidth = 1120
+      ClientHeight = 306
+      ClientWidth = 1269
       object GroupLogs: TGroupBox
         Left = 216
-        Height = 432
+        Height = 298
         Top = 0
-        Width = 896
+        Width = 1045
         Align = alClient
         Anchors = []
         BorderSpacing.Left = 8
@@ -671,41 +725,41 @@ object PowerbankMainForm: TPowerbankMainForm
         ChildSizing.ShrinkVertical = crsHomogenousChildResize
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 3
-        ClientHeight = 412
-        ClientWidth = 892
+        ClientHeight = 278
+        ClientWidth = 1041
         TabOrder = 0
         object USBComLog: TMemo
           AnchorSideBottom.Side = asrBottom
           Left = 0
-          Height = 412
+          Height = 278
           Top = 0
-          Width = 297
+          Width = 347
           ScrollBars = ssAutoVertical
           TabOrder = 0
         end
         object USBDetailsLog: TMemo
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Side = asrBottom
-          Left = 297
-          Height = 412
+          Left = 347
+          Height = 278
           Top = 0
-          Width = 298
+          Width = 347
           ScrollBars = ssAutoVertical
           TabOrder = 1
         end
         object USBDebugLog: TMemo
           AnchorSideBottom.Side = asrBottom
-          Left = 595
-          Height = 412
+          Left = 694
+          Height = 278
           Top = 0
-          Width = 297
+          Width = 347
           ScrollBars = ssAutoVertical
           TabOrder = 2
         end
       end
       object ListBox1: TListBox
         Left = 4
-        Height = 424
+        Height = 290
         Top = 8
         Width = 204
         Align = alLeft
@@ -722,13 +776,13 @@ object PowerbankMainForm: TPowerbankMainForm
     end
     object TabSheet3: TTabSheet
       Caption = 'TabSheet3'
-      ClientHeight = 440
-      ClientWidth = 1120
+      ClientHeight = 306
+      ClientWidth = 1269
       object ListView1: TListView
         Left = 0
-        Height = 440
+        Height = 306
         Top = 0
-        Width = 1120
+        Width = 1269
         Align = alClient
         AutoSort = False
         AutoWidthLastColumn = True
@@ -745,7 +799,7 @@ object PowerbankMainForm: TPowerbankMainForm
           end        
           item
             Caption = 'PD Data'
-            Width = 766
+            Width = 915
           end>
         ColumnClick = False
         Font.CharSet = ANSI_CHARSET
@@ -783,7 +837,7 @@ object PowerbankMainForm: TPowerbankMainForm
     Caption = 'KC003C PD Control'
     ClientHeight = 207
     ClientWidth = 132
-    TabOrder = 4
+    TabOrder = 5
     object btnConnectKC003C: TButton
       AnchorSideLeft.Control = grpKC003CPDControl
       AnchorSideTop.Control = grpKC003CPDControl
@@ -867,33 +921,31 @@ object PowerbankMainForm: TPowerbankMainForm
     end
   end
   object grpVAData: TGroupBox
-    AnchorSideLeft.Control = grpPDOs
-    AnchorSideLeft.Side = asrBottom
+    AnchorSideLeft.Control = grpEPRPDOs
     AnchorSideTop.Control = grpEPRPDOs
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = grpEPRPDOs
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = grpPDOs
     AnchorSideBottom.Side = asrBottom
-    Left = 838
-    Height = 128
-    Top = 272
+    Left = 842
+    Height = 126
+    Top = 274
     Width = 502
     Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Left = 4
-    BorderSpacing.Right = 4
+    BorderSpacing.Top = 2
     Caption = 'Realtime Power Data'
-    TabOrder = 5
+    TabOrder = 6
     OnResize = grpVADataResize
   end
   object btnGetSourceInfo: TButton
-    Left = 16
+    Left = 152
     Height = 25
-    Top = 272
+    Top = 247
     Width = 107
     AutoSize = True
     Caption = 'Get Source Info'
-    TabOrder = 6
+    TabOrder = 7
     OnClick = btnGetSourceInfoClick
   end
   object grpLineVoltages: TGroupBox
@@ -904,25 +956,24 @@ object PowerbankMainForm: TPowerbankMainForm
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = PageControl1
     AnchorSideBottom.Side = asrBottom
-    Left = 1144
+    Left = 1293
     Height = 288
     Top = 408
     Width = 200
     Anchors = [akTop, akRight]
     BorderSpacing.Left = 4
-    BorderSpacing.Right = 8
     Caption = 'Control Line Voltages'
     Constraints.MinHeight = 270
     Constraints.MinWidth = 200
-    TabOrder = 7
+    TabOrder = 8
   end
   object btnRcvRemoteEPRSource: TButton
-    Left = 144
+    Left = 192
     Height = 20
-    Top = 272
+    Top = 320
     Width = 90
     Caption = 'EPR Source'
-    TabOrder = 8
+    TabOrder = 9
     OnClick = btnRcvRemoteEPRSourceClick
   end
   object grpEPRPDOs: TGroupBox
@@ -950,7 +1001,7 @@ object PowerbankMainForm: TPowerbankMainForm
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 244
     ClientWidth = 498
-    TabOrder = 9
+    TabOrder = 10
     object SourceEPRPDODrawGrid: TDrawGrid
       AnchorSideRight.Side = asrBottom
       Left = 2
@@ -966,6 +1017,7 @@ object PowerbankMainForm: TPowerbankMainForm
           ButtonStyle = cbsButtonColumn
           MinSize = 60
           MaxSize = 60
+          Title.Alignment = taCenter
           Title.Font.Style = [fsBold]
           Title.MultiLine = True
           Title.Caption = 'Source'
@@ -1026,9 +1078,12 @@ object PowerbankMainForm: TPowerbankMainForm
       ColCount = 6
       Columns = <      
         item
-          ButtonStyle = cbsButtonColumn
+          Alignment = taCenter
+          ButtonStyle = cbsEllipsis
           MinSize = 60
           MaxSize = 60
+          ReadOnly = True
+          Title.Alignment = taCenter
           Title.Font.Style = [fsBold]
           Title.MultiLine = True
           Title.Caption = 'Sink'
@@ -1078,18 +1133,28 @@ object PowerbankMainForm: TPowerbankMainForm
       )
     end
   end
+  object btnPDMEPR: TButton
+    Left = 176
+    Height = 21
+    Top = 280
+    Width = 80
+    Caption = 'PDM set EPR'
+    TabOrder = 11
+    OnClick = btnPDMEPRClick
+  end
   object btnCleanLogs: TButton
     AnchorSideRight.Control = editPowerStatusUSBContract
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = grpPowerStatus
     AnchorSideBottom.Side = asrBottom
-    Left = 16
+    Left = 8
     Height = 27
-    Top = 312
-    Width = 181
+    Top = 200
+    Width = 0
+    Anchors = [akLeft, akRight, akBottom]
     BorderSpacing.Top = 8
     Caption = 'Clean Logs'
-    TabOrder = 10
+    TabOrder = 13
     OnClick = btnCleanLogsClick
   end
   object StoreTimer: TTimer
@@ -1107,8 +1172,8 @@ object PowerbankMainForm: TPowerbankMainForm
     Top = 96
   end
   object PopupPDMessages: TPopupMenu
-    Left = 120
-    Top = 536
+    Left = 56
+    Top = 488
     object HidePDGoodCRC: TMenuItem
       AutoCheck = True
       Caption = 'Hide GoodCRC'
